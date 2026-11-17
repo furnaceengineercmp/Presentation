@@ -119,6 +119,36 @@ body.notes #nt{display:block}body.view #nt{display:none!important}
 #lz{position:fixed;left:-10px;top:-10px;width:20px;height:20px;border-radius:50%;background:#D32029;box-shadow:0 0 18px 8px #D3202988;pointer-events:none;z-index:30;display:none}
 body.laser #lz{display:block}body.laser #st{cursor:none}
 @media print{#pg,#lz,#nt,#lk{display:none!important}}
+
+#w{transition:opacity .38s}
+#pn{width:390px;padding:0;overflow:hidden;display:flex;flex-direction:column;background:#111f}
+#pn .ph{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 8px}
+#pn .ph b{font-size:18px;color:#FFF000;display:block}#pn .ph small{opacity:.7;font-size:12px}
+#pn .xb{width:34px;height:34px;border-radius:8px;background:#2a2a2a;color:#fff;font-size:16px}
+#pn .tabs{display:flex;gap:4px;padding:0 14px 8px;border-bottom:1px solid #333}
+#pn .tabs button{flex:1;padding:9px 4px;border-radius:8px;background:#222;color:#ccc;font-size:13px;font-weight:600}
+#pn .tabs button.a{background:#FFF000;color:#000}
+#pn .pb{flex:1;overflow:auto;padding:12px 14px 24px}
+#pn .card{background:#1b1b1b;border:1px solid #2e2e2e;border-radius:12px;padding:12px;margin-bottom:12px}
+#pn .card h4{margin:0 0 8px;font-size:13px;color:#FFF000;letter-spacing:.02em}
+#pn .hn{font-size:12px;opacity:.65;margin:4px 0 8px;line-height:1.4}#pn .live{color:#4ade80;opacity:1}
+#pn .og{margin-bottom:10px}#pn .oh{display:flex;gap:4px;align-items:center}
+#pn .oh input{font-weight:700;margin:0;flex:1}#pn .oh button{width:34px;height:34px;border-radius:6px;background:#2a2a2a;color:#fff}
+#pn .or{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;background:#222;margin:4px 0;border:2px solid transparent}
+#pn .or:hover{background:#2c2c2c}#pn .or.sel{border-color:#FFF000;background:#2c2c2c}
+#pn .sn{min-width:26px;height:26px;border-radius:50%;background:#FFF000;color:#000;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+#pn .or.cur .sn{background:#D32029;color:#fff}
+#pn .ti{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}#pn .or em{font-style:normal;font-size:11px;opacity:.6}
+#pn .oa{display:flex;gap:4px;margin-top:4px}#pn .oa select{margin:0;flex:1}#pn .oa button{padding:0 12px;border-radius:6px;background:#FFF000;color:#000;font-weight:700}
+#pn .eh{display:flex;justify-content:space-between;align-items:center}#pn .eh b{color:#FFF000;font-size:15px}
+#pn .eh button{width:32px;height:32px;margin-left:3px;border-radius:6px;background:#2a2a2a;color:#fff}
+#pn .gr{margin-bottom:6px}#pn .grow{display:flex;gap:4px}#pn .grow input{flex:1;min-width:0;width:auto;margin-bottom:4px}
+#pn .grow button,#pn .gsep button{width:34px;height:34px;border-radius:6px;background:#2a2a2a;color:#fff;flex:none}
+#pn .gsep{display:flex;justify-content:space-between;align-items:center;border-top:2px dashed #666;margin:6px 0;padding-top:4px;font-size:12px;opacity:.8}
+#pn .rr{padding:8px 0;border-bottom:1px solid #2e2e2e}#pn .rr:last-child{border:0}#pn .rr .row{margin-top:4px}
+#pn .rr .row select{margin:0;flex:1}#pn .rr .row button{margin:0;padding:6px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}
+#pn details summary{cursor:pointer;margin:6px 0;font-size:13px}
+#pn input[type=text],#pn input:not([type]),#pn textarea,#pn select{margin-bottom:6px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -182,7 +212,7 @@ function drawEl(el,anim=true){if(!el||!window.Chart)return;el.querySelectorAll('
 function chartImg(c,w,h){const cv=document.createElement('canvas');cv.width=w;cv.height=h;Chart.defaults.color='#000';const cf=cfg(c,false,w/460);cf.options.responsive=false;cf.options.devicePixelRatio=1;
  const ch=new Chart(cv,Object.assign(cf,{plugins:[{id:'bg',beforeDraw(x){const t=x.ctx;t.save();t.fillStyle='#fff';t.fillRect(0,0,x.width,x.height);t.restore()}}]}));const u=cv.toDataURL('image/png');ch.destroy();return u}
 /* ===== kanvas zoom ===== */
-const world=$('#w'),P={};let NT={},SL={},S=[],seq=['hub'],idx=0,C,z=1,px=0,py=0,A=null,ov=false,moved=false,tm;
+const world=$('#w'),P={};let NT={},SL={},S=[],seq=['hub'],idx=0,C,CUR,z=1,px=0,py=0,RAF=0,ov=false,moved=false,tm;
 function build(){world.querySelectorAll('canvas').forEach(cv=>{try{cv._ch&&cv._ch.destroy()}catch(e){}});
  NT={};SL={};let n=0;S=D.sec.map(c=>{const ids=[],sq=[];c.sl.forEach(s=>{const id='s'+n++;ids.push(id);SL[id]=s;if(s.n)NT[id]=s.n;sq.push(id);if(s.k=='orb'){const dd=orbItems(s).map((_,j)=>id+'_'+j);ids.push(...dd);dd.forEach(d=>{sq.push(d);if(O.loop=='on')sq.push(id)})}});return{c,ids,sq}}).filter(s=>s.ids.length);
  world.innerHTML='';const add=(id,h,cl)=>{const e=document.createElement('div');e.className='s '+(cl||'');e.id=id;e.innerHTML=h;world.appendChild(e)};
@@ -193,16 +223,24 @@ function build(){world.querySelectorAll('canvas').forEach(cv=>{try{cv._ch&&cv._c
  S.forEach((s,i)=>{const a=(-90+i*360/S.length)*Math.PI/180;s.ids.forEach((id,j)=>{const d=R+j*1150;P[id]={x:d*Math.cos(a),y:d*Math.sin(a),r:O.m=='putar'?[-9,8,-11,10][i%4]+j*4:0}})});
  for(const id in P){const e=$('#'+id);if(e)e.style.transform=`translate(${P[id].x}px,${P[id].y}px) rotate(${P[id].r}deg)`}
  idx=Math.min(idx,seq.length-1);document.body.dataset.t=O.t;document.body.dataset.f=O.f=='sans'?'':O.f;
- C=camFor(seq[idx]);world.style.transform=T(C);show()}
+ C=CUR=camFor(seq[idx]);world.style.transform=T(C);show()}
 const camFor=id=>({...P[id],s:Math.min(vw()/1040,vh()/640)});
 const T=(c,k=1,x=0,y=0)=>`translate(${vw()/2+x}px,${vh()/2+y}px) rotate(${-c.r}deg) scale(${c.s*k}) translate(${-c.x}px,${-c.y}px)`;
 const quick=matchMedia('(prefers-reduced-motion:reduce)').matches;
-function fly(c1){if(A)A.finish();const c0=C,kf=[T(c0)];
- if(O.m!='geser'){const dx=Math.abs(c1.x-c0.x),dy=Math.abs(c1.y-c0.y);if(dx+dy>50)kf.push(T({x:(c0.x+c1.x)/2,y:(c0.y+c1.y)/2,r:(c0.r+c1.r)/2,s:Math.min(c0.s,c1.s,vw()/(dx+1200),vh()/(dy+800))*.92}))}
- kf.push(T(c1));C=c1;z=1;px=py=0;
- const a=A=world.animate(kf.map(t=>({transform:t})),{duration:quick?10:O.m=='geser'?900:1800,easing:'ease-in-out',fill:'forwards'});
- a.onfinish=()=>{world.style.transform=T(c1);a.cancel();if(A==a)A=null}}
-function man(){if(A)A.finish();world.style.transform=T(C,z,px,py)}
+function curCam(){const s=C.s*z,r=C.r*Math.PI/180,c=Math.cos(r),n=Math.sin(r);return{x:C.x-(px*c-py*n)/s,y:C.y-(px*n+py*c)/s,r:C.r,s}}
+function man(){cancelAnimationFrame(RAF);world.style.transform=T(C,z,px,py);CUR=curCam()}
+function fly(c1){cancelAnimationFrame(RAF);const c0=CUR||C,m=O.m=='acak'?['terbang','putar','pusaran','geser','meluncur','pudar'][Math.random()*6|0]:O.m;C=c1;z=1;px=py=0;
+ if(quick||!c0){CUR=c1;world.style.transform=T(c1);return}
+ if(m=='pudar'){world.style.opacity=0;setTimeout(()=>{CUR=c1;world.style.transform=T(c1);world.style.opacity=1},380);return}
+ const ez=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,dx=c1.x-c0.x,dy=c1.y-c0.y,d=Math.hypot(dx,dy),w0=vw()/c0.s,w1=vw()/c1.s,rho=1.4;let pos,dur;
+ if(m=='geser'||m=='meluncur'){const e=m=='meluncur'?t=>1-Math.pow(1-t,4):ez;pos=t=>{const k=e(t);return[c0.x+dx*k,c0.y+dy*k,c0.s+(c1.s-c0.s)*k,k]};dur=m=='meluncur'?750:1050}
+ else{let S,I;if(d<1){S=Math.log(w1/w0)/rho||.001;I=u=>[c0.x,c0.y,w0*Math.exp(rho*u*S)]}
+  else{const r2=rho*rho,r4=r2*r2,b0=(w1*w1-w0*w0+r4*d*d)/(2*w0*r2*d),b1=(w1*w1-w0*w0-r4*d*d)/(2*w1*r2*d),q0=Math.log(Math.sqrt(b0*b0+1)-b0),q1=Math.log(Math.sqrt(b1*b1+1)-b1);S=(q1-q0)/rho;
+   I=u=>{const s=u*S,ch=Math.cosh(q0),uu=w0/(r2*d)*(ch*Math.tanh(rho*s+q0)-Math.sinh(q0));return[c0.x+uu*dx,c0.y+uu*dy,w0*ch/Math.cosh(rho*s+q0)]}}
+  pos=t=>{const k=ez(t),a=I(k);return[a[0],a[1],vw()/a[2],k]};dur=Math.min(2600,Math.max(1100,Math.abs(S)*900*(m=='pusaran'?1.25:1)));if(m=='pusaran')dur=Math.max(dur,2000)}
+ const sw=m=='putar'?(Math.random()<.5?1:-1)*24:0,t0=performance.now();
+ const step=now=>{const t=Math.min((now-t0)/dur,1),p=pos(t),k=p[3],c={x:p[0],y:p[1],s:p[2],r:c0.r+(c1.r-c0.r)*k+(m=='putar'?sw*Math.sin(Math.PI*k):0)+(m=='pusaran'?360*k:0)};CUR=c;world.style.transform=T(c);if(t<1)RAF=requestAnimationFrame(step);else{CUR=c1;world.style.transform=T(c1)}};
+ RAF=requestAnimationFrame(step)}
 function show(){const id=seq[idx];document.body.classList.toggle('all',ov);
  document.querySelectorAll('.s').forEach(e=>e.classList.toggle('on',e.id==id));
  S.forEach(s=>{if(s.ids.includes(id))s.v=1});
@@ -211,8 +249,8 @@ function show(){const id=seq[idx];document.body.classList.toggle('all',ov);
   (function f(now){const p=Math.min(Math.max((now-t0)/1200,0),1);n.textContent=Math.round(t*(1-Math.pow(1-p,3)))+n.dataset.s;if(p<1)requestAnimationFrame(f)})(t0)});
  setTimeout(()=>drawEl($('#'+id)),quick?0:ov?0:900);
  $('#nv span').textContent=(idx+1)+' / '+seq.length;mark()}
-function mark(){const id=seq[idx]||'',b=id.split('_')[0];document.querySelectorAll('.cd2[data-sid]').forEach(c=>c.classList.toggle('cur',c.dataset.sid==b));const e=$('#curs');if(e)e.textContent='Sedang tampil: slide '+(idx+1)+(id=='hub'?' (panel utama)':'');const pg=$('#pg');if(pg)pg.style.width=((idx+1)/seq.length*100)+'%';const nt=$('#nt');if(nt)nt.textContent=NT[b]||'(tidak ada catatan untuk slide ini)'}
-function updNums(){document.querySelectorAll('.cd2[data-sid]').forEach(c=>{const id=c.dataset.sid,x=c.querySelector('.snum'),s=SL[id];if(x)x.textContent='Slide '+(seq.indexOf(id)+1)+(s&&s.k=='orb'?` (+${orbItems(s).length} slide detail)`:'')})}
+function mark(){const id=seq[idx]||'',b=id.split('_')[0];document.querySelectorAll('[data-sid]').forEach(c=>c.classList.toggle('cur',c.dataset.sid==b));const e=$('#curs');if(e)e.textContent='Sedang tampil: slide '+(idx+1)+(id=='hub'?' (panel utama)':'');const pg=$('#pg');if(pg)pg.style.width=((idx+1)/seq.length*100)+'%';const nt=$('#nt');if(nt)nt.textContent=NT[b]||'(tidak ada catatan untuk slide ini)'}
+function updNums(){document.querySelectorAll('[data-sid]').forEach(c=>{const id=c.dataset.sid,s=SL[id],n=seq.indexOf(id)+1,a=c.querySelector('.snum'),b=c.querySelector('.snumf');if(a)a.textContent=n;if(b)b.textContent='Slide '+n+(s&&s.k=='orb'?` (+${orbItems(s).length} slide detail)`:'')})}
 function spin(id,j){const r=$('#'+id+' .ring');if(!r)return;const n=r.children.length;r._k=(r._k||0)+1;r.style.setProperty('--rot',(-(j*360/n)-360*r._k)+'deg');r.children[j]&&r.children[j].classList.add('v')}
 function go(i,f){if(FOLLOW&&!f)return tt('Mengikuti presenter.');const ni=(i+seq.length)%seq.length,cur=seq[idx],tid=seq[ni],m=/^(s\d+)_(\d+)$/.exec(tid);idx=ni;ov=false;if(BC)fbPut('i',idx);const run=()=>{if(seq[idx]!=tid)return;show();fly(camFor(tid))};if(m&&cur==m[1]){spin(m[1],+m[2]);setTimeout(run,850)}else run()}
 function goId(id){let i=seq.findIndex((s,k)=>s==id&&k>=idx);if(i<0)i=seq.indexOf(id);go(i)}
@@ -221,8 +259,15 @@ function overview(){ov=!ov;if(ov){const xs=Object.values(P),x0=Math.min(...xs.ma
 /* ===== siaran (Firebase REST) ===== */
 const fbSet=o=>FIREBASE_URL&&RP?fetch(`${FIREBASE_URL}/lap/${RP}.json`,{method:'PATCH',body:JSON.stringify({k:PW,...o})}).then(r=>{if(!r.ok)tt('Firebase menolak penulisan. Periksa rules dan kata sandi.');return r.ok}).catch(()=>tt('Gagal terhubung ke Firebase.')):0;
 const fbPut=(k,v)=>fbSet({[k]:k=='d'?JSON.stringify(v):v});
-const fbDel=()=>fbSet({d:null,i:null}).then(ok=>ok&&tt('Data siaran dihapus dari Firebase.'));
-const chk=async pw=>{try{return (await fetch(`${FIREBASE_URL}/lap/_cek.json`,{method:'PATCH',body:JSON.stringify({k:pw,t:Date.now()})})).ok}catch(e){return null}};
+const cleanRoom=s=>String(s||'').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,24);
+async function rmRoom(r){const u=`${FIREBASE_URL}/lap/${encodeURIComponent(r)}.json`;try{const a=await fetch(u,{method:'PATCH',body:JSON.stringify({k:PW,d:null,i:null})});if(!a.ok)return 0;return (await fetch(u,{method:'DELETE'})).ok?2:1}catch(e){return 0}}
+async function fbDel(){const r=await rmRoom(RP);tt(r==2?'Siaran dihapus dari Firebase.':r==1?'Isi dihapus, tapi node room tersisa. Pasang rules terbaru.':'Gagal menghapus. Periksa rules dan kata sandi.');return r}
+const copyLink=(r,m)=>navigator.clipboard.writeText(`${location.origin}${location.pathname}?room=${r}${m=='free'?'&free=1':''}#view`).then(()=>tt('Link disalin.'),()=>tt('Gagal menyalin link.'));
+async function loadRooms(){const el=$('#rl');if(!el)return;el.innerHTML='<p class="hn">Memuat...</p>';
+ try{const r=await fetch(`${FIREBASE_URL}/lap.json?orderBy=${encodeURIComponent('"k"')}&equalTo=${encodeURIComponent(JSON.stringify(PW))}`);if(!r.ok)throw 0;const o=await r.json()||{};RL=Object.keys(o).map(n=>({n,has:!!o[n].d,sz:o[n].d?Math.round(o[n].d.length/1024):0})).sort((a,b)=>a.n<b.n?-1:1);drawRooms()}
+ catch(e){RL=null;el.innerHTML='<p class="hn">Daftar tidak bisa dimuat. Pasang rules terbaru, atau lihat daftar di konsol Firebase.</p>'}}
+function drawRooms(){const el=$('#rl');if(!el||!RL)return;el.innerHTML=RL.length?RL.map(r=>`<div class="rr"><div><b>${E(r.n)}</b> <small>${r.has?r.sz+' KB':'kosong'}${r.n==RP&&BC?' • siaran aktif':''}</small></div><div class="row"><button data-a="rl" data-r="${E(r.n)}" data-m="follow">Ikuti</button><button data-a="rl" data-r="${E(r.n)}" data-m="free">Bebas</button><button data-a="rld" data-r="${E(r.n)}">Hapus</button></div></div>`).join(''):'<p class="hn">Belum ada room.</p>'}
+const chk=async pw=>{try{const u=`${FIREBASE_URL}/lap/_cek.json`,r=await fetch(u,{method:'PATCH',body:JSON.stringify({k:pw,t:Date.now()})});if(r.ok)fetch(u,{method:'DELETE'}).catch(()=>{});return r.ok}catch(e){return null}};
 function lock(msg,form){const l=$('#lk');l.style.display='flex';l.innerHTML=`<div class="lb"><h1>Laporan</h1><p>${msg}</p>${form?'<input id="pw" type="password" placeholder="Kata sandi" autocomplete="current-password"><label><input id="rm" type="checkbox"> Ingat di perangkat ini</label><button id="go">Masuk</button>':''}</div><i class="tri"></i>`}
 function gate(){return new Promise(async res=>{if(!FIREBASE_URL)return res(true);if(PW&&await chk(PW)===true)return res(true);lock('Halaman ini dilindungi. Masukkan kata sandi.',1);
  const tr=async()=>{const p=$('#pw').value;if(!p)return;$('#go').disabled=true;const r=await chk(p);$('#go').disabled=false;if(r===true){PW=p;try{($('#rm').checked?localStorage:sessionStorage).setItem('lap-pw',p)}catch(e){}$('#lk').style.display='none';res(true)}else $('#lk p').textContent=r===null?'Tidak bisa terhubung ke Firebase.':'Kata sandi salah.'};
@@ -230,7 +275,7 @@ function gate(){return new Promise(async res=>{if(!FIREBASE_URL)return res(true)
 async function connect(){const U=`${FIREBASE_URL}/lap/${ROOM}`,gj=async p=>{try{return await (await fetch(U+p)).json()}catch(e){return null}};
  const apply=s=>{if(!s)return lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');try{D=JSON.parse(s);norm();build();$('#lk').style.display='none'}catch(e){}};
  const t=await gj('/d.json');if(!t)return lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');apply(t);
- if(FOLLOW){const i0=await gj('/i.json');if(typeof i0=='number'){idx=Math.min(i0,seq.length-1);C=camFor(seq[idx]);world.style.transform=T(C);show()}}
+ if(FOLLOW){const i0=await gj('/i.json');if(typeof i0=='number'){idx=Math.min(i0,seq.length-1);C=CUR=camFor(seq[idx]);world.style.transform=T(C);show()}}
  const e1=new EventSource(U+'/d.json');e1.addEventListener('put',async()=>{if(e1._f)apply(await gj('/d.json'));e1._f=1});
  if(FOLLOW){const e2=new EventSource(U+'/i.json');e2.addEventListener('put',e=>{const m=JSON.parse(e.data);if(typeof m.data=='number')go(m.data,true)})}}
 /* ===== editor ===== */
@@ -244,26 +289,48 @@ const A_=(i,j)=>`data-si="${i}"${j==null?'':` data-j="${j}"`}`;
 const opts=(v)=>TY.map(t=>`<option value="${t[0]}"${t[0]==v?' selected':''}>${t[1]}</option>`).join('');
 const chopt=sel=>'<option value="">(tidak ada)</option>'+D.charts.map(c=>`<option value="${c.id}"${c.id==sel?' selected':''}>${E(c.title)}</option>`).join('');
 const colopt=(sel,none)=>(none?'<option value="">(tidak ada)</option>':'')+(D.data?D.data.h.map((h,i)=>`<option value="${i}"${sel==i?' selected':''}>${E(h)}</option>`).join(''):'');
-const CH=[['Warna','t',[['klasik','Klasik putih'],['gelap','Hitam'],['kuning','Kuning'],['merah','Merah']]],['Gaya transisi','m',[['terbang','Zoom terbang'],['putar','Zoom + putar'],['geser','Geser lurus']]],['Setelah satu bagian selesai','loop',[['on','Kembali ke panel utama'],['off','Lanjut berurutan']]],['Huruf','f',[['sans','Tegas'],['serif','Serif'],['teknis','Teknis']]]];
-function renderEd(){const secO=D.sec.map((c,i)=>`<option value="${i}">${E(c.t)}</option>`).join('');
- pn.innerHTML='<h3>Editor laporan</h3><small id="curs" style="color:#FFF000;display:block;margin-bottom:8px"></small><label>Judul laporan</label><input data-f="t" value="'+E(D.t)+'"><label>Keterangan</label><input data-f="s" value="'+E(D.s)+'">'+
- D.sec.map((c,i)=>`<div class="sc"><label>Bagian ${i+1}</label><div class="row"><input data-f="t" ${A_(i)} value="${E(c.t)}"><button data-a="dsec" ${A_(i)} title="Hapus bagian">✕</button></div><input data-f="d" ${A_(i)} value="${E(c.d)}" placeholder="Keterangan singkat">`+
- c.sl.map((s,j)=>{const sid='s'+(D.sec.slice(0,i).reduce((a,x)=>a+x.sl.length,0)+j);return `<div class="cd2" data-sid="${sid}"><div class="sh"><b class="snum"></b><button data-a="goto" data-sid="${sid}">Lihat</button></div><div class="row"><select data-f="k" ${A_(i,j)}>${opts(s.k)}</select><button data-a="up" ${A_(i,j)}>↑</button><button data-a="dn" ${A_(i,j)}>↓</button><button data-a="dup" ${A_(i,j)} title="Duplikat">⧉</button><button data-a="del" ${A_(i,j)} title="Hapus">✕</button></div><input data-f="t" ${A_(i,j)} value="${E(s.t)}">`+
-  (s.k=='chart'?`<select data-f="c0" ${A_(i,j)}>${chopt((s.c||[])[0])}</select><select data-f="c1" ${A_(i,j)}>${chopt((s.c||[])[1])}</select>`:s.k=='img'?(s.src?`<img src="${s.src}" style="max-width:100%;border-radius:6px;margin-bottom:6px">`:''):`<textarea data-f="r" ${A_(i,j)} rows="5">${E(s.r)}</textarea>`)+`<small>${HINT[s.k]}</small><textarea data-f="n" ${A_(i,j)} rows="2" placeholder="Catatan pembicara (tekan N saat presentasi)">${E(s.n||'')}</textarea></div>`}).join('')+
- `<div class="row"><select id="nk${i}">${opts('bul')}</select><button data-a="add" ${A_(i)}>+ Slide</button></div></div>`).join('')+
- '<button class="wide" data-a="asec" style="width:100%;padding:11px;border:0;border-radius:8px;background:#FFF000;font-weight:700;cursor:pointer">+ Tambah bagian</button>'+
- '<label>Data dan grafik</label><div class="ex"><button data-a="imp">Impor (JSON, Excel, CSV, PPTX)</button><button class="g" data-a="delimp">Hapus hasil impor PPTX</button><button class="g" data-a="deldata">Hapus data tabel dan grafik</button></div>'+
- `<small>${D.data?`Data aktif: ${D.data.r.length} baris, ${D.data.h.length} kolom.`:'Belum ada data. Impor file JSON Chart Studio, Excel, atau CSV.'}</small>`+
- D.charts.map(c=>`<div class="row"><span style="flex:1;font-size:13px;align-self:center">${E(c.title)}</span><select id="pl${c.id}" style="width:90px">${secO}</select><button data-a="place" data-cid="${c.id}" title="Taruh di bagian">Taruh</button><button data-a="delc" data-cid="${c.id}">✕</button></div>`).join('')+
- (D.data?`<details><summary style="cursor:pointer;margin:8px 0">Buat grafik baru dari data</summary><input id="cbT" placeholder="Judul grafik"><label>Sumbu X</label><select id="cbX">${colopt(0)}</select><label>Label tambahan di bawah X</label><select id="cbX2">${colopt('',1)}</select><label>Kolom sumbu kiri (tahan Ctrl untuk banyak)</label><select id="cbL" multiple size="5">${colopt()}</select><label>Kolom sumbu kanan</label><select id="cbR" multiple size="4">${colopt()}</select><label>Tipe</label><select id="cbTy"><option value="line">Garis</option><option value="bar">Batang</option></select><label>Tampilkan N data terakhir (kosong = semua)</label><input id="cbN" value="30"><button class="wide" data-a="mkc" style="width:100%;padding:11px;border:0;border-radius:8px;background:#FFF000;font-weight:700;cursor:pointer">Buat grafik</button></details>`:'')+
- '<details><summary style="cursor:pointer;margin:8px 0">Tempel tabel dari Excel</summary><textarea id="pst" rows="5" placeholder="Blok sel di Excel, salin, lalu tempel di sini. Baris pertama = judul kolom."></textarea><button class="wide" data-a="pasted" style="width:100%;padding:9px;border:0;border-radius:8px;background:#FFF000;font-weight:700;cursor:pointer">Pakai data ini</button></details>'+
- CH.map(c=>`<label>${c[0]}</label><div class="ch" data-k="${c[1]}">${c[2].map(v=>`<button data-v="${v[0]}" class="${O[c[1]]==v[0]?'a':''}">${v[1]}</button>`).join('')}</div>`).join('')+
- `<label>Siaran langsung ke pembaca</label>${FIREBASE_URL?`<input id="room" value="${E(RP)}"><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button><button class="g" data-a="delbc">Hapus data siaran dari Firebase</button></div><small>Ukuran data siaran: ${kb()} KB. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi, pembaca mengatur slide sendiri.</small>`:'<small>Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</small>'}`+
- `<details ontoggle="if(this.open)jref()"><summary style="cursor:pointer;margin:8px 0">Editor JSON (draf)</summary><small>Ubah isi laporan langsung sebagai JSON. Tabel data besar diganti penanda __DATA__ dan tetap tersimpan. Klik Terapkan untuk memakai hasilnya.</small><textarea id="jed" rows="14" spellcheck="false" style="font:12px monospace">${E(jtxt())}</textarea><div class="row"><button data-a="jref">Segarkan</button><button data-a="japp">Terapkan JSON</button></div></details>`+'<label>Simpan dan ekspor</label><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><small style="margin-top:10px">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca, unggah data.json ke folder yang sama dengan halaman ini di GitHub.</small>';updNums();mark()}
+const CH=[['Warna','t',[['klasik','Klasik putih'],['gelap','Hitam'],['kuning','Kuning'],['merah','Merah']]],['Gaya transisi','m',[['terbang','Terbang halus'],['putar','Zoom + putar'],['pusaran','Pusaran penuh'],['geser','Geser lurus'],['meluncur','Meluncur cepat'],['pudar','Pudar'],['acak','Acak']]],['Setelah satu bagian selesai','loop',[['on','Kembali ke panel utama'],['off','Lanjut berurutan']]],['Huruf','f',[['sans','Tegas'],['serif','Serif'],['teknis','Teknis']]]];
+const TYN={bul:'Poin',stat:'Angka',bar:'Batang',prog:'Progress',two:'2 kolom',tl:'Timeline',chart:'Grafik',img:'Gambar',orb:'Lingkaran'};
+const COLS={bul:['Poin'],stat:['Angka','Satuan','Keterangan'],bar:['Label','Nilai'],prog:['Label','Persen'],two:['Judul','Isi'],tl:['Judul','Isi'],orb:['Lingkaran','Isi detail (pisah dengan ;)']};
+const HINT2={stat:'Maksimal 3 angka.',bar:'Nilai berupa angka.',prog:'Persen 0 sampai 100, maksimal 4 baris.',two:'Pakai Pemisah kolom untuk membagi kiri dan kanan.',tl:'Maksimal 4 langkah.',orb:'Tiap lingkaran otomatis punya slide detail. Pisahkan poin dengan titik koma.',bul:'Satu poin per baris.'};
+const TABS=[['slide','Slide'],['data','Data'],['tampil','Tampilan'],['bagi','Bagikan']];
+const ST={tab:'slide',sel:'s0'},COLP={};let RL=null;
+const flat=()=>{const o=[];let k=0;D.sec.forEach((c,i)=>c.sl.forEach((s,j)=>o.push({i,j,s,id:'s'+k++})));return o};
+const baseOf=i=>D.sec.slice(0,i).reduce((a,x)=>a+x.sl.length,0);
+const secOpts=()=>D.sec.map((c,i)=>`<option value="${i}">${E(c.t)}</option>`).join('');
+function gridHtml(s,i,j){const cols=COLS[s.k],A=A_(i,j),ls=String(s.r||'').split('\n');
+ return `<label>Isi slide</label><div class="gr">${ls.map((l,ri)=>l.trim()=='---'?`<div class="gsep"><span>kolom kanan dimulai</span><button data-a="grd" ${A} data-ri="${ri}">✕</button></div>`:`<div class="grow">${cols.map((c,ci)=>`<input data-g="1" ${A} data-ri="${ri}" data-ci="${ci}" value="${E((l.split('|')[ci]||'').trim())}" placeholder="${c}">`).join('')}<button data-a="grd" ${A} data-ri="${ri}">✕</button></div>`).join('')}</div><div class="row"><button data-a="gra" ${A}>+ Baris</button>${s.k=='two'?`<button data-a="grs" ${A}>+ Pemisah kolom</button>`:''}</div><p class="hn">${HINT2[s.k]||''}</p>`}
+function editCard(x){const s=x.s,A=A_(x.i,x.j);let b='';
+ if(s.k=='chart')b=`<label>Grafik 1</label><select data-f="c0" ${A}>${chopt((s.c||[])[0])}</select><label>Grafik 2 (opsional, tampil berdampingan)</label><select data-f="c1" ${A}>${chopt((s.c||[])[1])}</select>${D.charts.length?'':'<p class="hn">Belum ada grafik. Buka tab Data untuk impor atau buat grafik.</p>'}`;
+ else if(s.k=='img')b=s.src?`<img src="${s.src}" style="max-width:100%;border-radius:8px;margin-top:8px">`:'<p class="hn">Belum ada gambar.</p>';
+ else b=gridHtml(s,x.i,x.j);
+ return `<div class="ec" data-sid="${x.id}"><div class="eh"><b class="snumf"></b><span><button data-a="up" ${A} title="Naik">↑</button><button data-a="dn" ${A} title="Turun">↓</button><button data-a="dup" ${A} title="Duplikat">⧉</button><button data-a="del" ${A} title="Hapus">🗑</button></span></div><label>Jenis slide</label><select data-f="k" ${A}>${opts(s.k)}</select><label>Judul slide</label><input data-f="t" ${A} value="${E(s.t)}">${b}<details><summary>Catatan pembicara</summary><textarea data-f="n" ${A} rows="3" placeholder="Tampil saat menekan N (hanya presenter)">${E(s.n||'')}</textarea></details></div>`}
+const TAB={
+slide(){const fl=flat(),cur=fl.find(x=>x.id==ST.sel);
+ return '<div class="card"><h4>Daftar slide</h4><p class="hn">Klik slide untuk mengedit dan melihatnya.</p>'+D.sec.map((c,i)=>`<div class="og"><div class="oh"><button data-a="col" ${A_(i)} class="cb">${COLP[i]?'▸':'▾'}</button><input data-f="t" ${A_(i)} value="${E(c.t)}" title="Nama bagian"><button data-a="dsec" ${A_(i)} title="Hapus bagian">🗑</button></div>`+(COLP[i]?'':fl.filter(x=>x.i==i).map(x=>`<div class="or${x.id==ST.sel?' sel':''}" data-a="sel" data-sid="${x.id}"><span class="sn snum"></span><span class="ti">${E(x.s.t)}</span><em>${TYN[x.s.k]||''}</em></div>`).join('')+`<div class="oa"><select id="nk${i}">${opts('bul')}</select><button data-a="add" ${A_(i)}>+ Slide</button></div>`)+'</div>').join('')+'<button class="wide" data-a="asec">+ Bagian baru</button></div>'+(cur?'<div class="card"><h4>Edit slide terpilih</h4>'+editCard(cur)+'</div>':'')},
+data(){const secO=secOpts();
+ return `<div class="card"><h4>Impor data</h4><p class="hn">Bisa JSON Chart Studio, Excel, CSV, atau PPTX.</p><div class="ex"><button data-a="imp">Pilih file untuk diimpor</button></div><p class="hn">${D.data?`Data aktif: ${D.data.r.length} baris, ${D.data.h.length} kolom.`:'Belum ada data tabel.'} Ukuran laporan: ${kb()} KB.</p><div class="ex"><button class="g" data-a="delimp">Hapus hasil impor PPTX</button><button class="g" data-a="deldata">Hapus data tabel dan grafik</button></div></div>`+
+ `<div class="card"><h4>Grafik</h4>${D.charts.length?D.charts.map(c=>`<div class="rr"><b>${E(c.title)}</b><div class="row"><select id="pl${c.id}">${secO}</select><button data-a="place" data-cid="${c.id}">Taruh</button><button data-a="delc" data-cid="${c.id}">🗑</button></div></div>`).join(''):'<p class="hn">Belum ada grafik. Impor data atau buat baru di bawah.</p>'}`+
+ (D.data?`<details><summary>Buat grafik baru dari data</summary><input id="cbT" placeholder="Judul grafik"><label>Sumbu X</label><select id="cbX">${colopt(0)}</select><label>Label tambahan di bawah X</label><select id="cbX2">${colopt('',1)}</select><label>Kolom sumbu kiri (tahan Ctrl untuk banyak)</label><select id="cbL" multiple size="5">${colopt()}</select><label>Kolom sumbu kanan</label><select id="cbR" multiple size="4">${colopt()}</select><label>Tipe</label><select id="cbTy"><option value="line">Garis</option><option value="bar">Batang</option></select><label>Tampilkan N data terakhir (kosong = semua)</label><input id="cbN" value="30"><button class="wide" data-a="mkc">Buat grafik</button></details>`:'')+'</div>'+
+ '<div class="card"><h4>Lanjutan</h4><details><summary>Tempel tabel dari Excel</summary><textarea id="pst" rows="5" placeholder="Blok sel di Excel, salin, lalu tempel di sini. Baris pertama = judul kolom."></textarea><button class="wide" data-a="pasted">Pakai data ini</button></details>'+
+ `<details ontoggle="if(this.open)jref()"><summary>Editor JSON (draf)</summary><p class="hn">Ubah isi laporan sebagai JSON. Tabel besar diganti penanda __DATA__ dan tetap tersimpan.</p><textarea id="jed" rows="12" spellcheck="false" style="font:12px monospace">${E(jtxt())}</textarea><div class="row"><button data-a="jref">Segarkan</button><button data-a="japp">Terapkan JSON</button></div></details></div>`},
+tampil(){return `<div class="card"><h4>Halaman utama</h4><label>Judul laporan</label><input data-f="t" value="${E(D.t)}"><label>Keterangan</label><input data-f="s" value="${E(D.s)}"></div>`+CH.map(c=>`<div class="card"><h4>${c[0]}</h4><div class="ch" data-k="${c[1]}">${c[2].map(v=>`<button data-v="${v[0]}" class="${O[c[1]]==v[0]?'a':''}">${v[1]}</button>`).join('')}</div></div>`).join('')},
+bagi(){return `<div class="card"><h4>Siaran langsung</h4>${FIREBASE_URL?`<label>Kode room</label><input id="room" value="${E(RP)}"><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button></div>${BC?'<p class="hn live">● Siaran aktif</p>':''}<div class="ex"><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button></div><p class="hn">Ukuran data siaran: ${kb()} KB. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi.</p>`:'<p class="hn">Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</p>'}</div>`+
+ (FIREBASE_URL?'<div class="card"><h4>Daftar siaran di Firebase</h4><div id="rl"></div><div class="ex"><button class="g" data-a="rlr">Segarkan daftar</button><button class="g" data-a="rlc">Bersihkan room kosong</button></div></div>':'')+
+ '<div class="card"><h4>Simpan dan ekspor</h4><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><p class="hn">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca statis, unggah data.json ke folder yang sama dengan halaman ini.</p></div>'}};
+function renderEd(){const fl=flat();if(!fl.find(x=>x.id==ST.sel))ST.sel=fl[0]?fl[0].id:'';const sc=pn.querySelector('.pb'),y=sc?sc.scrollTop:0;
+ pn.innerHTML=`<div class="ph"><div><b>Editor</b><small id="curs"></small></div><button data-a="op" class="xb" title="Tutup">✕</button></div><div class="tabs">${TABS.map(t=>`<button data-tab="${t[0]}" class="${ST.tab==t[0]?'a':''}">${t[1]}</button>`).join('')}</div><div class="pb">${TAB[ST.tab]()}</div>`;
+ const nb=pn.querySelector('.pb');if(nb)nb.scrollTop=y;updNums();mark();if(ST.tab=='bagi'&&FIREBASE_URL)RL?drawRooms():loadRooms()}
 function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}if(BC)fbPut('d',D)}
 const sched=()=>{clearTimeout(tm);tm=setTimeout(()=>{build();draft()},300)};
-pn.addEventListener('input',e=>{const el=e.target,f=el.dataset.f;if(!f)return;const o=el.dataset.si==null?D:el.dataset.j==null?D.sec[el.dataset.si]:D.sec[el.dataset.si].sl[el.dataset.j];
- if(/^c[01]$/.test(f)){o.c=o.c||[];o.c[+f[1]]=el.value===''?'':+el.value;o.c=o.c.filter(x=>x!=='')}else o[f]=el.value;if(f=='k')renderEd();sched()});
+pn.addEventListener('input',e=>{const el=e.target;
+ if(el.dataset.g){const s=D.sec[el.dataset.si].sl[el.dataset.j],ls=String(s.r||'').split('\n'),ri=+el.dataset.ri,ci=+el.dataset.ci,p=(ls[ri]||'').split('|');while(p.length<=ci)p.push('');p[ci]=el.value.replace(/\|/g,'/');ls[ri]=COLS[s.k].length>1?p.join('|'):p[0];s.r=ls.join('\n');return sched()}
+ const f=el.dataset.f;if(!f)return;const si=el.dataset.si,j=el.dataset.j,o=si==null?D:j==null?D.sec[si]:D.sec[si].sl[j];
+ if(/^c[01]$/.test(f)){o.c=o.c||[];o.c[+f[1]]=el.value===''?'':+el.value;o.c=o.c.filter(x=>x!=='')}
+ else if(f=='k'){const old=o.k;o.k=el.value;const a=COLS[old],b=COLS[o.k];if(b&&(!o.r||!a||a.length!=b.length))o.r=DEF[o.k];if(o.k=='chart'&&!o.c)o.c=D.charts[0]?[D.charts[0].id]:[]}
+ else o[f]=el.value;
+ if(f=='t'&&j!=null){const r=pn.querySelector(`.or[data-sid="s${baseOf(+si)+ +j}"] .ti`);if(r)r.textContent=el.value}
+ if(f=='k')renderEd();sched()});
 /* ===== impor ===== */
 const pick=(acc,cb)=>{const f=document.createElement('input');f.type='file';f.accept=acc;f.onchange=()=>f.files[0]&&cb(f.files[0]);f.click()};
 const unitsTxt=u=>(u||[]).map(x=>x.unit).filter(Boolean).join(' atau ');
@@ -274,7 +341,7 @@ async function imp(f){const n=f.name.toLowerCase();if(n.endsWith('.pptx'))return
  if(n.endsWith('.json')){const j=JSON.parse(await f.text());if(j.sec){D=j;norm()}else if(j.headers&&j.rows)fromCS(j);else throw 0}
  else{if(!window.XLSX)return tt('Library Excel belum termuat.');const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});setData(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:false,defval:''}))}
  build();draft();renderEd();tt('Data diimpor.')}catch(e){tt('File tidak dikenali.')}}
-function addImg(file,si){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);D.sec[si].sl.push({k:'img',t:'Gambar',src:c.toDataURL('image/jpeg',.85)});renderEd();build();draft()};im.src=r.result};r.readAsDataURL(file)}
+function addImg(file,si){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);D.sec[si].sl.push({k:'img',t:'Gambar',src:c.toDataURL('image/jpeg',.85)});ST.sel='s'+(baseOf(si)+D.sec[si].sl.length-1);build();renderEd();draft()};im.src=r.result};r.readAsDataURL(file)}
 const sv=id=>[...$(id).selectedOptions].map(o=>o.value);
 function mkc(){const L=sv('#cbL'),R=sv('#cbR');if(!L.length&&!R.length)return tt('Pilih minimal satu kolom data.');const ty=$('#cbTy').value,id=Math.max(0,...D.charts.map(c=>+c.id||0))+1;let k=0;
  D.charts.push({id,title:$('#cbT').value||'Grafik '+id,mode:'linebar',xCol:$('#cbX').value,xCol2:$('#cbX2').value,limitN:$('#cbN').value,limitMode:'last',filters:[],callout:'on',yT:'',y1T:'',y1Max:'',y1Min:'',yMin:'',yMax:'',series:[...L.map(c=>({col:c,axis:'y',type:ty,color:PAL[k++%6]})),...R.map(c=>({col:c,axis:'y1',type:ty,color:PAL[k++%6]}))]});renderEd();draft();tt('Grafik dibuat. Pilih bagian lalu klik Taruh.')}
@@ -313,35 +380,47 @@ async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termu
  tt('Menyiapkan PPTX...');dl('laporan.pptx',await p.write({outputType:'arraybuffer'}),'application/vnd.openxmlformats-officedocument.presentationml.presentation')}
 const mv=(a,i,j)=>{const t=a[i];a.splice(i,1);a.splice(j,0,t)};
 document.addEventListener('click',async e=>{
+ const tb=e.target.closest('[data-tab]');if(tb){ST.tab=tb.dataset.tab;return renderEd()}
  const ch=e.target.closest('.ch button');if(ch){const k=ch.parentNode.dataset.k;O[k]=ch.dataset.v;build();draft();return renderEd()}
  const a=e.target.closest('[data-a]');
  if(a){const k=a.dataset.a,i=+a.dataset.si,j=+a.dataset.j;
   if(k=='zi'){z=Math.min(z*1.3,5);man()}else if(k=='zo'){z=Math.max(z/1.3,.3);man()}else if(k=='ov')overview();
   else if(k=='fs')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
   else if(k=='op')pn.classList.toggle('o');else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);else if(k=='ls')document.body.classList.toggle('laser');
-  else{if(k=='up'&&j>0)mv(D.sec[i].sl,j,j-1);else if(k=='dn')mv(D.sec[i].sl,j,Math.min(j+1,D.sec[i].sl.length-1));
-   else if(k=='dup')D.sec[i].sl.splice(j+1,0,{...D.sec[i].sl[j]});else if(k=='del')D.sec[i].sl.splice(j,1);
-   else if(k=='add'){const t=$('#nk'+i).value;if(t=='img')return pick('image/*',f=>addImg(f,i));D.sec[i].sl.push(t=='chart'?{k:'chart',t:'Grafik',c:D.charts[0]?[D.charts[0].id]:[]}:{k:t,t:'Judul slide',r:DEF[t]})}
-   else if(k=='asec')D.sec.push({t:'Bagian baru',d:'Keterangan singkat',sl:[{k:'bul',t:'Judul slide',r:DEF.bul}]});
-   else if(k=='dsec')D.sec.splice(i,1);
-   else if(k=='goto'){go(seq.indexOf(a.dataset.sid),true);return}
-   else if(k=='delimp'){D.sec=D.sec.filter(s=>!s.imp)}
-   else if(k=='deldata'){if(!confirm('Hapus data tabel dan semua grafik? Slide grafik akan kosong.'))return;D.data=null;D.charts=[];D.sec.forEach(c=>c.sl.forEach(s=>{if(s.k=='chart')s.c=[]}))}
-   else if(k=='delbc'){BC=false;fbDel();renderEd();return}
-   else if(k=='imp')return pick('.json,.xlsx,.xls,.csv,.txt,.pptx',imp);
-   else if(k=='place'){const c=D.charts.find(x=>x.id==a.dataset.cid),si=+$('#pl'+c.id).value;D.sec[si].sl.push({k:'chart',t:c.title,c:[c.id]})}
+  else if(k=='sel'){ST.sel=a.dataset.sid;renderEd();go(seq.indexOf(a.dataset.sid),true)}
+  else if(k=='col'){COLP[i]=!COLP[i];renderEd()}
+  else if(k=='rl')copyLink(a.dataset.r,a.dataset.m);
+  else if(k=='rlr')loadRooms();
+  else if(k=='rld'){if(!confirm('Hapus room "'+a.dataset.r+'" dari Firebase?'))return;const r=await rmRoom(a.dataset.r);if(a.dataset.r==RP)BC=false;tt(r==2?'Room dihapus.':r==1?'Isi dihapus, node tersisa. Pasang rules terbaru.':'Gagal menghapus.');loadRooms()}
+  else if(k=='rlc'){const em=(RL||[]).filter(r=>!r.has);if(!em.length)return tt('Tidak ada room kosong.');for(const r of em)await rmRoom(r.n);tt('Room kosong dibersihkan.');loadRooms()}
+  else if(k=='imp')pick('.json,.xlsx,.xls,.csv,.txt,.pptx',imp);
+  else if(k=='mkc')mkc();
+  else if(k=='pptx')mkPptx();
+  else if(k=='json')dl('data.json',JSON.stringify(D),'application/json');
+  else if(k=='pdf'){document.querySelectorAll('.s').forEach(el=>drawEl(el,false));setTimeout(()=>window.print(),500)}
+  else if(k=='reset'){try{localStorage.removeItem('lap-draft')}catch(x){}location.reload()}
+  else if(k=='jref')jref();
+  else if(k=='japp'){try{const j=JSON.parse($('#jed').value);if(!j||!Array.isArray(j.sec))throw new Error('properti "sec" tidak ada');if(j.data==='__DATA__')j.data=D.data;D=j;norm();build();draft();renderEd();tt('JSON diterapkan.')}catch(x){tt('JSON tidak valid: '+x.message)}}
+  else if(k=='bc'){if(BC){BC=false;if(confirm('Hapus juga data siaran dari Firebase?'))await fbDel();renderEd()}else{RP=cleanRoom($('#room').value)||RP;try{localStorage.setItem('lap-room',RP)}catch(x){}BC=true;await fbSet({d:JSON.stringify(D),i:idx});tt('Siaran dimulai. Bagikan link pembaca.');RL=null;renderEd()}}
+  else if(k=='vlink'){RP=cleanRoom($('#room')&&$('#room').value)||RP;copyLink(RP,a.dataset.m)}
+  else{const base=baseOf(i);
+   if(k=='up'&&j>0){mv(D.sec[i].sl,j,j-1);ST.sel='s'+(base+j-1)}
+   else if(k=='dn'&&j<D.sec[i].sl.length-1){mv(D.sec[i].sl,j,j+1);ST.sel='s'+(base+j+1)}
+   else if(k=='dup'){D.sec[i].sl.splice(j+1,0,JSON.parse(JSON.stringify(D.sec[i].sl[j])));ST.sel='s'+(base+j+1)}
+   else if(k=='del'){D.sec[i].sl.splice(j,1);ST.sel='s'+Math.max(0,base+j-1)}
+   else if(k=='add'){const t=$('#nk'+i).value;if(t=='img')return pick('image/*',f=>addImg(f,i));D.sec[i].sl.push(t=='chart'?{k:'chart',t:'Grafik',c:D.charts[0]?[D.charts[0].id]:[]}:{k:t,t:'Judul slide',r:DEF[t]});ST.sel='s'+(base+D.sec[i].sl.length-1)}
+   else if(k=='asec'){D.sec.push({t:'Bagian baru',d:'Keterangan singkat',sl:[{k:'bul',t:'Judul slide',r:DEF.bul}]});ST.sel='s'+baseOf(D.sec.length-1)}
+   else if(k=='dsec'){if(!confirm('Hapus bagian ini beserta semua slide di dalamnya?'))return;D.sec.splice(i,1)}
+   else if(k=='place'){const c=D.charts.find(x=>x.id==a.dataset.cid),si=+$('#pl'+c.id).value;D.sec[si].sl.push({k:'chart',t:c.title,c:[c.id]});ST.sel='s'+(baseOf(si)+D.sec[si].sl.length-1);ST.tab='slide'}
    else if(k=='delc')D.charts=D.charts.filter(x=>x.id!=a.dataset.cid);
-   else if(k=='mkc')return mkc();
+   else if(k=='delimp')D.sec=D.sec.filter(s=>!s.imp);
+   else if(k=='deldata'){if(!confirm('Hapus data tabel dan semua grafik? Slide grafik akan kosong.'))return;D.data=null;D.charts=[];D.sec.forEach(c=>c.sl.forEach(s=>{if(s.k=='chart')s.c=[]}))}
+   else if(k=='gra'){const s=D.sec[i].sl[j],n=COLS[s.k].length;s.r=(s.r?s.r+'\n':'')+(n>1?'|'.repeat(n-1):'Poin baru')}
+   else if(k=='grd'){const s=D.sec[i].sl[j],ls=String(s.r||'').split('\n');ls.splice(+a.dataset.ri,1);s.r=ls.join('\n')}
+   else if(k=='grs'){const s=D.sec[i].sl[j];s.r=(s.r?s.r+'\n':'')+'---'}
    else if(k=='pasted'){const t=$('#pst').value.trim();if(!t)return tt('Tempel dulu tabelnya.');setData(t.split('\n').map(l=>l.split('\t')))}
-   else if(k=='bc'){if(BC){BC=false;if(confirm('Hapus juga data siaran dari Firebase?'))fbDel()}else{RP=($('#room').value||RP).trim();localStorage.setItem('lap-room',RP);BC=true;fbSet({d:JSON.stringify(D),i:idx});tt('Siaran dimulai. Bagikan link pembaca.')}}
-   else if(k=='vlink'){RP=($('#room').value||RP).trim();return navigator.clipboard.writeText(`${location.origin}${location.pathname}?room=${RP}${a.dataset.m=='free'?'&free=1':''}#view`).then(()=>tt('Link pembaca disalin.'),()=>tt('Gagal menyalin link.'))}
-   else if(k=='jref'){jref();return}
-   else if(k=='japp'){try{const j=JSON.parse($('#jed').value);if(!j||!Array.isArray(j.sec))throw new Error('properti "sec" tidak ada');if(j.data==='__DATA__')j.data=D.data;D=j;norm();build();draft();renderEd();tt('JSON diterapkan.')}catch(x){tt('JSON tidak valid: '+x.message)}return}
-   else if(k=='json')return dl('data.json',JSON.stringify(D),'application/json');
-   else if(k=='pptx')return mkPptx();
-   else if(k=='pdf'){document.querySelectorAll('.s').forEach(el=>drawEl(el,false));setTimeout(()=>window.print(),500);return}
-   else if(k=='reset'){try{localStorage.removeItem('lap-draft')}catch(x){}return location.reload()}
-   build();renderEd();draft()}return}
+   build();renderEd();draft()}
+  return}
  if(moved)return;const oc=e.target.closest('.orbc');if(oc)return goId(oc.dataset.orb+'_'+oc.dataset.j);const g=e.target.closest('[data-go]');if(g)return goId(g.dataset.go);
  const s=e.target.closest('.s');if(s&&(!s.classList.contains('on')||ov))goId(s.id)});
 let dr=null;const st=$('#st');
