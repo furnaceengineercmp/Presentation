@@ -101,40 +101,64 @@ body.view #tp [data-a=op],body.view #pn,body.view #hl{display:none}
 .s.cs{padding:24px 30px 34px}.cs h2{font-size:26px;margin-bottom:6px}.cs h2::before{height:6px;width:48px;margin-bottom:8px}
 .cw{display:flex;gap:10px;height:432px}.cc{flex:1;min-width:0;position:relative;height:100%}.cw img{max-width:100%;max-height:100%;margin:auto;object-fit:contain}
 #pn details{border:1px solid #444;border-radius:8px;padding:8px;margin:8px 0}
+
+.orb{position:relative;height:350px}.ring{position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate(var(--rot,0deg));transition:transform 1s cubic-bezier(.5,0,.2,1)}
+.orbc{position:absolute;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;border:4px solid var(--fg);background:var(--bg);color:var(--fg);font:inherit;font-size:13px;line-height:1.1;text-align:center;padding:6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(var(--a)) translateY(-125px) rotate(calc(-1 * var(--a) - var(--rot,0deg)));transition:transform 1s cubic-bezier(.5,0,.2,1),background .3s,color .3s}
+.orbc b{font-size:24px;color:var(--ac)}.orbc:hover{background:var(--ac);color:var(--bg)}.orbc:hover b{color:var(--bg)}.orbc.v{background:var(--ac2);color:#000}.orbc.v b{color:#000}
+.orbm{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;font-size:16px;opacity:.7}
+#pn .sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}#pn .sh b{color:#FFF000;font-size:14px}#pn .sh button{padding:3px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}
+#pn .cd2.cur{background:#ffffff14;border-left-color:#FFF000}
+#lk{position:fixed;inset:0;z-index:50;background:#000;color:#fff;display:none;align-items:center;justify-content:center;font-family:system-ui,sans-serif;text-align:center;padding:20px}
+#lk .lb{max-width:340px;width:100%}#lk h1{font-size:34px;margin:0 0 12px;color:#FFF000}
+#lk input[type=password]{width:100%;padding:12px;border-radius:8px;border:1px solid #444;background:#111;color:#fff;font-size:16px;margin:10px 0}
+#lk label{display:block;font-size:13px;opacity:.8;margin-bottom:10px}#lk button{width:100%;padding:12px;border:0;border-radius:8px;background:#FFF000;font-weight:700;font-size:16px;cursor:pointer}
+#lk .tri{position:absolute;left:0;right:0;bottom:0;height:16px;background:linear-gradient(90deg,#D32029 33.3%,#FFF000 33.3% 66.6%,#fff 66.6%)}
+#pg{position:fixed;left:0;top:0;height:4px;width:0;z-index:12;background:linear-gradient(90deg,#D32029,#FFF000);transition:width .6s}
+#nt{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9;max-width:300px;background:#000d;color:#fff;padding:10px 14px;border-radius:10px;font:14px/1.4 system-ui,sans-serif;display:none;white-space:pre-wrap}
+body.notes #nt{display:block}body.view #nt{display:none!important}
+#lz{position:fixed;left:-10px;top:-10px;width:20px;height:20px;border-radius:50%;background:#D32029;box-shadow:0 0 18px 8px #D3202988;pointer-events:none;z-index:30;display:none}
+body.laser #lz{display:block}body.laser #st{cursor:none}
+@media print{#pg,#lz,#nt,#lk{display:none!important}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script></head>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script></head>
 <body data-t="klasik">
 <div id="st"><div id="w"></div></div>
 <div id="hl">Seret untuk geser, scroll untuk zoom. Panah kiri atau kanan untuk pindah slide.</div>
-<div id="tp" class="bx"><button data-a="zo">−</button><button data-a="zi">+</button><button data-a="ov" title="Lihat semua">▦</button><button data-a="fs" title="Layar penuh">⛶</button><button data-a="op" title="Editor">✎</button></div>
+<div id="tp" class="bx"><button data-a="zo">−</button><button data-a="zi">+</button><button data-a="ov" title="Lihat semua">▦</button><button data-a="fs" title="Layar penuh">⛶</button><button data-a="ls" title="Laser pointer (L)">◎</button><button data-a="op" title="Editor">✎</button></div>
 <div id="nv" class="bx"><button data-a="pv">◀</button><span style="min-width:64px;text-align:center;font-size:14px"></span><button data-a="nx">▶</button><button data-a="hm" title="Panel utama">⌂</button></div>
-<aside id="pn"></aside><div id="tt"></div>
+<aside id="pn"></aside><div id="tt"></div><div id="lk"></div><div id="pg"></div><div id="nt"></div><div id="lz"></div>
 <script id="D" type="application/json">{"t": "Laporan Operasional", "s": "Periode November 2026. Nama unit atau departemen.", "o": {"t": "klasik", "m": "terbang", "loop": "on", "f": "sans"}, "sec": [{"t": "Ringkasan", "d": "Gambaran umum periode ini", "sl": [{"k": "bul", "t": "Ringkasan Eksekutif", "r": "Target produksi periode ini tercapai 94 persen.\nDua kendala utama sudah teridentifikasi dan ditangani.\nBiaya operasional turun dibanding bulan lalu.\nRencana perbaikan disiapkan untuk periode berikutnya."}, {"k": "stat", "t": "Angka Kunci", "r": "94|%|Realisasi terhadap target\n12||Kegiatan selesai\n3||Temuan perlu tindak lanjut"}]}, {"t": "Capaian", "d": "Produksi dan target", "sl": [{"k": "bar", "t": "Capaian per Minggu", "r": "Minggu 1|62\nMinggu 2|74\nMinggu 3|58\nMinggu 4|88\nMinggu 5|95\nMinggu 6|81"}, {"k": "prog", "t": "Target dan Realisasi", "r": "Produksi|92\nEfisiensi|78\nKeselamatan kerja|100"}]}, {"t": "Kendala", "d": "Masalah dan penyebabnya", "sl": [{"k": "two", "t": "Kendala dan Penyebab", "r": "Kendala 1|Peralatan sering berhenti mendadak\nKendala 2|Pasokan bahan terlambat\nKendala 3|Data laporan belum seragam\n---\nPenyebab 1|Jadwal perawatan belum rutin\nPenyebab 2|Koordinasi antar pihak kurang\nPenyebab 3|Format pencatatan berbeda"}]}, {"t": "Rencana Aksi", "d": "Langkah dan jadwal", "sl": [{"k": "tl", "t": "Rencana Aksi", "r": "Minggu 1|Perbaiki jadwal perawatan\nMinggu 2|Seragamkan format data\nMinggu 3|Koordinasi dengan pemasok\nMinggu 4|Evaluasi hasil"}]}]}</script>
 <script>
 /* ====== PENGATURAN: isi FIREBASE_URL agar pembaca otomatis mengikuti presenter ====== */
-const FIREBASE_URL='https://presentation-2c884-default-rtdb.asia-southeast1.firebasedatabase.app/';/* contoh: 'https://nama-proyek-default-rtdb.asia-southeast1.firebasedatabase.app' */
+const FIREBASE_URL='https://presentation-2c884-default-rtdb.asia-southeast1.firebasedatabase.app';/* contoh: 'https://nama-proyek-default-rtdb.asia-southeast1.firebasedatabase.app' */
 /* ================================================================================== */
 const $=s=>document.querySelector(s),vw=()=>innerWidth,vh=()=>innerHeight;
-const QS=new URLSearchParams(location.search),ROOM=QS.get('room')||'',FOLLOW=!!(ROOM&&FIREBASE_URL),VIEW=location.hash=='#view'||FOLLOW;
+const QS=new URLSearchParams(location.search),ROOM=QS.get('room')||'',LIVE=!!(ROOM&&FIREBASE_URL),FREE=QS.get('free')=='1',FOLLOW=LIVE&&!FREE,VIEW=location.hash=='#view'||LIVE;
 if(VIEW)document.body.classList.add('view');
+let PW='';try{PW=sessionStorage.getItem('lap-pw')||localStorage.getItem('lap-pw')||''}catch(e){}
 let D=JSON.parse($('#D').textContent),O,BC=false,RP=localStorage.getItem('lap-room')||Math.random().toString(36).slice(2,8);
 const DO={t:'klasik',m:'terbang',loop:'on',f:'sans'};
-function norm(){D.o=Object.assign({},DO,D.o);O=D.o;D.charts=D.charts||[];D.data=D.data||null}
+function norm(){D.o=Object.assign({},DO,D.o);O=D.o;D.charts=D.charts||[];D.data=D.data||null;D.sec=(D.sec||[]).map(c=>({...c,sl:c.sl||[]}))}
 const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rows=t=>String(t||'').split('\n').filter(l=>l.trim()).map(l=>l.split('|').map(x=>x.trim()));
 const rv=(tag,cls,h,d)=>`<${tag} class="rv ${cls}" style="--d:${d}">${h}</${tag}>`;
-const TY=[['bul','Poin-poin'],['stat','Angka kunci'],['bar','Grafik batang sederhana'],['prog','Progress'],['two','Dua kolom'],['tl','Timeline'],['chart','Grafik dari data'],['img','Gambar']];
-const HINT={bul:'Satu poin per baris.',stat:'Per baris: angka | satuan | keterangan (maks 3 baris).',bar:'Per baris: label | nilai.',prog:'Per baris: label | persen (maks 4 baris).',two:'Per baris: judul | isi. Baris --- memisahkan kolom kiri dan kanan.',tl:'Per baris: judul | isi (maks 4 baris).',chart:'Pilih satu grafik, atau dua grafik untuk tampil berdampingan.',img:'Gambar tampil utuh di slide.'};
-const DEF={bul:'Poin pertama\nPoin kedua',stat:'90|%|Keterangan\n10||Keterangan\n5||Keterangan',bar:'A|60\nB|80\nC|70',prog:'Target 1|80\nTarget 2|60',two:'Judul kiri|Isi\n---\nJudul kanan|Isi',tl:'Minggu 1|Langkah pertama\nMinggu 2|Langkah kedua'};
-function body(s){const r=rows(s.r),T=rv('h2','',E(s.t),0);
+const TY=[['bul','Poin-poin'],['stat','Angka kunci'],['bar','Grafik batang sederhana'],['prog','Progress'],['two','Dua kolom'],['tl','Timeline'],['chart','Grafik dari data'],['img','Gambar'],['orb','Lingkaran navigasi']];
+const HINT={bul:'Satu poin per baris.',stat:'Per baris: angka | satuan | keterangan (maks 3 baris).',bar:'Per baris: label | nilai.',prog:'Per baris: label | persen (maks 4 baris).',two:'Per baris: judul | isi. Baris --- memisahkan kolom kiri dan kanan.',tl:'Per baris: judul | isi (maks 4 baris).',chart:'Pilih satu grafik, atau dua grafik untuk tampil berdampingan.',img:'Gambar tampil utuh di slide.',orb:'Per baris: label | isi detail (pisahkan poin dengan titik koma). Maks 8 lingkaran. Tiap lingkaran otomatis punya slide detail.'};
+const DEF={bul:'Poin pertama\nPoin kedua',stat:'90|%|Keterangan\n10||Keterangan\n5||Keterangan',bar:'A|60\nB|80\nC|70',prog:'Target 1|80\nTarget 2|60',two:'Judul kiri|Isi\n---\nJudul kanan|Isi',tl:'Minggu 1|Langkah pertama\nMinggu 2|Langkah kedua',orb:'Lingkaran A|Poin 1; Poin 2; Poin 3\nLingkaran B|Poin 1; Poin 2\nLingkaran C|Poin 1; Poin 2'};
+const orbItems=s=>rows(s.r).slice(0,8);
+function orbBody(s,id){const it=orbItems(s),n=it.length||1;return rv('h2','',E(s.t),0)+`<div class="orb rv" style="--d:1"><div class="ring">${it.map((a,j)=>`<button class="orbc" data-orb="${id}" data-j="${j}" style="--a:${j*360/n}deg"><b>${j+1}</b><span>${E(a[0])}</span></button>`).join('')}</div><div class="orbm">Klik lingkaran<br>atau tekan Next</div></div>`}
+const orbDetail=(a,j)=>rv('h2','',`<span style="color:var(--ac)">${j+1}.</span> ${E(a[0])}`,0)+`<ul>${String(a[1]||'').split(';').map(t=>t.trim()).filter(Boolean).map((t,i)=>rv('li','',E(t),i+1)).join('')}</ul>`;
+function body(s,id){const r=rows(s.r),T=rv('h2','',E(s.t),0);
  if(s.k=='bul')return T+`<ul>${r.map((a,i)=>rv('li','',E(a[0]),i+1)).join('')}</ul>`;
  if(s.k=='stat')return T+`<div class="g3">${r.slice(0,3).map((a,i)=>`<div class="stat rv" style="--d:${i+1}"><b data-n="${parseFloat(a[0])||0}" data-s="${E(a[1])}">0</b><span>${E(a[2])}</span></div>`).join('')}</div>`;
  if(s.k=='bar'){const v=r.slice(0,8).map(a=>parseFloat(a[1])||0),m=Math.max(...v,1);return T+`<div class="bars">${r.slice(0,8).map((a,i)=>`<div class="bc"><div class="bar" style="--h:${v[i]/m*235}px;--d:${i}"><i>${E(a[1])}</i></div><span>${E(a[0])}</span></div>`).join('')}</div>`}
  if(s.k=='prog')return T+r.slice(0,4).map((a,i)=>`<div class="pr rv" style="--d:${i+1}"><div><span>${E(a[0])}</span><span>${E(a[1])}%</span></div><div class="tk"><div class="fl" style="--w:${Math.min(100,parseFloat(a[1])||0)}%;--d:${i}"></div></div></div>`).join('');
  if(s.k=='two'){const k=r.findIndex(a=>a[0]=='---'),L=k<0?r:r.slice(0,k),Rr=k<0?[]:r.slice(k+1),c=(a,i)=>`<div class="cd rv" style="--d:${i+1}"><b>${E(a[0])}</b><span>${E(a[1])}</span></div>`;return T+`<div class="g2"><div>${L.slice(0,4).map(c).join('')}</div><div>${Rr.slice(0,4).map((a,i)=>c(a,i+4)).join('')}</div></div>`}
+ if(s.k=='orb')return orbBody(s,id);
  if(s.k=='chart'){const ids=(s.c||[]).filter(Boolean);return T+`<div class="cw">${ids.length?ids.map(id=>`<div class="cc"><canvas data-c="${id}"></canvas></div>`).join(''):'<p>Pilih grafik di editor.</p>'}</div>`}
  if(s.k=='img')return T+`<div class="cw">${s.src?`<img src="${s.src}" alt="">`:''}</div>`;
  const q=r.slice(0,4);return T+`<div class="tl" style="grid-template-columns:repeat(${q.length||1},1fr)">${q.map((a,i)=>`<div class="rv" style="--d:${i+1}"><b>${E(a[0])}</b><span>${E(a[1])}</span></div>`).join('')}</div>`}
@@ -158,13 +182,13 @@ function drawEl(el,anim=true){if(!el||!window.Chart)return;el.querySelectorAll('
 function chartImg(c,w,h){const cv=document.createElement('canvas');cv.width=w;cv.height=h;Chart.defaults.color='#000';const cf=cfg(c,false,w/460);cf.options.responsive=false;cf.options.devicePixelRatio=1;
  const ch=new Chart(cv,Object.assign(cf,{plugins:[{id:'bg',beforeDraw(x){const t=x.ctx;t.save();t.fillStyle='#fff';t.fillRect(0,0,x.width,x.height);t.restore()}}]}));const u=cv.toDataURL('image/png');ch.destroy();return u}
 /* ===== kanvas zoom ===== */
-const world=$('#w'),P={};let S=[],seq=['hub'],idx=0,C,z=1,px=0,py=0,A=null,ov=false,moved=false,tm;
+const world=$('#w'),P={};let NT={},SL={},S=[],seq=['hub'],idx=0,C,z=1,px=0,py=0,A=null,ov=false,moved=false,tm;
 function build(){world.querySelectorAll('canvas').forEach(cv=>{try{cv._ch&&cv._ch.destroy()}catch(e){}});
- let n=0;S=D.sec.map(c=>({c,ids:c.sl.map(()=>'s'+n++)})).filter(s=>s.ids.length);
+ NT={};SL={};let n=0;S=D.sec.map(c=>{const ids=[],sq=[];c.sl.forEach(s=>{const id='s'+n++;ids.push(id);SL[id]=s;if(s.n)NT[id]=s.n;sq.push(id);if(s.k=='orb'){const dd=orbItems(s).map((_,j)=>id+'_'+j);ids.push(...dd);dd.forEach(d=>{sq.push(d);if(O.loop=='on')sq.push(id)})}});return{c,ids,sq}}).filter(s=>s.ids.length);
  world.innerHTML='';const add=(id,h,cl)=>{const e=document.createElement('div');e.className='s '+(cl||'');e.id=id;e.innerHTML=h;world.appendChild(e)};
  add('hub',`<div class="hub"><div>${rv('h1','',E(D.t).replace(/\n/g,'<br>'),0)}${rv('p','',E(D.s),1)}${rv('p','','Klik bagian di kanan untuk zoom masuk, atau tekan Next.',2)}</div><div class="mn">${S.map((s,i)=>`<button class="rv" style="--d:${i+2}" data-go="${s.ids[0]}" data-sec="${i}"><span><b>${E(s.c.t)}</b><small>${E(s.c.d)}</small></span><em></em></button>`).join('')}</div></div>`);
- let k=0;D.sec.forEach(c=>c.sl.forEach(s=>add('s'+k++,body(s),s.k=='chart'||s.k=='img'?'cs':'')));
- seq=['hub'];S.forEach(s=>{seq.push(...s.ids);if(O.loop=='on')seq.push('hub')});
+ let k=0;D.sec.forEach(c=>c.sl.forEach(s=>{const id='s'+k++;add(id,body(s,id),s.k=='chart'||s.k=='img'?'cs':'');if(s.k=='orb')orbItems(s).forEach((a,j)=>add(id+'_'+j,orbDetail(a,j),''))}));
+ seq=['hub'];S.forEach(s=>{seq.push(...s.sq);if(O.loop=='on')seq.push('hub')});updNums();
  const N=Math.max(S.length,2),R=Math.max(1900,1300/Math.sin(Math.PI/N));P.hub={x:0,y:0,r:0};
  S.forEach((s,i)=>{const a=(-90+i*360/S.length)*Math.PI/180;s.ids.forEach((id,j)=>{const d=R+j*1150;P[id]={x:d*Math.cos(a),y:d*Math.sin(a),r:O.m=='putar'?[-9,8,-11,10][i%4]+j*4:0}})});
  for(const id in P){const e=$('#'+id);if(e)e.style.transform=`translate(${P[id].x}px,${P[id].y}px) rotate(${P[id].r}deg)`}
@@ -186,39 +210,56 @@ function show(){const id=seq[idx];document.body.classList.toggle('all',ov);
  document.querySelectorAll('#'+id+' [data-n]').forEach(n=>{const t=+n.dataset.n,t0=performance.now()+800;n.textContent='0'+n.dataset.s;
   (function f(now){const p=Math.min(Math.max((now-t0)/1200,0),1);n.textContent=Math.round(t*(1-Math.pow(1-p,3)))+n.dataset.s;if(p<1)requestAnimationFrame(f)})(t0)});
  setTimeout(()=>drawEl($('#'+id)),quick?0:ov?0:900);
- $('#nv span').textContent=(idx+1)+' / '+seq.length}
-function go(i,f){if(FOLLOW&&!f)return tt('Mengikuti presenter.');idx=(i+seq.length)%seq.length;ov=false;fly(camFor(seq[idx]));show();if(BC)fbPut('i',idx)}
+ $('#nv span').textContent=(idx+1)+' / '+seq.length;mark()}
+function mark(){const id=seq[idx]||'',b=id.split('_')[0];document.querySelectorAll('.cd2[data-sid]').forEach(c=>c.classList.toggle('cur',c.dataset.sid==b));const e=$('#curs');if(e)e.textContent='Sedang tampil: slide '+(idx+1)+(id=='hub'?' (panel utama)':'');const pg=$('#pg');if(pg)pg.style.width=((idx+1)/seq.length*100)+'%';const nt=$('#nt');if(nt)nt.textContent=NT[b]||'(tidak ada catatan untuk slide ini)'}
+function updNums(){document.querySelectorAll('.cd2[data-sid]').forEach(c=>{const id=c.dataset.sid,x=c.querySelector('.snum'),s=SL[id];if(x)x.textContent='Slide '+(seq.indexOf(id)+1)+(s&&s.k=='orb'?` (+${orbItems(s).length} slide detail)`:'')})}
+function spin(id,j){const r=$('#'+id+' .ring');if(!r)return;const n=r.children.length;r._k=(r._k||0)+1;r.style.setProperty('--rot',(-(j*360/n)-360*r._k)+'deg');r.children[j]&&r.children[j].classList.add('v')}
+function go(i,f){if(FOLLOW&&!f)return tt('Mengikuti presenter.');const ni=(i+seq.length)%seq.length,cur=seq[idx],tid=seq[ni],m=/^(s\d+)_(\d+)$/.exec(tid);idx=ni;ov=false;if(BC)fbPut('i',idx);const run=()=>{if(seq[idx]!=tid)return;show();fly(camFor(tid))};if(m&&cur==m[1]){spin(m[1],+m[2]);setTimeout(run,850)}else run()}
 function goId(id){let i=seq.findIndex((s,k)=>s==id&&k>=idx);if(i<0)i=seq.indexOf(id);go(i)}
 function overview(){ov=!ov;if(ov){const xs=Object.values(P),x0=Math.min(...xs.map(p=>p.x))-600,x1=Math.max(...xs.map(p=>p.x))+600,y0=Math.min(...xs.map(p=>p.y))-450,y1=Math.max(...xs.map(p=>p.y))+450;
  fly({x:(x0+x1)/2,y:(y0+y1)/2,r:0,s:Math.min(vw()/(x1-x0),vh()/(y1-y0))});document.body.classList.add('all');document.querySelectorAll('.s').forEach(e=>drawEl(e,false))}else go(idx,true)}
 /* ===== siaran (Firebase REST) ===== */
-const fbPut=(k,v)=>FIREBASE_URL&&RP?fetch(`${FIREBASE_URL}/lap/${RP}/${k}.json`,{method:'PUT',body:JSON.stringify(v)}).catch(()=>tt('Gagal mengirim ke Firebase. Periksa URL dan aturan database.')):0;
-function connect(){const es=new EventSource(`${FIREBASE_URL}/lap/${ROOM}.json`),setD=v=>{if(v&&v.sec){D=v;norm();build()}};
- es.addEventListener('put',e=>{const m=JSON.parse(e.data),v=m.data;if(m.path=='/'){if(v){setD(v.d);if(v.i!=null)go(v.i,true)}}else if(m.path=='/d')setD(v);else if(m.path=='/i'&&v!=null)go(v,true)})}
+const fbSet=o=>FIREBASE_URL&&RP?fetch(`${FIREBASE_URL}/lap/${RP}.json`,{method:'PATCH',body:JSON.stringify({k:PW,...o})}).then(r=>{if(!r.ok)tt('Firebase menolak penulisan. Periksa rules dan kata sandi.');return r.ok}).catch(()=>tt('Gagal terhubung ke Firebase.')):0;
+const fbPut=(k,v)=>fbSet({[k]:k=='d'?JSON.stringify(v):v});
+const fbDel=()=>fbSet({d:null,i:null}).then(ok=>ok&&tt('Data siaran dihapus dari Firebase.'));
+const chk=async pw=>{try{return (await fetch(`${FIREBASE_URL}/lap/_cek.json`,{method:'PATCH',body:JSON.stringify({k:pw,t:Date.now()})})).ok}catch(e){return null}};
+function lock(msg,form){const l=$('#lk');l.style.display='flex';l.innerHTML=`<div class="lb"><h1>Laporan</h1><p>${msg}</p>${form?'<input id="pw" type="password" placeholder="Kata sandi" autocomplete="current-password"><label><input id="rm" type="checkbox"> Ingat di perangkat ini</label><button id="go">Masuk</button>':''}</div><i class="tri"></i>`}
+function gate(){return new Promise(async res=>{if(!FIREBASE_URL)return res(true);if(PW&&await chk(PW)===true)return res(true);lock('Halaman ini dilindungi. Masukkan kata sandi.',1);
+ const tr=async()=>{const p=$('#pw').value;if(!p)return;$('#go').disabled=true;const r=await chk(p);$('#go').disabled=false;if(r===true){PW=p;try{($('#rm').checked?localStorage:sessionStorage).setItem('lap-pw',p)}catch(e){}$('#lk').style.display='none';res(true)}else $('#lk p').textContent=r===null?'Tidak bisa terhubung ke Firebase.':'Kata sandi salah.'};
+ $('#go').onclick=tr;$('#pw').onkeydown=e=>{if(e.key=='Enter')tr()};$('#pw').focus()})}
+async function connect(){const U=`${FIREBASE_URL}/lap/${ROOM}`,gj=async p=>{try{return await (await fetch(U+p)).json()}catch(e){return null}};
+ const apply=s=>{if(!s)return lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');try{D=JSON.parse(s);norm();build();$('#lk').style.display='none'}catch(e){}};
+ const t=await gj('/d.json');if(!t)return lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');apply(t);
+ if(FOLLOW){const i0=await gj('/i.json');if(typeof i0=='number'){idx=Math.min(i0,seq.length-1);C=camFor(seq[idx]);world.style.transform=T(C);show()}}
+ const e1=new EventSource(U+'/d.json');e1.addEventListener('put',async()=>{if(e1._f)apply(await gj('/d.json'));e1._f=1});
+ if(FOLLOW){const e2=new EventSource(U+'/i.json');e2.addEventListener('put',e=>{const m=JSON.parse(e.data);if(typeof m.data=='number')go(m.data,true)})}}
 /* ===== editor ===== */
 const pn=$('#pn');
 const tt=m=>{const e=$('#tt');e.textContent=m;e.style.display='block';clearTimeout(tt.t);tt.t=setTimeout(()=>e.style.display='none',3800)};
 const dl=(fn,data,type)=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:type||'application/octet-stream'}));a.download=fn;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)};
+const kb=()=>Math.round(JSON.stringify(D).length/1024);
+const jtxt=()=>JSON.stringify({...D,data:D.data?'__DATA__':null},null,1);
+const jref=()=>{const t=$('#jed');if(t)t.value=jtxt()};
 const A_=(i,j)=>`data-si="${i}"${j==null?'':` data-j="${j}"`}`;
 const opts=(v)=>TY.map(t=>`<option value="${t[0]}"${t[0]==v?' selected':''}>${t[1]}</option>`).join('');
 const chopt=sel=>'<option value="">(tidak ada)</option>'+D.charts.map(c=>`<option value="${c.id}"${c.id==sel?' selected':''}>${E(c.title)}</option>`).join('');
 const colopt=(sel,none)=>(none?'<option value="">(tidak ada)</option>':'')+(D.data?D.data.h.map((h,i)=>`<option value="${i}"${sel==i?' selected':''}>${E(h)}</option>`).join(''):'');
 const CH=[['Warna','t',[['klasik','Klasik putih'],['gelap','Hitam'],['kuning','Kuning'],['merah','Merah']]],['Gaya transisi','m',[['terbang','Zoom terbang'],['putar','Zoom + putar'],['geser','Geser lurus']]],['Setelah satu bagian selesai','loop',[['on','Kembali ke panel utama'],['off','Lanjut berurutan']]],['Huruf','f',[['sans','Tegas'],['serif','Serif'],['teknis','Teknis']]]];
 function renderEd(){const secO=D.sec.map((c,i)=>`<option value="${i}">${E(c.t)}</option>`).join('');
- pn.innerHTML='<h3>Editor laporan</h3><label>Judul laporan</label><input data-f="t" value="'+E(D.t)+'"><label>Keterangan</label><input data-f="s" value="'+E(D.s)+'">'+
+ pn.innerHTML='<h3>Editor laporan</h3><small id="curs" style="color:#FFF000;display:block;margin-bottom:8px"></small><label>Judul laporan</label><input data-f="t" value="'+E(D.t)+'"><label>Keterangan</label><input data-f="s" value="'+E(D.s)+'">'+
  D.sec.map((c,i)=>`<div class="sc"><label>Bagian ${i+1}</label><div class="row"><input data-f="t" ${A_(i)} value="${E(c.t)}"><button data-a="dsec" ${A_(i)} title="Hapus bagian">✕</button></div><input data-f="d" ${A_(i)} value="${E(c.d)}" placeholder="Keterangan singkat">`+
- c.sl.map((s,j)=>`<div class="cd2"><div class="row"><select data-f="k" ${A_(i,j)}>${opts(s.k)}</select><button data-a="up" ${A_(i,j)}>↑</button><button data-a="dn" ${A_(i,j)}>↓</button><button data-a="dup" ${A_(i,j)} title="Duplikat">⧉</button><button data-a="del" ${A_(i,j)} title="Hapus">✕</button></div><input data-f="t" ${A_(i,j)} value="${E(s.t)}">`+
-  (s.k=='chart'?`<select data-f="c0" ${A_(i,j)}>${chopt((s.c||[])[0])}</select><select data-f="c1" ${A_(i,j)}>${chopt((s.c||[])[1])}</select>`:s.k=='img'?(s.src?`<img src="${s.src}" style="max-width:100%;border-radius:6px;margin-bottom:6px">`:''):`<textarea data-f="r" ${A_(i,j)} rows="5">${E(s.r)}</textarea>`)+`<small>${HINT[s.k]}</small></div>`).join('')+
+ c.sl.map((s,j)=>{const sid='s'+(D.sec.slice(0,i).reduce((a,x)=>a+x.sl.length,0)+j);return `<div class="cd2" data-sid="${sid}"><div class="sh"><b class="snum"></b><button data-a="goto" data-sid="${sid}">Lihat</button></div><div class="row"><select data-f="k" ${A_(i,j)}>${opts(s.k)}</select><button data-a="up" ${A_(i,j)}>↑</button><button data-a="dn" ${A_(i,j)}>↓</button><button data-a="dup" ${A_(i,j)} title="Duplikat">⧉</button><button data-a="del" ${A_(i,j)} title="Hapus">✕</button></div><input data-f="t" ${A_(i,j)} value="${E(s.t)}">`+
+  (s.k=='chart'?`<select data-f="c0" ${A_(i,j)}>${chopt((s.c||[])[0])}</select><select data-f="c1" ${A_(i,j)}>${chopt((s.c||[])[1])}</select>`:s.k=='img'?(s.src?`<img src="${s.src}" style="max-width:100%;border-radius:6px;margin-bottom:6px">`:''):`<textarea data-f="r" ${A_(i,j)} rows="5">${E(s.r)}</textarea>`)+`<small>${HINT[s.k]}</small><textarea data-f="n" ${A_(i,j)} rows="2" placeholder="Catatan pembicara (tekan N saat presentasi)">${E(s.n||'')}</textarea></div>`}).join('')+
  `<div class="row"><select id="nk${i}">${opts('bul')}</select><button data-a="add" ${A_(i)}>+ Slide</button></div></div>`).join('')+
  '<button class="wide" data-a="asec" style="width:100%;padding:11px;border:0;border-radius:8px;background:#FFF000;font-weight:700;cursor:pointer">+ Tambah bagian</button>'+
- '<label>Data dan grafik</label><div class="ex"><button data-a="imp">Impor data (JSON, Excel, CSV)</button></div>'+
+ '<label>Data dan grafik</label><div class="ex"><button data-a="imp">Impor (JSON, Excel, CSV, PPTX)</button><button class="g" data-a="delimp">Hapus hasil impor PPTX</button><button class="g" data-a="deldata">Hapus data tabel dan grafik</button></div>'+
  `<small>${D.data?`Data aktif: ${D.data.r.length} baris, ${D.data.h.length} kolom.`:'Belum ada data. Impor file JSON Chart Studio, Excel, atau CSV.'}</small>`+
  D.charts.map(c=>`<div class="row"><span style="flex:1;font-size:13px;align-self:center">${E(c.title)}</span><select id="pl${c.id}" style="width:90px">${secO}</select><button data-a="place" data-cid="${c.id}" title="Taruh di bagian">Taruh</button><button data-a="delc" data-cid="${c.id}">✕</button></div>`).join('')+
  (D.data?`<details><summary style="cursor:pointer;margin:8px 0">Buat grafik baru dari data</summary><input id="cbT" placeholder="Judul grafik"><label>Sumbu X</label><select id="cbX">${colopt(0)}</select><label>Label tambahan di bawah X</label><select id="cbX2">${colopt('',1)}</select><label>Kolom sumbu kiri (tahan Ctrl untuk banyak)</label><select id="cbL" multiple size="5">${colopt()}</select><label>Kolom sumbu kanan</label><select id="cbR" multiple size="4">${colopt()}</select><label>Tipe</label><select id="cbTy"><option value="line">Garis</option><option value="bar">Batang</option></select><label>Tampilkan N data terakhir (kosong = semua)</label><input id="cbN" value="30"><button class="wide" data-a="mkc" style="width:100%;padding:11px;border:0;border-radius:8px;background:#FFF000;font-weight:700;cursor:pointer">Buat grafik</button></details>`:'')+
  '<details><summary style="cursor:pointer;margin:8px 0">Tempel tabel dari Excel</summary><textarea id="pst" rows="5" placeholder="Blok sel di Excel, salin, lalu tempel di sini. Baris pertama = judul kolom."></textarea><button class="wide" data-a="pasted" style="width:100%;padding:9px;border:0;border-radius:8px;background:#FFF000;font-weight:700;cursor:pointer">Pakai data ini</button></details>'+
  CH.map(c=>`<label>${c[0]}</label><div class="ch" data-k="${c[1]}">${c[2].map(v=>`<button data-v="${v[0]}" class="${O[c[1]]==v[0]?'a':''}">${v[1]}</button>`).join('')}</div>`).join('')+
- `<label>Siaran langsung ke pembaca</label>${FIREBASE_URL?`<input id="room" value="${E(RP)}"><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button><button class="g" data-a="vlink">Salin link pembaca</button></div><small>Saat siaran aktif, pembaca yang membuka link itu otomatis mengikuti slide Anda.</small>`:'<small>Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</small>'}`+
- '<label>Simpan dan ekspor</label><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><small style="margin-top:10px">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca, unggah data.json ke folder yang sama dengan halaman ini di GitHub.</small>'}
+ `<label>Siaran langsung ke pembaca</label>${FIREBASE_URL?`<input id="room" value="${E(RP)}"><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button><button class="g" data-a="delbc">Hapus data siaran dari Firebase</button></div><small>Ukuran data siaran: ${kb()} KB. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi, pembaca mengatur slide sendiri.</small>`:'<small>Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</small>'}`+
+ `<details ontoggle="if(this.open)jref()"><summary style="cursor:pointer;margin:8px 0">Editor JSON (draf)</summary><small>Ubah isi laporan langsung sebagai JSON. Tabel data besar diganti penanda __DATA__ dan tetap tersimpan. Klik Terapkan untuk memakai hasilnya.</small><textarea id="jed" rows="14" spellcheck="false" style="font:12px monospace">${E(jtxt())}</textarea><div class="row"><button data-a="jref">Segarkan</button><button data-a="japp">Terapkan JSON</button></div></details>`+'<label>Simpan dan ekspor</label><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><small style="margin-top:10px">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca, unggah data.json ke folder yang sama dengan halaman ini di GitHub.</small>';updNums();mark()}
 function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}if(BC)fbPut('d',D)}
 const sched=()=>{clearTimeout(tm);tm=setTimeout(()=>{build();draft()},300)};
 pn.addEventListener('input',e=>{const el=e.target,f=el.dataset.f;if(!f)return;const o=el.dataset.si==null?D:el.dataset.j==null?D.sec[el.dataset.si]:D.sec[el.dataset.si].sl[el.dataset.j];
@@ -229,7 +270,7 @@ const unitsTxt=u=>(u||[]).map(x=>x.unit).filter(Boolean).join(' atau ');
 function fromCS(j){D.data={h:j.headers.map(String),r:j.rows.map(r=>r.map(x=>String(x??'')))};
  D.charts=(j.charts||[]).filter(c=>(c.mode=='linebar'||c.mode=='pareto')&&(c.series||[]).length).map(c=>({id:c.id,title:c.title,mode:c.mode,xCol:c.xCol,xCol2:c.xCol2,limitN:c.limitN,limitMode:c.limitMode,filters:(c.filters||[]).filter(f=>f.col!==''),y1Max:c.y1Max,y1Min:c.y1Min,yMin:c.yMin,yMax:c.yMax,bin:c.paretoBin,fn:c.paretoFn,callout:c.showAllCallouts?'on':'off',yT:unitsTxt(c.yUnits),y1T:unitsTxt(c.y1Units),series:c.series.filter(s=>!(c.hiddenSeries||[]).includes(s.colIndex)).map(s=>({col:s.colIndex,axis:s.axis,type:s.chartType,color:s.color}))}))}
 function setData(a){const h=(a[0]||[]).map(String),r=a.slice(1).filter(x=>x.some(v=>String(v).trim()!=='')).map(x=>h.map((_,i)=>String(x[i]??'')));D.data={h,r};D.charts=[]}
-async function imp(f){const n=f.name.toLowerCase();try{
+async function imp(f){const n=f.name.toLowerCase();if(n.endsWith('.pptx'))return impPptx(f);try{
  if(n.endsWith('.json')){const j=JSON.parse(await f.text());if(j.sec){D=j;norm()}else if(j.headers&&j.rows)fromCS(j);else throw 0}
  else{if(!window.XLSX)return tt('Library Excel belum termuat.');const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});setData(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:false,defval:''}))}
  build();draft();renderEd();tt('Data diimpor.')}catch(e){tt('File tidak dikenali.')}}
@@ -237,6 +278,23 @@ function addImg(file,si){const r=new FileReader();r.onload=()=>{const im=new Ima
 const sv=id=>[...$(id).selectedOptions].map(o=>o.value);
 function mkc(){const L=sv('#cbL'),R=sv('#cbR');if(!L.length&&!R.length)return tt('Pilih minimal satu kolom data.');const ty=$('#cbTy').value,id=Math.max(0,...D.charts.map(c=>+c.id||0))+1;let k=0;
  D.charts.push({id,title:$('#cbT').value||'Grafik '+id,mode:'linebar',xCol:$('#cbX').value,xCol2:$('#cbX2').value,limitN:$('#cbN').value,limitMode:'last',filters:[],callout:'on',yT:'',y1T:'',y1Max:'',y1Min:'',yMin:'',yMax:'',series:[...L.map(c=>({col:c,axis:'y',type:ty,color:PAL[k++%6]})),...R.map(c=>({col:c,axis:'y1',type:ty,color:PAL[k++%6]}))]});renderEd();draft();tt('Grafik dibuat. Pilih bagian lalu klik Taruh.')}
+const shrink=(b,n)=>new Promise(res=>{const ext=n.split('.').pop().toLowerCase(),im=new Image();im.onload=()=>{const k=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.8))};im.onerror=()=>res('');im.src='data:image/'+(ext=='jpg'?'jpeg':ext)+';base64,'+b});
+async function impPptx(f){if(!window.JSZip)return tt('Library PPTX belum termuat.');
+ try{const z=await JSZip.loadAsync(await f.arrayBuffer()),dp=new DOMParser(),px=async p=>{const o=z.file(p);return o?dp.parseFromString(await o.async('string'),'application/xml'):null};
+ const pres=await px('ppt/presentation.xml'),rel=await px('ppt/_rels/presentation.xml.rels'),rm={};
+ [...rel.getElementsByTagName('Relationship')].forEach(r=>rm[r.getAttribute('Id')]=r.getAttribute('Target'));
+ const tx=el=>[...el.getElementsByTagName('a:p')].map(p=>[...p.getElementsByTagName('a:t')].map(t=>t.textContent).join('').trim()).filter(Boolean),out=[];
+ for(const e of [...pres.getElementsByTagName('p:sldId')]){const tg=rm[e.getAttribute('r:id')];if(!tg)continue;const path='ppt/'+tg.replace(/^\/?(ppt\/)?/,''),sx=await px(path);if(!sx)continue;let title='';const lines=[];
+  for(const sp of [...sx.getElementsByTagName('p:sp')]){const ph=sp.getElementsByTagName('p:ph')[0],ty=ph?ph.getAttribute('type'):'',t=tx(sp);if(!t.length)continue;if(!title&&(ty=='title'||ty=='ctrTitle'))title=t.join(' ');else lines.push(...t)}
+  for(const tr of [...sx.getElementsByTagName('a:tr')])lines.push([...tr.getElementsByTagName('a:tc')].map(c=>tx(c).join(' ')).join(' | '));
+  if(!title&&lines.length)title=lines.shift();
+  const rl=await px(path.replace('slides/','slides/_rels/')+'.rels'),pics=[];
+  if(rl){const mm={};[...rl.getElementsByTagName('Relationship')].forEach(r=>mm[r.getAttribute('Id')]=r.getAttribute('Target'));
+   for(const b of [...sx.getElementsByTagName('a:blip')].slice(0,2)){const t=mm[b.getAttribute('r:embed')];if(!t)continue;const mp='ppt/media/'+t.split('/').pop(),mf=z.file(mp);if(mf&&/\.(png|jpe?g|gif|webp)$/i.test(mp)){const u=await shrink(await mf.async('base64'),mp);if(u)pics.push(u)}}}
+  if(title||lines.length)out.push({k:'bul',t:title||'Slide',r:lines.join('\n').replace(/\|/g,'/')});
+  pics.forEach(src=>out.push({k:'img',t:title||'Gambar',src}))}
+ if(!out.length)return tt('Tidak ada teks atau gambar yang terbaca.');
+ D.sec.push({t:f.name.replace(/\.pptx$/i,'').slice(0,24),d:'Diimpor dari PowerPoint',imp:true,sl:out});build();draft();renderEd();tt('Impor selesai: '+out.length+' slide.')}catch(e){tt('Gagal membaca PPTX: '+e.message)}}
 async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termuat, coba lagi sebentar.');
  const p=new PptxGenJS();p.layout='LAYOUT_16x9';const R='D32029',Y='FFF000',K='000000',F='Arial',cl=[R,Y,K];
  const sl=t=>{const s=p.addSlide();[[R,0],[Y,3.333],[K,6.667]].forEach(([c,x])=>s.addShape('rect',{x,y:5.4,w:3.334,h:.225,fill:{color:c},line:{color:c}}));if(t){s.addShape('rect',{x:.6,y:.35,w:.8,h:.08,fill:{color:R},line:{color:R}});s.addText(t,{x:.6,y:.5,w:8.8,h:.8,fontSize:28,bold:true,fontFace:F,color:K})}return s};
@@ -248,6 +306,7 @@ async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termu
   else if(z.k=='bar')s.addChart(p.charts.BAR,[{name:'Nilai',labels:r.map(a=>a[0]),values:r.map(a=>parseFloat(a[1])||0)}],{x:.6,y:1.4,w:8.8,h:3.8,chartColors:[R,Y,K],showValue:true,showLegend:false,catAxisLabelFontSize:12,valAxisLabelFontSize:11});
   else if(z.k=='prog')r.slice(0,4).forEach((a,i)=>{const y=1.5+i*.9,v=Math.min(100,parseFloat(a[1])||0);s.addText(a[0]+'  '+v+'%',{x:.6,y,w:8.8,h:.35,fontSize:16,bold:true,fontFace:F});s.addShape('rect',{x:.6,y:y+.4,w:8.8,h:.25,fill:{color:'FFFFFF'},line:{color:K,width:1.5}});if(v)s.addShape('rect',{x:.6,y:y+.4,w:8.8*v/100,h:.25,fill:{color:cl[i%3]},line:{color:K,width:1.5}})});
   else if(z.k=='two'){const k=r.findIndex(a=>a[0]=='---'),L=k<0?r:r.slice(0,k),Rr=k<0?[]:r.slice(k+1);[L,Rr].forEach((g,i)=>s.addText(g.slice(0,4).flatMap(a=>[{text:a[0],options:{bold:true,fontSize:18,breakLine:true}},{text:a[1]||'',options:{fontSize:14,breakLine:true}}]),{x:.6+i*4.5,y:1.5,w:4.2,h:3.6,fontFace:F,valign:'top'}))}
+  else if(z.k=='orb'){const it=rows(z.r).slice(0,8);s.addText(it.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'});it.forEach(a=>{const d=sl(a[0]);d.addText(String(a[1]||'').split(';').map(t=>({text:t.trim(),options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'})})}
   else if(z.k=='chart'){if(!window.Chart||!D.data)return;const q=(z.c||[]).map(id=>D.charts.find(c=>c.id==id)).filter(Boolean),two=q.length>1,w=two?4.5:9.2,pw=two?900:1840;q.forEach((c,i)=>s.addImage({data:chartImg(c,pw,780),x:.4+i*4.7,y:1.3,w,h:w*780/pw}))}
   else if(z.k=='img'){if(z.src)s.addImage({data:z.src,x:.6,y:1.4,w:8.8,h:3.8,sizing:{type:'contain',w:8.8,h:3.8}})}
   else{const q=r.slice(0,4),w=8.8/(q.length||1);s.addShape('line',{x:.6,y:2.1,w:8.8,h:0,line:{color:K,width:3}});q.forEach((a,i)=>{s.addShape('ellipse',{x:.6+i*w,y:1.95,w:.3,h:.3,fill:{color:cl[i%3]},line:{color:K,width:2}});s.addText(a[0],{x:.6+i*w,y:2.4,w:w-.1,h:.5,fontSize:18,bold:true,fontFace:F});s.addText(a[1]||'',{x:.6+i*w,y:2.9,w:w-.1,h:1.2,fontSize:14,fontFace:F,valign:'top'})})}}));
@@ -259,25 +318,31 @@ document.addEventListener('click',async e=>{
  if(a){const k=a.dataset.a,i=+a.dataset.si,j=+a.dataset.j;
   if(k=='zi'){z=Math.min(z*1.3,5);man()}else if(k=='zo'){z=Math.max(z/1.3,.3);man()}else if(k=='ov')overview();
   else if(k=='fs')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
-  else if(k=='op')pn.classList.toggle('o');else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);
+  else if(k=='op')pn.classList.toggle('o');else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);else if(k=='ls')document.body.classList.toggle('laser');
   else{if(k=='up'&&j>0)mv(D.sec[i].sl,j,j-1);else if(k=='dn')mv(D.sec[i].sl,j,Math.min(j+1,D.sec[i].sl.length-1));
    else if(k=='dup')D.sec[i].sl.splice(j+1,0,{...D.sec[i].sl[j]});else if(k=='del')D.sec[i].sl.splice(j,1);
    else if(k=='add'){const t=$('#nk'+i).value;if(t=='img')return pick('image/*',f=>addImg(f,i));D.sec[i].sl.push(t=='chart'?{k:'chart',t:'Grafik',c:D.charts[0]?[D.charts[0].id]:[]}:{k:t,t:'Judul slide',r:DEF[t]})}
    else if(k=='asec')D.sec.push({t:'Bagian baru',d:'Keterangan singkat',sl:[{k:'bul',t:'Judul slide',r:DEF.bul}]});
    else if(k=='dsec')D.sec.splice(i,1);
-   else if(k=='imp')return pick('.json,.xlsx,.xls,.csv,.txt',imp);
+   else if(k=='goto'){go(seq.indexOf(a.dataset.sid),true);return}
+   else if(k=='delimp'){D.sec=D.sec.filter(s=>!s.imp)}
+   else if(k=='deldata'){if(!confirm('Hapus data tabel dan semua grafik? Slide grafik akan kosong.'))return;D.data=null;D.charts=[];D.sec.forEach(c=>c.sl.forEach(s=>{if(s.k=='chart')s.c=[]}))}
+   else if(k=='delbc'){BC=false;fbDel();renderEd();return}
+   else if(k=='imp')return pick('.json,.xlsx,.xls,.csv,.txt,.pptx',imp);
    else if(k=='place'){const c=D.charts.find(x=>x.id==a.dataset.cid),si=+$('#pl'+c.id).value;D.sec[si].sl.push({k:'chart',t:c.title,c:[c.id]})}
    else if(k=='delc')D.charts=D.charts.filter(x=>x.id!=a.dataset.cid);
    else if(k=='mkc')return mkc();
    else if(k=='pasted'){const t=$('#pst').value.trim();if(!t)return tt('Tempel dulu tabelnya.');setData(t.split('\n').map(l=>l.split('\t')))}
-   else if(k=='bc'){if(BC){BC=false}else{RP=($('#room').value||RP).trim();localStorage.setItem('lap-room',RP);BC=true;fbPut('d',D);fbPut('i',idx);tt('Siaran dimulai. Bagikan link pembaca.')}}
-   else if(k=='vlink'){RP=($('#room').value||RP).trim();return navigator.clipboard.writeText(`${location.origin}${location.pathname}?room=${RP}#view`).then(()=>tt('Link pembaca disalin.'),()=>tt('Gagal menyalin link.'))}
+   else if(k=='bc'){if(BC){BC=false;if(confirm('Hapus juga data siaran dari Firebase?'))fbDel()}else{RP=($('#room').value||RP).trim();localStorage.setItem('lap-room',RP);BC=true;fbSet({d:JSON.stringify(D),i:idx});tt('Siaran dimulai. Bagikan link pembaca.')}}
+   else if(k=='vlink'){RP=($('#room').value||RP).trim();return navigator.clipboard.writeText(`${location.origin}${location.pathname}?room=${RP}${a.dataset.m=='free'?'&free=1':''}#view`).then(()=>tt('Link pembaca disalin.'),()=>tt('Gagal menyalin link.'))}
+   else if(k=='jref'){jref();return}
+   else if(k=='japp'){try{const j=JSON.parse($('#jed').value);if(!j||!Array.isArray(j.sec))throw new Error('properti "sec" tidak ada');if(j.data==='__DATA__')j.data=D.data;D=j;norm();build();draft();renderEd();tt('JSON diterapkan.')}catch(x){tt('JSON tidak valid: '+x.message)}return}
    else if(k=='json')return dl('data.json',JSON.stringify(D),'application/json');
    else if(k=='pptx')return mkPptx();
    else if(k=='pdf'){document.querySelectorAll('.s').forEach(el=>drawEl(el,false));setTimeout(()=>window.print(),500);return}
    else if(k=='reset'){try{localStorage.removeItem('lap-draft')}catch(x){}return location.reload()}
-   renderEd();build();draft()}return}
- if(moved)return;const g=e.target.closest('[data-go]');if(g)return goId(g.dataset.go);
+   build();renderEd();draft()}return}
+ if(moved)return;const oc=e.target.closest('.orbc');if(oc)return goId(oc.dataset.orb+'_'+oc.dataset.j);const g=e.target.closest('[data-go]');if(g)return goId(g.dataset.go);
  const s=e.target.closest('.s');if(s&&(!s.classList.contains('on')||ov))goId(s.id)});
 let dr=null;const st=$('#st');
 st.addEventListener('pointerdown',e=>{dr={x:e.clientX,y:e.clientY};moved=false});
@@ -288,13 +353,16 @@ addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)
  if(k=='ArrowRight'||k==' '||k=='PageDown'){e.preventDefault();go(idx+1)}else if(k=='ArrowLeft'||k=='PageUp')go(idx-1);
  else if(k=='Home')go(0);else if(k=='Escape')pn.classList.remove('o');else if(k=='o'||k=='O')overview();
  else if(k=='+'||k=='='){z=Math.min(z*1.3,5);man()}else if(k=='-'){z=Math.max(z/1.3,.3);man()}else if(k=='0'){z=1;px=py=0;man()}
+ else if(k=='n'||k=='N')document.body.classList.toggle('notes');else if(k=='l'||k=='L')document.body.classList.toggle('laser');
  else if(k=='f'||k=='F')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()});
 addEventListener('resize',()=>{C=camFor(seq[idx]);man()});
+addEventListener('pointermove',e=>{const l=$('#lz');if(l&&document.body.classList.contains('laser'))l.style.transform=`translate(${e.clientX}px,${e.clientY}px)`});
 addEventListener('beforeprint',()=>document.querySelectorAll('.s').forEach(el=>drawEl(el,false)));
 (async function boot(){
- if(!FOLLOW){try{const r=await fetch('data.json',{cache:'no-store'});if(r.ok){const j=await r.json();if(j.sec)D=j}}catch(e){}}
+ if(window.Chart&&window.ChartDataLabels)Chart.register(ChartDataLabels);
+ if(LIVE){lock('Memuat siaran...');return connect()}
+ await gate();
+ try{const r=await fetch('data.json',{cache:'no-store'});if(r.ok){const j=await r.json();if(j.sec)D=j}}catch(e){}
  if(!VIEW){try{const d=JSON.parse(localStorage.getItem('lap-draft'));if(d&&d.sec)D=d}catch(e){}}
- norm();if(window.Chart&&window.ChartDataLabels)Chart.register(ChartDataLabels);
- renderEd();build();if(FOLLOW)connect()})();
-
+ norm();build();renderEd()})();
 </script></body></html>
