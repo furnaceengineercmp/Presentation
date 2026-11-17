@@ -27,8 +27,8 @@ ul{padding-left:22px;margin:0}li::marker{color:var(--ac)}
 .hub{display:grid;grid-template-columns:1fr 1.05fr;gap:40px;height:100%;align-items:center}
 .hub p{opacity:.75}
 .mn{display:flex;flex-direction:column;gap:12px}
-.mn button{font:inherit;text-align:left;color:inherit;background:transparent;border:3px solid var(--fg);padding:12px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .25s,color .25s,transform .25s}
-.mn button:hover{background:var(--ac);color:var(--bg);border-color:var(--ac);transform:translateX(8px)}
+.mn .mb{font:inherit;text-align:left;color:inherit;background:transparent;border:3px solid var(--fg);padding:12px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .25s,color .25s,transform .25s}
+.mn .mb:hover{background:var(--ac);color:var(--bg);border-color:var(--ac);transform:translateX(8px)}
 .mn b{font-size:24px;display:block}.mn small{font-size:15px;opacity:.7}
 .mn em{font-style:normal;font-size:26px;color:var(--ac);font-weight:900}
 .mn .v em::after{content:"✓"}
@@ -149,6 +149,21 @@ body.laser #lz{display:block}body.laser #st{cursor:none}
 #pn .rr .row select{margin:0;flex:1}#pn .rr .row button{margin:0;padding:6px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}
 #pn details summary{cursor:pointer;margin:6px 0;font-size:13px}
 #pn input[type=text],#pn input:not([type]),#pn textarea,#pn select{margin-bottom:6px}
+
+#pn{left:auto;right:0;transform:translateX(105%);box-shadow:-8px 0 30px #0008}
+@media(min-width:701px){body.pe #st{right:390px}body.pe #tp{right:402px}body.pe #nv{left:calc((100% - 390px)/2)}body.pe #hl{display:none}}
+[data-e][contenteditable]{outline:2px dashed #D3202999;outline-offset:3px;cursor:text;user-select:text;-webkit-user-select:text;min-width:24px}
+[data-e][contenteditable]:focus{outline:2px solid #D32029;background:#fff0a066}
+.mx{display:flex;gap:14px;height:420px}.mx .mt{flex:1;min-width:0;overflow:hidden}.mx .mi{flex:1.6;min-width:0;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center}.mx .mi img{max-width:100%;min-height:0;flex:1;object-fit:contain}
+.s img.lg{position:absolute;max-height:16%;object-fit:contain;pointer-events:none}
+.cs li{font-size:17px;margin:0 0 4px}
+#pn .lw{max-height:38vh;overflow:auto;margin:0 -4px;padding:0 4px}
+#pn .ckw{width:22px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:none;flex:none}
+#pn .ck{width:16px;height:16px;border:2px solid #888;border-radius:4px;display:block}#pn .ck.on{background:#FFF000;border-color:#FFF000;box-shadow:inset 0 0 0 2px #111}
+#pn .dh{cursor:grab;padding:0 4px;color:#aaa;font-size:16px;user-select:none}
+#pn .or.dov,#pn .og.dov>.oh{outline:2px dashed #FFF000}
+#pn .bk{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}#pn .bk button{padding:6px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}#pn .bk button.dg{background:#D32029;color:#fff}
+#pn .oh button{width:30px}#pn .og>input.sd{font-size:12px;margin:2px 0 4px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -166,7 +181,7 @@ body.laser #lz{display:block}body.laser #st{cursor:none}
 /* ====== PENGATURAN: isi FIREBASE_URL agar pembaca otomatis mengikuti presenter ====== */
 const FIREBASE_URL='https://presentation-2c884-default-rtdb.asia-southeast1.firebasedatabase.app';/* contoh: 'https://nama-proyek-default-rtdb.asia-southeast1.firebasedatabase.app' */
 /* ================================================================================== */
-const $=s=>document.querySelector(s),vw=()=>innerWidth,vh=()=>innerHeight;
+const $=s=>document.querySelector(s),vw=()=>{const e=document.querySelector('#st');return e&&e.clientWidth||innerWidth},vh=()=>innerHeight;
 const QS=new URLSearchParams(location.search),ROOM=QS.get('room')||'',LIVE=!!(ROOM&&FIREBASE_URL),FREE=QS.get('free')=='1',FOLLOW=LIVE&&!FREE,VIEW=location.hash=='#view'||LIVE;
 if(VIEW)document.body.classList.add('view');
 let PW='';try{PW=sessionStorage.getItem('lap-pw')||localStorage.getItem('lap-pw')||''}catch(e){}
@@ -175,23 +190,25 @@ const DO={t:'klasik',m:'terbang',loop:'on',f:'sans'};
 function norm(){D.o=Object.assign({},DO,D.o);O=D.o;D.charts=D.charts||[];D.data=D.data||null;D.sec=(D.sec||[]).map(c=>({...c,sl:c.sl||[]}))}
 const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rows=t=>String(t||'').split('\n').filter(l=>l.trim()).map(l=>l.split('|').map(x=>x.trim()));
-const rv=(tag,cls,h,d)=>`<${tag} class="rv ${cls}" style="--d:${d}">${h}</${tag}>`;
-const TY=[['bul','Poin-poin'],['stat','Angka kunci'],['bar','Grafik batang sederhana'],['prog','Progress'],['two','Dua kolom'],['tl','Timeline'],['chart','Grafik dari data'],['img','Gambar'],['orb','Lingkaran navigasi']];
+const rv=(tag,cls,h,d,a)=>`<${tag} class="rv ${cls}" style="--d:${d}"${a||''}>${h}</${tag}>`;
+const ea=(id,t,ri,ci)=>' data-e="'+t+'" data-id="'+id+'"'+(ri==null?'':' data-ri="'+ri+'" data-ci="'+ci+'"');
+const TY=[['bul','Poin-poin'],['stat','Angka kunci'],['bar','Grafik batang sederhana'],['prog','Progress'],['two','Dua kolom'],['tl','Timeline'],['chart','Grafik dari data'],['img','Gambar'],['mix','Teks + gambar'],['orb','Lingkaran navigasi']];
 const HINT={bul:'Satu poin per baris.',stat:'Per baris: angka | satuan | keterangan (maks 3 baris).',bar:'Per baris: label | nilai.',prog:'Per baris: label | persen (maks 4 baris).',two:'Per baris: judul | isi. Baris --- memisahkan kolom kiri dan kanan.',tl:'Per baris: judul | isi (maks 4 baris).',chart:'Pilih satu grafik, atau dua grafik untuk tampil berdampingan.',img:'Gambar tampil utuh di slide.',orb:'Per baris: label | isi detail (pisahkan poin dengan titik koma). Maks 8 lingkaran. Tiap lingkaran otomatis punya slide detail.'};
 const DEF={bul:'Poin pertama\nPoin kedua',stat:'90|%|Keterangan\n10||Keterangan\n5||Keterangan',bar:'A|60\nB|80\nC|70',prog:'Target 1|80\nTarget 2|60',two:'Judul kiri|Isi\n---\nJudul kanan|Isi',tl:'Minggu 1|Langkah pertama\nMinggu 2|Langkah kedua',orb:'Lingkaran A|Poin 1; Poin 2; Poin 3\nLingkaran B|Poin 1; Poin 2\nLingkaran C|Poin 1; Poin 2'};
 const orbItems=s=>rows(s.r).slice(0,8);
 function orbBody(s,id){const it=orbItems(s),n=it.length||1;return rv('h2','',E(s.t),0)+`<div class="orb rv" style="--d:1"><div class="ring">${it.map((a,j)=>`<button class="orbc" data-orb="${id}" data-j="${j}" style="--a:${j*360/n}deg"><b>${j+1}</b><span>${E(a[0])}</span></button>`).join('')}</div><div class="orbm">Klik lingkaran<br>atau tekan Next</div></div>`}
 const orbDetail=(a,j)=>rv('h2','',`<span style="color:var(--ac)">${j+1}.</span> ${E(a[0])}`,0)+`<ul>${String(a[1]||'').split(';').map(t=>t.trim()).filter(Boolean).map((t,i)=>rv('li','',E(t),i+1)).join('')}</ul>`;
-function body(s,id){const r=rows(s.r),T=rv('h2','',E(s.t),0);
- if(s.k=='bul')return T+`<ul>${r.map((a,i)=>rv('li','',E(a[0]),i+1)).join('')}</ul>`;
- if(s.k=='stat')return T+`<div class="g3">${r.slice(0,3).map((a,i)=>`<div class="stat rv" style="--d:${i+1}"><b data-n="${parseFloat(a[0])||0}" data-s="${E(a[1])}">0</b><span>${E(a[2])}</span></div>`).join('')}</div>`;
- if(s.k=='bar'){const v=r.slice(0,8).map(a=>parseFloat(a[1])||0),m=Math.max(...v,1);return T+`<div class="bars">${r.slice(0,8).map((a,i)=>`<div class="bc"><div class="bar" style="--h:${v[i]/m*235}px;--d:${i}"><i>${E(a[1])}</i></div><span>${E(a[0])}</span></div>`).join('')}</div>`}
- if(s.k=='prog')return T+r.slice(0,4).map((a,i)=>`<div class="pr rv" style="--d:${i+1}"><div><span>${E(a[0])}</span><span>${E(a[1])}%</span></div><div class="tk"><div class="fl" style="--w:${Math.min(100,parseFloat(a[1])||0)}%;--d:${i}"></div></div></div>`).join('');
- if(s.k=='two'){const k=r.findIndex(a=>a[0]=='---'),L=k<0?r:r.slice(0,k),Rr=k<0?[]:r.slice(k+1),c=(a,i)=>`<div class="cd rv" style="--d:${i+1}"><b>${E(a[0])}</b><span>${E(a[1])}</span></div>`;return T+`<div class="g2"><div>${L.slice(0,4).map(c).join('')}</div><div>${Rr.slice(0,4).map((a,i)=>c(a,i+4)).join('')}</div></div>`}
+function body(s,id){const r=rows(s.r),T=rv('h2','',E(s.t),0,ea(id,'t'));
+ if(s.k=='bul')return T+`<ul>${r.map((a,i)=>rv('li','',E(a[0]),i+1,ea(id,'r',i,0))).join('')}</ul>`;
+ if(s.k=='stat')return T+`<div class="g3">${r.slice(0,3).map((a,i)=>`<div class="stat rv" style="--d:${i+1}"><b data-n="${parseFloat(a[0])||0}" data-s="${E(a[1])}">0</b><span${ea(id,'r',i,2)}>${E(a[2])}</span></div>`).join('')}</div>`;
+ if(s.k=='bar'){const v=r.slice(0,8).map(a=>parseFloat(a[1])||0),m=Math.max(...v,1);return T+`<div class="bars">${r.slice(0,8).map((a,i)=>`<div class="bc"><div class="bar" style="--h:${v[i]/m*235}px;--d:${i}"><i>${E(a[1])}</i></div><span${ea(id,'r',i,0)}>${E(a[0])}</span></div>`).join('')}</div>`}
+ if(s.k=='prog')return T+r.slice(0,4).map((a,i)=>`<div class="pr rv" style="--d:${i+1}"><div><span${ea(id,'r',i,0)}>${E(a[0])}</span><span>${E(a[1])}%</span></div><div class="tk"><div class="fl" style="--w:${Math.min(100,parseFloat(a[1])||0)}%;--d:${i}"></div></div></div>`).join('');
+ if(s.k=='two'){const k=r.findIndex(a=>a[0]=='---'),L=k<0?r:r.slice(0,k),Rr=k<0?[]:r.slice(k+1),c=(a,i,ri)=>`<div class="cd rv" style="--d:${i+1}"><b${ea(id,'r',ri,0)}>${E(a[0])}</b><span${ea(id,'r',ri,1)}>${E(a[1])}</span></div>`;return T+`<div class="g2"><div>${L.slice(0,4).map((a,i)=>c(a,i,i)).join('')}</div><div>${Rr.slice(0,4).map((a,i)=>c(a,i+4,k+1+i)).join('')}</div></div>`}
+ if(s.k=='mix'){const im=s.imgs||[],bg=im.filter(x=>!x.lg),lg=im.filter(x=>x.lg);return T+(r.length||bg.length?`<div class="mx">${r.length?`<div class="mt"><ul>${r.map((a,i)=>rv('li','',E(a[0]),i+1,ea(id,'r',i,0))).join('')}</ul></div>`:''}${bg.length?`<div class="mi">${bg.map(x=>`<img src="${x.src}" alt="">`).join('')}</div>`:''}</div>`:'')+lg.map(x=>`<img class="lg" src="${x.src}" alt="" style="left:${x.x}%;top:${x.y}%;width:${x.w}%">`).join('')}
  if(s.k=='orb')return orbBody(s,id);
  if(s.k=='chart'){const ids=(s.c||[]).filter(Boolean);return T+`<div class="cw">${ids.length?ids.map(id=>`<div class="cc"><canvas data-c="${id}"></canvas></div>`).join(''):'<p>Pilih grafik di editor.</p>'}</div>`}
  if(s.k=='img')return T+`<div class="cw">${s.src?`<img src="${s.src}" alt="">`:''}</div>`;
- const q=r.slice(0,4);return T+`<div class="tl" style="grid-template-columns:repeat(${q.length||1},1fr)">${q.map((a,i)=>`<div class="rv" style="--d:${i+1}"><b>${E(a[0])}</b><span>${E(a[1])}</span></div>`).join('')}</div>`}
+ const q=r.slice(0,4);return T+`<div class="tl" style="grid-template-columns:repeat(${q.length||1},1fr)">${q.map((a,i)=>`<div class="rv" style="--d:${i+1}"><b${ea(id,'r',i,0)}>${E(a[0])}</b><span${ea(id,'r',i,1)}>${E(a[1])}</span></div>`).join('')}</div>`}
 /* ===== grafik dari data ===== */
 const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isNaN(x)?null:x};
 const fmt=v=>v==null?'':Number(v).toLocaleString('id-ID',{maximumFractionDigits:2});
@@ -214,16 +231,16 @@ function chartImg(c,w,h){const cv=document.createElement('canvas');cv.width=w;cv
 /* ===== kanvas zoom ===== */
 const world=$('#w'),P={};let NT={},SL={},S=[],seq=['hub'],idx=0,C,CUR,z=1,px=0,py=0,RAF=0,ov=false,moved=false,tm;
 function build(){world.querySelectorAll('canvas').forEach(cv=>{try{cv._ch&&cv._ch.destroy()}catch(e){}});
- NT={};SL={};let n=0;S=D.sec.map(c=>{const ids=[],sq=[];c.sl.forEach(s=>{const id='s'+n++;ids.push(id);SL[id]=s;if(s.n)NT[id]=s.n;sq.push(id);if(s.k=='orb'){const dd=orbItems(s).map((_,j)=>id+'_'+j);ids.push(...dd);dd.forEach(d=>{sq.push(d);if(O.loop=='on')sq.push(id)})}});return{c,ids,sq}}).filter(s=>s.ids.length);
+ NT={};SL={};let n=0;S=D.sec.map((c,ci)=>{const ids=[],sq=[];c.sl.forEach(s=>{const id='s'+n++;ids.push(id);SL[id]=s;if(s.n)NT[id]=s.n;sq.push(id);if(s.k=='orb'){const dd=orbItems(s).map((_,j)=>id+'_'+j);ids.push(...dd);dd.forEach(d=>{sq.push(d);if(O.loop=='on')sq.push(id)})}});return{c,ids,sq,ci}}).filter(s=>s.ids.length);
  world.innerHTML='';const add=(id,h,cl)=>{const e=document.createElement('div');e.className='s '+(cl||'');e.id=id;e.innerHTML=h;world.appendChild(e)};
- add('hub',`<div class="hub"><div>${rv('h1','',E(D.t).replace(/\n/g,'<br>'),0)}${rv('p','',E(D.s),1)}${rv('p','','Klik bagian di kanan untuk zoom masuk, atau tekan Next.',2)}</div><div class="mn">${S.map((s,i)=>`<button class="rv" style="--d:${i+2}" data-go="${s.ids[0]}" data-sec="${i}"><span><b>${E(s.c.t)}</b><small>${E(s.c.d)}</small></span><em></em></button>`).join('')}</div></div>`);
- let k=0;D.sec.forEach(c=>c.sl.forEach(s=>{const id='s'+k++;add(id,body(s,id),s.k=='chart'||s.k=='img'?'cs':'');if(s.k=='orb')orbItems(s).forEach((a,j)=>add(id+'_'+j,orbDetail(a,j),''))}));
+ add('hub',`<div class="hub"><div>${rv('h1','',E(D.t).replace(/\n/g,'<br>'),0,' data-e="ht"')}${rv('p','',E(D.s),1,' data-e="hs"')}</div><div class="mn">${S.map((s,i)=>`<div class="rv mb" style="--d:${i+2}" data-go="${s.ids[0]}" data-sec="${i}"><span><b data-e="sn" data-ci="${s.ci}">${E(s.c.t)}</b><small data-e="sd" data-ci="${s.ci}">${E(s.c.d)}</small></span><em></em></div>`).join('')}</div></div>`);
+ let k=0;D.sec.forEach(c=>c.sl.forEach(s=>{const id='s'+k++;add(id,body(s,id),s.k=='chart'||s.k=='img'||(s.k=='mix'&&(s.imgs||[]).some(x=>!x.lg))?'cs':'');if(s.k=='orb')orbItems(s).forEach((a,j)=>add(id+'_'+j,orbDetail(a,j),''))}));
  seq=['hub'];S.forEach(s=>{seq.push(...s.sq);if(O.loop=='on')seq.push('hub')});updNums();
  const N=Math.max(S.length,2),R=Math.max(1900,1300/Math.sin(Math.PI/N));P.hub={x:0,y:0,r:0};
  S.forEach((s,i)=>{const a=(-90+i*360/S.length)*Math.PI/180;s.ids.forEach((id,j)=>{const d=R+j*1150;P[id]={x:d*Math.cos(a),y:d*Math.sin(a),r:O.m=='putar'?[-9,8,-11,10][i%4]+j*4:0}})});
  for(const id in P){const e=$('#'+id);if(e)e.style.transform=`translate(${P[id].x}px,${P[id].y}px) rotate(${P[id].r}deg)`}
  idx=Math.min(idx,seq.length-1);document.body.dataset.t=O.t;document.body.dataset.f=O.f=='sans'?'':O.f;
- C=CUR=camFor(seq[idx]);world.style.transform=T(C);show()}
+ C=CUR=camFor(seq[idx]);world.style.transform=T(C);show();ced()}
 const camFor=id=>({...P[id],s:Math.min(vw()/1040,vh()/640)});
 const T=(c,k=1,x=0,y=0)=>`translate(${vw()/2+x}px,${vh()/2+y}px) rotate(${-c.r}deg) scale(${c.s*k}) translate(${-c.x}px,${-c.y}px)`;
 const quick=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -244,7 +261,7 @@ function fly(c1){cancelAnimationFrame(RAF);const c0=CUR||C,m=O.m=='acak'?['terba
 function show(){const id=seq[idx];document.body.classList.toggle('all',ov);
  document.querySelectorAll('.s').forEach(e=>e.classList.toggle('on',e.id==id));
  S.forEach(s=>{if(s.ids.includes(id))s.v=1});
- document.querySelectorAll('.mn button').forEach(b=>b.classList.toggle('v',!!(S[b.dataset.sec]||{}).v));
+ document.querySelectorAll('.mn .mb').forEach(b=>b.classList.toggle('v',!!(S[b.dataset.sec]||{}).v));
  document.querySelectorAll('#'+id+' [data-n]').forEach(n=>{const t=+n.dataset.n,t0=performance.now()+800;n.textContent='0'+n.dataset.s;
   (function f(now){const p=Math.min(Math.max((now-t0)/1200,0),1);n.textContent=Math.round(t*(1-Math.pow(1-p,3)))+n.dataset.s;if(p<1)requestAnimationFrame(f)})(t0)});
  setTimeout(()=>drawEl($('#'+id)),quick?0:ov?0:900);
@@ -269,7 +286,7 @@ async function loadRooms(){const el=$('#rl');if(!el)return;el.innerHTML='<p clas
 function drawRooms(){const el=$('#rl');if(!el||!RL)return;el.innerHTML=RL.length?RL.map(r=>`<div class="rr"><div><b>${E(r.n)}</b> <small>${r.has?r.sz+' KB':'kosong'}${r.n==RP&&BC?' • siaran aktif':''}</small></div><div class="row"><button data-a="rl" data-r="${E(r.n)}" data-m="follow">Ikuti</button><button data-a="rl" data-r="${E(r.n)}" data-m="free">Bebas</button><button data-a="rld" data-r="${E(r.n)}">Hapus</button></div></div>`).join(''):'<p class="hn">Belum ada room.</p>'}
 const chk=async pw=>{try{const u=`${FIREBASE_URL}/lap/_cek.json`,r=await fetch(u,{method:'PATCH',body:JSON.stringify({k:pw,t:Date.now()})});if(r.ok)fetch(u,{method:'DELETE'}).catch(()=>{});return r.ok}catch(e){return null}};
 function lock(msg,form){const l=$('#lk');l.style.display='flex';l.innerHTML=`<div class="lb"><h1>Laporan</h1><p>${msg}</p>${form?'<input id="pw" type="password" placeholder="Kata sandi" autocomplete="current-password"><label><input id="rm" type="checkbox"> Ingat di perangkat ini</label><button id="go">Masuk</button>':''}</div><i class="tri"></i>`}
-function gate(){return new Promise(async res=>{if(!FIREBASE_URL)return res(true);if(PW&&await chk(PW)===true)return res(true);lock('Halaman ini dilindungi. Masukkan kata sandi.',1);
+function gate(){return new Promise(async res=>{if(!FIREBASE_URL)return res(true);if(PW){const c=await chk(PW);if(c===true)return res(true);if(c===false){PW='';try{localStorage.removeItem('lap-pw');sessionStorage.removeItem('lap-pw')}catch(e){}}}lock('Halaman ini dilindungi. Masukkan kata sandi.',1);
  const tr=async()=>{const p=$('#pw').value;if(!p)return;$('#go').disabled=true;const r=await chk(p);$('#go').disabled=false;if(r===true){PW=p;try{($('#rm').checked?localStorage:sessionStorage).setItem('lap-pw',p)}catch(e){}$('#lk').style.display='none';res(true)}else $('#lk p').textContent=r===null?'Tidak bisa terhubung ke Firebase.':'Kata sandi salah.'};
  $('#go').onclick=tr;$('#pw').onkeydown=e=>{if(e.key=='Enter')tr()};$('#pw').focus()})}
 async function connect(){const U=`${FIREBASE_URL}/lap/${ROOM}`,gj=async p=>{try{return await (await fetch(U+p)).json()}catch(e){return null}};
@@ -290,11 +307,11 @@ const opts=(v)=>TY.map(t=>`<option value="${t[0]}"${t[0]==v?' selected':''}>${t[
 const chopt=sel=>'<option value="">(tidak ada)</option>'+D.charts.map(c=>`<option value="${c.id}"${c.id==sel?' selected':''}>${E(c.title)}</option>`).join('');
 const colopt=(sel,none)=>(none?'<option value="">(tidak ada)</option>':'')+(D.data?D.data.h.map((h,i)=>`<option value="${i}"${sel==i?' selected':''}>${E(h)}</option>`).join(''):'');
 const CH=[['Warna','t',[['klasik','Klasik putih'],['gelap','Hitam'],['kuning','Kuning'],['merah','Merah']]],['Gaya transisi','m',[['terbang','Terbang halus'],['putar','Zoom + putar'],['pusaran','Pusaran penuh'],['geser','Geser lurus'],['meluncur','Meluncur cepat'],['pudar','Pudar'],['acak','Acak']]],['Setelah satu bagian selesai','loop',[['on','Kembali ke panel utama'],['off','Lanjut berurutan']]],['Huruf','f',[['sans','Tegas'],['serif','Serif'],['teknis','Teknis']]]];
-const TYN={bul:'Poin',stat:'Angka',bar:'Batang',prog:'Progress',two:'2 kolom',tl:'Timeline',chart:'Grafik',img:'Gambar',orb:'Lingkaran'};
-const COLS={bul:['Poin'],stat:['Angka','Satuan','Keterangan'],bar:['Label','Nilai'],prog:['Label','Persen'],two:['Judul','Isi'],tl:['Judul','Isi'],orb:['Lingkaran','Isi detail (pisah dengan ;)']};
-const HINT2={stat:'Maksimal 3 angka.',bar:'Nilai berupa angka.',prog:'Persen 0 sampai 100, maksimal 4 baris.',two:'Pakai Pemisah kolom untuk membagi kiri dan kanan.',tl:'Maksimal 4 langkah.',orb:'Tiap lingkaran otomatis punya slide detail. Pisahkan poin dengan titik koma.',bul:'Satu poin per baris.'};
+const TYN={bul:'Poin',stat:'Angka',bar:'Batang',prog:'Progress',two:'2 kolom',tl:'Timeline',chart:'Grafik',img:'Gambar',mix:'Campuran',orb:'Lingkaran'};
+const COLS={bul:['Poin'],stat:['Angka','Satuan','Keterangan'],bar:['Label','Nilai'],prog:['Label','Persen'],two:['Judul','Isi'],tl:['Judul','Isi'],orb:['Lingkaran','Isi detail (pisah dengan ;)'],mix:['Poin']};
+const HINT2={stat:'Maksimal 3 angka.',bar:'Nilai berupa angka.',prog:'Persen 0 sampai 100, maksimal 4 baris.',two:'Pakai Pemisah kolom untuk membagi kiri dan kanan.',tl:'Maksimal 4 langkah.',orb:'Tiap lingkaran otomatis punya slide detail. Pisahkan poin dengan titik koma.',bul:'Satu poin per baris.',mix:'Teks di kiri, gambar di kanan. Logo kecil otomatis di pojok.'};
 const TABS=[['slide','Slide'],['data','Data'],['tampil','Tampilan'],['bagi','Bagikan']];
-const ST={tab:'slide',sel:'s0'},COLP={};let RL=null;
+const ST={tab:'slide',sel:'s0'},COLP={},SEL=new Set();let RL=null,DS=null,DG=null,DT;
 const flat=()=>{const o=[];let k=0;D.sec.forEach((c,i)=>c.sl.forEach((s,j)=>o.push({i,j,s,id:'s'+k++})));return o};
 const baseOf=i=>D.sec.slice(0,i).reduce((a,x)=>a+x.sl.length,0);
 const secOpts=()=>D.sec.map((c,i)=>`<option value="${i}">${E(c.t)}</option>`).join('');
@@ -302,12 +319,14 @@ function gridHtml(s,i,j){const cols=COLS[s.k],A=A_(i,j),ls=String(s.r||'').split
  return `<label>Isi slide</label><div class="gr">${ls.map((l,ri)=>l.trim()=='---'?`<div class="gsep"><span>kolom kanan dimulai</span><button data-a="grd" ${A} data-ri="${ri}">✕</button></div>`:`<div class="grow">${cols.map((c,ci)=>`<input data-g="1" ${A} data-ri="${ri}" data-ci="${ci}" value="${E((l.split('|')[ci]||'').trim())}" placeholder="${c}">`).join('')}<button data-a="grd" ${A} data-ri="${ri}">✕</button></div>`).join('')}</div><div class="row"><button data-a="gra" ${A}>+ Baris</button>${s.k=='two'?`<button data-a="grs" ${A}>+ Pemisah kolom</button>`:''}</div><p class="hn">${HINT2[s.k]||''}</p>`}
 function editCard(x){const s=x.s,A=A_(x.i,x.j);let b='';
  if(s.k=='chart')b=`<label>Grafik 1</label><select data-f="c0" ${A}>${chopt((s.c||[])[0])}</select><label>Grafik 2 (opsional, tampil berdampingan)</label><select data-f="c1" ${A}>${chopt((s.c||[])[1])}</select>${D.charts.length?'':'<p class="hn">Belum ada grafik. Buka tab Data untuk impor atau buat grafik.</p>'}`;
+ else if(s.k=='mix')b=gridHtml(s,x.i,x.j)+mixImgs(s,x);
  else if(s.k=='img')b=s.src?`<img src="${s.src}" style="max-width:100%;border-radius:8px;margin-top:8px">`:'<p class="hn">Belum ada gambar.</p>';
  else b=gridHtml(s,x.i,x.j);
  return `<div class="ec" data-sid="${x.id}"><div class="eh"><b class="snumf"></b><span><button data-a="up" ${A} title="Naik">↑</button><button data-a="dn" ${A} title="Turun">↓</button><button data-a="dup" ${A} title="Duplikat">⧉</button><button data-a="del" ${A} title="Hapus">🗑</button></span></div><label>Jenis slide</label><select data-f="k" ${A}>${opts(s.k)}</select><label>Judul slide</label><input data-f="t" ${A} value="${E(s.t)}">${b}<details><summary>Catatan pembicara</summary><textarea data-f="n" ${A} rows="3" placeholder="Tampil saat menekan N (hanya presenter)">${E(s.n||'')}</textarea></details></div>`}
+const mixImgs=(s,x)=>'<label>Gambar</label>'+((s.imgs||[]).map((m,n)=>`<div class="row" style="align-items:center"><img src="${m.src}" style="height:44px;max-width:90px;object-fit:contain;background:#fff;border-radius:4px"><button data-a="mxl" ${A_(x.i,x.j)} data-ii="${n}">${m.lg?'Logo':'Gambar'}</button><button data-a="mxd" ${A_(x.i,x.j)} data-ii="${n}">✕</button></div>`).join('')||'<p class="hn">Tidak ada gambar.</p>')+'<p class="hn">Tombol Logo/Gambar mengubah tampilan: kecil di pojok (logo) atau besar di samping teks.</p>';
 const TAB={
 slide(){const fl=flat(),cur=fl.find(x=>x.id==ST.sel);
- return '<div class="card"><h4>Daftar slide</h4><p class="hn">Klik slide untuk mengedit dan melihatnya.</p>'+D.sec.map((c,i)=>`<div class="og"><div class="oh"><button data-a="col" ${A_(i)} class="cb">${COLP[i]?'▸':'▾'}</button><input data-f="t" ${A_(i)} value="${E(c.t)}" title="Nama bagian"><button data-a="dsec" ${A_(i)} title="Hapus bagian">🗑</button></div>`+(COLP[i]?'':fl.filter(x=>x.i==i).map(x=>`<div class="or${x.id==ST.sel?' sel':''}" data-a="sel" data-sid="${x.id}"><span class="sn snum"></span><span class="ti">${E(x.s.t)}</span><em>${TYN[x.s.k]||''}</em></div>`).join('')+`<div class="oa"><select id="nk${i}">${opts('bul')}</select><button data-a="add" ${A_(i)}>+ Slide</button></div>`)+'</div>').join('')+'<button class="wide" data-a="asec">+ Bagian baru</button></div>'+(cur?'<div class="card"><h4>Edit slide terpilih</h4>'+editCard(cur)+'</div>':'')},
+ return '<div class="card"><h4>Daftar slide</h4><p class="hn">Klik slide untuk melihat/edit. Seret ⠿ untuk memindah bagian; seret baris slide untuk memindah slide (boleh ke bagian lain). Klik atau seret di kotak kiri untuk memilih banyak slide.</p><div class="bk"><button data-a="sall">Pilih semua</button><button data-a="snone">Batal pilih</button><button data-a="cola">Lipat semua</button><button data-a="cole">Buka semua</button><button class="dg" data-a="sdel">Hapus terpilih (<span id="nsel">'+SEL.size+'</span>)</button></div><div class="lw">'+D.sec.map((c,i)=>`<div class="og" data-gi="${i}"><div class="oh"><span class="dh" draggable="true" data-dsec="${i}" title="Seret untuk memindah bagian">⠿</span><button data-a="col" ${A_(i)} class="cb">${COLP[i]?'▸':'▾'}</button><input data-f="t" ${A_(i)} value="${E(c.t)}" title="Nama bagian"><button data-a="secup" ${A_(i)} title="Naik">↑</button><button data-a="secdn" ${A_(i)} title="Turun">↓</button><button data-a="dsec" ${A_(i)} title="Hapus bagian">🗑</button></div><input class="sd" data-f="d" ${A_(i)} value="${E(c.d||'')}" placeholder="Keterangan singkat bagian">`+(COLP[i]?'':fl.filter(x=>x.i==i).map(x=>`<div class="or${x.id==ST.sel?' sel':''}" draggable="true" data-a="sel" data-sid="${x.id}"><span class="ckw"><i class="ck${SEL.has(x.s)?' on':''}"></i></span><span class="sn snum"></span><span class="ti">${E(x.s.t)}</span><em>${TYN[x.s.k]||''}</em></div>`).join('')+`<div class="oa"><select id="nk${i}">${opts('bul')}</select><button data-a="add" ${A_(i)}>+ Slide</button></div>`)+'</div>').join('')+'</div><button class="wide" data-a="asec">+ Bagian baru</button></div>'+(cur?'<div class="card"><h4>Edit slide terpilih</h4>'+editCard(cur)+'</div>':'')},
 data(){const secO=secOpts();
  return `<div class="card"><h4>Impor data</h4><p class="hn">Bisa JSON Chart Studio, Excel, CSV, atau PPTX.</p><div class="ex"><button data-a="imp">Pilih file untuk diimpor</button></div><p class="hn">${D.data?`Data aktif: ${D.data.r.length} baris, ${D.data.h.length} kolom.`:'Belum ada data tabel.'} Ukuran laporan: ${kb()} KB.</p><div class="ex"><button class="g" data-a="delimp">Hapus hasil impor PPTX</button><button class="g" data-a="deldata">Hapus data tabel dan grafik</button></div></div>`+
  `<div class="card"><h4>Grafik</h4>${D.charts.length?D.charts.map(c=>`<div class="rr"><b>${E(c.title)}</b><div class="row"><select id="pl${c.id}">${secO}</select><button data-a="place" data-cid="${c.id}">Taruh</button><button data-a="delc" data-cid="${c.id}">🗑</button></div></div>`).join(''):'<p class="hn">Belum ada grafik. Impor data atau buat baru di bawah.</p>'}`+
@@ -315,13 +334,13 @@ data(){const secO=secOpts();
  '<div class="card"><h4>Lanjutan</h4><details><summary>Tempel tabel dari Excel</summary><textarea id="pst" rows="5" placeholder="Blok sel di Excel, salin, lalu tempel di sini. Baris pertama = judul kolom."></textarea><button class="wide" data-a="pasted">Pakai data ini</button></details>'+
  `<details ontoggle="if(this.open)jref()"><summary>Editor JSON (draf)</summary><p class="hn">Ubah isi laporan sebagai JSON. Tabel besar diganti penanda __DATA__ dan tetap tersimpan.</p><textarea id="jed" rows="12" spellcheck="false" style="font:12px monospace">${E(jtxt())}</textarea><div class="row"><button data-a="jref">Segarkan</button><button data-a="japp">Terapkan JSON</button></div></details></div>`},
 tampil(){return `<div class="card"><h4>Halaman utama</h4><label>Judul laporan</label><input data-f="t" value="${E(D.t)}"><label>Keterangan</label><input data-f="s" value="${E(D.s)}"></div>`+CH.map(c=>`<div class="card"><h4>${c[0]}</h4><div class="ch" data-k="${c[1]}">${c[2].map(v=>`<button data-v="${v[0]}" class="${O[c[1]]==v[0]?'a':''}">${v[1]}</button>`).join('')}</div></div>`).join('')},
-bagi(){return `<div class="card"><h4>Siaran langsung</h4>${FIREBASE_URL?`<label>Kode room</label><input id="room" value="${E(RP)}"><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button></div>${BC?'<p class="hn live">● Siaran aktif</p>':''}<div class="ex"><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button></div><p class="hn">Ukuran data siaran: ${kb()} KB. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi.</p>`:'<p class="hn">Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</p>'}</div>`+
+bagi(){return `<div class="card"><h4>Siaran langsung</h4>${FIREBASE_URL?`<label>Kode room</label><input id="room" value="${E(RP)}"><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button></div>${BC?'<p class="hn live">● Siaran aktif</p>':''}<div class="ex"><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button></div><p class="hn">Ukuran data siaran: ${kb()} KB${kb()>2900?' (melewati batas rules lama 3 juta karakter, pasang rules baru)':''}. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi.</p>`:'<p class="hn">Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</p>'}</div>`+
  (FIREBASE_URL?'<div class="card"><h4>Daftar siaran di Firebase</h4><div id="rl"></div><div class="ex"><button class="g" data-a="rlr">Segarkan daftar</button><button class="g" data-a="rlc">Bersihkan room kosong</button></div></div>':'')+
  '<div class="card"><h4>Simpan dan ekspor</h4><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><p class="hn">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca statis, unggah data.json ke folder yang sama dengan halaman ini.</p></div>'}};
 function renderEd(){const fl=flat();if(!fl.find(x=>x.id==ST.sel))ST.sel=fl[0]?fl[0].id:'';const sc=pn.querySelector('.pb'),y=sc?sc.scrollTop:0;
  pn.innerHTML=`<div class="ph"><div><b>Editor</b><small id="curs"></small></div><button data-a="op" class="xb" title="Tutup">✕</button></div><div class="tabs">${TABS.map(t=>`<button data-tab="${t[0]}" class="${ST.tab==t[0]?'a':''}">${t[1]}</button>`).join('')}</div><div class="pb">${TAB[ST.tab]()}</div>`;
  const nb=pn.querySelector('.pb');if(nb)nb.scrollTop=y;updNums();mark();if(ST.tab=='bagi'&&FIREBASE_URL)RL?drawRooms():loadRooms()}
-function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}if(BC)fbPut('d',D)}
+function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}if(BC){clearTimeout(draft.b);draft.b=setTimeout(()=>fbPut('d',D),1200)}}
 const sched=()=>{clearTimeout(tm);tm=setTimeout(()=>{build();draft()},300)};
 pn.addEventListener('input',e=>{const el=e.target;
  if(el.dataset.g){const s=D.sec[el.dataset.si].sl[el.dataset.j],ls=String(s.r||'').split('\n'),ri=+el.dataset.ri,ci=+el.dataset.ci,p=(ls[ri]||'').split('|');while(p.length<=ci)p.push('');p[ci]=el.value.replace(/\|/g,'/');ls[ri]=COLS[s.k].length>1?p.join('|'):p[0];s.r=ls.join('\n');return sched()}
@@ -345,10 +364,10 @@ function addImg(file,si){const r=new FileReader();r.onload=()=>{const im=new Ima
 const sv=id=>[...$(id).selectedOptions].map(o=>o.value);
 function mkc(){const L=sv('#cbL'),R=sv('#cbR');if(!L.length&&!R.length)return tt('Pilih minimal satu kolom data.');const ty=$('#cbTy').value,id=Math.max(0,...D.charts.map(c=>+c.id||0))+1;let k=0;
  D.charts.push({id,title:$('#cbT').value||'Grafik '+id,mode:'linebar',xCol:$('#cbX').value,xCol2:$('#cbX2').value,limitN:$('#cbN').value,limitMode:'last',filters:[],callout:'on',yT:'',y1T:'',y1Max:'',y1Min:'',yMin:'',yMax:'',series:[...L.map(c=>({col:c,axis:'y',type:ty,color:PAL[k++%6]})),...R.map(c=>({col:c,axis:'y1',type:ty,color:PAL[k++%6]}))]});renderEd();draft();tt('Grafik dibuat. Pilih bagian lalu klik Taruh.')}
-const shrink=(b,n)=>new Promise(res=>{const ext=n.split('.').pop().toLowerCase(),im=new Image();im.onload=()=>{const k=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.8))};im.onerror=()=>res('');im.src='data:image/'+(ext=='jpg'?'jpeg':ext)+';base64,'+b});
+const shrink=(b,n,png)=>new Promise(res=>{const ext=n.split('.').pop().toLowerCase(),im=new Image();im.onload=()=>{const k=Math.min(1,(png?500:1400)/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;const x=c.getContext('2d');if(!png){x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height)}x.drawImage(im,0,0,c.width,c.height);res(png?c.toDataURL('image/png'):c.toDataURL('image/jpeg',.8))};im.onerror=()=>res('');im.src='data:image/'+(ext=='jpg'?'jpeg':ext)+';base64,'+b});
 async function impPptx(f){if(!window.JSZip)return tt('Library PPTX belum termuat.');
  try{const z=await JSZip.loadAsync(await f.arrayBuffer()),dp=new DOMParser(),px=async p=>{const o=z.file(p);return o?dp.parseFromString(await o.async('string'),'application/xml'):null};
- const pres=await px('ppt/presentation.xml'),rel=await px('ppt/_rels/presentation.xml.rels'),rm={};
+ const pres=await px('ppt/presentation.xml'),rel=await px('ppt/_rels/presentation.xml.rels'),rm={},sz=pres.getElementsByTagName('p:sldSz')[0],W=+(sz&&sz.getAttribute('cx'))||12192000,H=+(sz&&sz.getAttribute('cy'))||6858000;
  [...rel.getElementsByTagName('Relationship')].forEach(r=>rm[r.getAttribute('Id')]=r.getAttribute('Target'));
  const tx=el=>[...el.getElementsByTagName('a:p')].map(p=>[...p.getElementsByTagName('a:t')].map(t=>t.textContent).join('').trim()).filter(Boolean),out=[];
  for(const e of [...pres.getElementsByTagName('p:sldId')]){const tg=rm[e.getAttribute('r:id')];if(!tg)continue;const path='ppt/'+tg.replace(/^\/?(ppt\/)?/,''),sx=await px(path);if(!sx)continue;let title='';const lines=[];
@@ -356,12 +375,13 @@ async function impPptx(f){if(!window.JSZip)return tt('Library PPTX belum termuat
   for(const tr of [...sx.getElementsByTagName('a:tr')])lines.push([...tr.getElementsByTagName('a:tc')].map(c=>tx(c).join(' ')).join(' | '));
   if(!title&&lines.length)title=lines.shift();
   const rl=await px(path.replace('slides/','slides/_rels/')+'.rels'),pics=[];
-  if(rl){const mm={};[...rl.getElementsByTagName('Relationship')].forEach(r=>mm[r.getAttribute('Id')]=r.getAttribute('Target'));
-   for(const b of [...sx.getElementsByTagName('a:blip')].slice(0,2)){const t=mm[b.getAttribute('r:embed')];if(!t)continue;const mp='ppt/media/'+t.split('/').pop(),mf=z.file(mp);if(mf&&/\.(png|jpe?g|gif|webp)$/i.test(mp)){const u=await shrink(await mf.async('base64'),mp);if(u)pics.push(u)}}}
-  if(title||lines.length)out.push({k:'bul',t:title||'Slide',r:lines.join('\n').replace(/\|/g,'/')});
-  pics.forEach(src=>out.push({k:'img',t:title||'Gambar',src}))}
+  if(rl){const mm={},seen=new Set();[...rl.getElementsByTagName('Relationship')].forEach(r=>mm[r.getAttribute('Id')]=r.getAttribute('Target'));
+   for(const pc of [...sx.getElementsByTagName('p:pic')]){const b=pc.getElementsByTagName('a:blip')[0];if(!b)continue;const rid=b.getAttribute('r:embed'),t=mm[rid];if(!t||seen.has(rid))continue;seen.add(rid);const mp='ppt/media/'+t.split('/').pop(),mf=z.file(mp);if(!mf||!/\.(png|jpe?g|gif|webp)$/i.test(mp))continue;
+    const of=pc.getElementsByTagName('a:off')[0],ex=pc.getElementsByTagName('a:ext')[0],x=of?+of.getAttribute('x')/W*100:0,y=of?+of.getAttribute('y')/H*100:0,w=ex?+ex.getAttribute('cx')/W*100:30,h=ex?+ex.getAttribute('cy')/H*100:30,lg=w*h<450;
+    const u=await shrink(await mf.async('base64'),mp,lg);if(u)pics.push({src:u,lg,x:+x.toFixed(1),y:+y.toFixed(1),w:+w.toFixed(1)})}}
+  if(title||lines.length||pics.length){const sl={k:pics.length?'mix':'bul',t:title||'Slide',r:lines.join('\n').replace(/\|/g,'/')};if(pics.length)sl.imgs=pics;out.push(sl)}}
  if(!out.length)return tt('Tidak ada teks atau gambar yang terbaca.');
- D.sec.push({t:f.name.replace(/\.pptx$/i,'').slice(0,24),d:'Diimpor dari PowerPoint',imp:true,sl:out});build();draft();renderEd();tt('Impor selesai: '+out.length+' slide.')}catch(e){tt('Gagal membaca PPTX: '+e.message)}}
+ D.sec.push({t:f.name.replace(/\.pptx$/i,'').slice(0,24),d:'Diimpor dari PowerPoint',imp:true,sl:out});build();draft();renderEd();tt('Impor selesai: '+out.length+' slide (teks, gambar, logo tetap satu slide).')}catch(e){tt('Gagal membaca PPTX: '+e.message)}}
 async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termuat, coba lagi sebentar.');
  const p=new PptxGenJS();p.layout='LAYOUT_16x9';const R='D32029',Y='FFF000',K='000000',F='Arial',cl=[R,Y,K];
  const sl=t=>{const s=p.addSlide();[[R,0],[Y,3.333],[K,6.667]].forEach(([c,x])=>s.addShape('rect',{x,y:5.4,w:3.334,h:.225,fill:{color:c},line:{color:c}}));if(t){s.addShape('rect',{x:.6,y:.35,w:.8,h:.08,fill:{color:R},line:{color:R}});s.addText(t,{x:.6,y:.5,w:8.8,h:.8,fontSize:28,bold:true,fontFace:F,color:K})}return s};
@@ -375,6 +395,7 @@ async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termu
   else if(z.k=='two'){const k=r.findIndex(a=>a[0]=='---'),L=k<0?r:r.slice(0,k),Rr=k<0?[]:r.slice(k+1);[L,Rr].forEach((g,i)=>s.addText(g.slice(0,4).flatMap(a=>[{text:a[0],options:{bold:true,fontSize:18,breakLine:true}},{text:a[1]||'',options:{fontSize:14,breakLine:true}}]),{x:.6+i*4.5,y:1.5,w:4.2,h:3.6,fontFace:F,valign:'top'}))}
   else if(z.k=='orb'){const it=rows(z.r).slice(0,8);s.addText(it.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'});it.forEach(a=>{const d=sl(a[0]);d.addText(String(a[1]||'').split(';').map(t=>({text:t.trim(),options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'})})}
   else if(z.k=='chart'){if(!window.Chart||!D.data)return;const q=(z.c||[]).map(id=>D.charts.find(c=>c.id==id)).filter(Boolean),two=q.length>1,w=two?4.5:9.2,pw=two?900:1840;q.forEach((c,i)=>s.addImage({data:chartImg(c,pw,780),x:.4+i*4.7,y:1.3,w,h:w*780/pw}))}
+  else if(z.k=='mix'){const im=z.imgs||[],bg=im.filter(m=>!m.lg),hh=bg.length>1?1.8:3.7;s.addText(r.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:bg.length?4.2:8.8,h:3.6,fontSize:bg.length?16:20,fontFace:F,valign:'top'});bg.slice(0,2).forEach((m,n)=>s.addImage({data:m.src,x:5,y:1.4+n*1.9,w:4.4,h:hh,sizing:{type:'contain',w:4.4,h:hh}}));im.filter(m=>m.lg).forEach(m=>s.addImage({data:m.src,x:m.x/100*10,y:m.y/100*5.625,w:m.w/100*10,h:m.w/100*5,sizing:{type:'contain',w:m.w/100*10,h:m.w/100*5}}))}
   else if(z.k=='img'){if(z.src)s.addImage({data:z.src,x:.6,y:1.4,w:8.8,h:3.8,sizing:{type:'contain',w:8.8,h:3.8}})}
   else{const q=r.slice(0,4),w=8.8/(q.length||1);s.addShape('line',{x:.6,y:2.1,w:8.8,h:0,line:{color:K,width:3}});q.forEach((a,i)=>{s.addShape('ellipse',{x:.6+i*w,y:1.95,w:.3,h:.3,fill:{color:cl[i%3]},line:{color:K,width:2}});s.addText(a[0],{x:.6+i*w,y:2.4,w:w-.1,h:.5,fontSize:18,bold:true,fontFace:F});s.addText(a[1]||'',{x:.6+i*w,y:2.9,w:w-.1,h:1.2,fontSize:14,fontFace:F,valign:'top'})})}}));
  tt('Menyiapkan PPTX...');dl('laporan.pptx',await p.write({outputType:'arraybuffer'}),'application/vnd.openxmlformats-officedocument.presentationml.presentation')}
@@ -382,11 +403,15 @@ const mv=(a,i,j)=>{const t=a[i];a.splice(i,1);a.splice(j,0,t)};
 document.addEventListener('click',async e=>{
  const tb=e.target.closest('[data-tab]');if(tb){ST.tab=tb.dataset.tab;return renderEd()}
  const ch=e.target.closest('.ch button');if(ch){const k=ch.parentNode.dataset.k;O[k]=ch.dataset.v;build();draft();return renderEd()}
- const a=e.target.closest('[data-a]');
+ if(e.target.closest('.ckw'))return;const a=e.target.closest('[data-a]');
  if(a){const k=a.dataset.a,i=+a.dataset.si,j=+a.dataset.j;
   if(k=='zi'){z=Math.min(z*1.3,5);man()}else if(k=='zo'){z=Math.max(z/1.3,.3);man()}else if(k=='ov')overview();
   else if(k=='fs')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
-  else if(k=='op')pn.classList.toggle('o');else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);else if(k=='ls')document.body.classList.toggle('laser');
+  else if(k=='op')setPn();else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);else if(k=='ls')document.body.classList.toggle('laser');
+  else if(k=='sall'){flat().forEach(x=>SEL.add(x.s));renderEd()}
+  else if(k=='snone'){SEL.clear();renderEd()}
+  else if(k=='cola'||k=='cole'){D.sec.forEach((_,n)=>COLP[n]=k=='cola');renderEd()}
+  else if(k=='sdel'){if(!SEL.size)return tt('Belum ada slide yang dipilih.');if(!confirm('Hapus '+SEL.size+' slide terpilih?'))return;const cur=SL[ST.sel];D.sec.forEach(c=>c.sl=c.sl.filter(x=>!SEL.has(x)));SEL.clear();const f=flat();ST.sel=(f.find(x=>x.s===cur)||f[0]||{id:''}).id;build();renderEd();draft()}
   else if(k=='sel'){ST.sel=a.dataset.sid;renderEd();go(seq.indexOf(a.dataset.sid),true)}
   else if(k=='col'){COLP[i]=!COLP[i];renderEd()}
   else if(k=='rl')copyLink(a.dataset.r,a.dataset.m);
@@ -401,7 +426,7 @@ document.addEventListener('click',async e=>{
   else if(k=='reset'){try{localStorage.removeItem('lap-draft')}catch(x){}location.reload()}
   else if(k=='jref')jref();
   else if(k=='japp'){try{const j=JSON.parse($('#jed').value);if(!j||!Array.isArray(j.sec))throw new Error('properti "sec" tidak ada');if(j.data==='__DATA__')j.data=D.data;D=j;norm();build();draft();renderEd();tt('JSON diterapkan.')}catch(x){tt('JSON tidak valid: '+x.message)}}
-  else if(k=='bc'){if(BC){BC=false;if(confirm('Hapus juga data siaran dari Firebase?'))await fbDel();renderEd()}else{RP=cleanRoom($('#room').value)||RP;try{localStorage.setItem('lap-room',RP)}catch(x){}BC=true;await fbSet({d:JSON.stringify(D),i:idx});tt('Siaran dimulai. Bagikan link pembaca.');RL=null;renderEd()}}
+  else if(k=='bc'){if(BC){BC=false;if(confirm('Hapus juga data siaran dari Firebase?'))await fbDel();renderEd()}else{RP=cleanRoom($('#room').value)||RP;try{localStorage.setItem('lap-room',RP)}catch(x){}const ok=await fbSet({d:JSON.stringify(D),i:idx});if(ok){BC=true;tt('Siaran dimulai. Bagikan link pembaca.')}else{BC=false;const n=JSON.stringify(D).length;tt(n>2900000?'Siaran gagal: data '+Math.round(n/1024)+' KB melewati batas rules (3 juta karakter). Naikkan batas di rules Firebase.':'Siaran gagal: periksa rules dan kata sandi Firebase.')}RL=null;renderEd()}}
   else if(k=='vlink'){RP=cleanRoom($('#room')&&$('#room').value)||RP;copyLink(RP,a.dataset.m)}
   else{const base=baseOf(i);
    if(k=='up'&&j>0){mv(D.sec[i].sl,j,j-1);ST.sel='s'+(base+j-1)}
@@ -410,6 +435,9 @@ document.addEventListener('click',async e=>{
    else if(k=='del'){D.sec[i].sl.splice(j,1);ST.sel='s'+Math.max(0,base+j-1)}
    else if(k=='add'){const t=$('#nk'+i).value;if(t=='img')return pick('image/*',f=>addImg(f,i));D.sec[i].sl.push(t=='chart'?{k:'chart',t:'Grafik',c:D.charts[0]?[D.charts[0].id]:[]}:{k:t,t:'Judul slide',r:DEF[t]});ST.sel='s'+(base+D.sec[i].sl.length-1)}
    else if(k=='asec'){D.sec.push({t:'Bagian baru',d:'Keterangan singkat',sl:[{k:'bul',t:'Judul slide',r:DEF.bul}]});ST.sel='s'+baseOf(D.sec.length-1)}
+   else if(k=='secup'||k=='secdn'){const t=k=='secup'?i-1:i+1;if(t<0||t>=D.sec.length)return;const cur=SL[ST.sel];mv(D.sec,i,t);const f=flat().find(x=>x.s===cur);if(f)ST.sel=f.id}
+   else if(k=='mxd'){D.sec[i].sl[j].imgs.splice(+a.dataset.ii,1)}
+   else if(k=='mxl'){const m=D.sec[i].sl[j].imgs[+a.dataset.ii];m.lg=!m.lg}
    else if(k=='dsec'){if(!confirm('Hapus bagian ini beserta semua slide di dalamnya?'))return;D.sec.splice(i,1)}
    else if(k=='place'){const c=D.charts.find(x=>x.id==a.dataset.cid),si=+$('#pl'+c.id).value;D.sec[si].sl.push({k:'chart',t:c.title,c:[c.id]});ST.sel='s'+(baseOf(si)+D.sec[si].sl.length-1);ST.tab='slide'}
    else if(k=='delc')D.charts=D.charts.filter(x=>x.id!=a.dataset.cid);
@@ -421,16 +449,44 @@ document.addEventListener('click',async e=>{
    else if(k=='pasted'){const t=$('#pst').value.trim();if(!t)return tt('Tempel dulu tabelnya.');setData(t.split('\n').map(l=>l.split('\t')))}
    build();renderEd();draft()}
   return}
- if(moved)return;const oc=e.target.closest('.orbc');if(oc)return goId(oc.dataset.orb+'_'+oc.dataset.j);const g=e.target.closest('[data-go]');if(g)return goId(g.dataset.go);
+ if(moved||e.target.closest('[contenteditable]'))return;const oc=e.target.closest('.orbc');if(oc)return goId(oc.dataset.orb+'_'+oc.dataset.j);const g=e.target.closest('[data-go]');if(g)return goId(g.dataset.go);
  const s=e.target.closest('.s');if(s&&(!s.classList.contains('on')||ov))goId(s.id)});
+/* ===== tambahan: panel kanan, edit langsung, pilih banyak, seret urutan ===== */
+DEF.mix='';
+const ced=()=>{const on=document.body.classList.contains('pe')&&!VIEW;document.querySelectorAll('[data-e]').forEach(el=>{if(!on){el.removeAttribute('contenteditable');return}el.contentEditable='plaintext-only';if(el.contentEditable!='plaintext-only')el.contentEditable='true'})};
+function setPn(o){if(VIEW)return;const v=o==null?!pn.classList.contains('o'):o;pn.classList.toggle('o',v);document.body.classList.toggle('pe',v);ced();C=camFor(seq[idx]);man()}
+function setCell(s,ri,ci,v){const ls=String(s.r||'').split('\n');let k=-1,ix=-1;for(let n=0;n<ls.length;n++)if(ls[n].trim()){k++;if(k==ri){ix=n;break}}if(ix<0)return;v=v.replace(/\|/g,'/');if((COLS[s.k]||[]).length<2)ls[ix]=v||'\u200b';else{const p=ls[ix].split('|');while(p.length<=ci)p.push('');p[ci]=v;ls[ix]=p.join('|')}s.r=ls.join('\n')}
+const syncPn=el=>{const t=el.dataset.e;if(t=='t'){const o=SL[el.dataset.id],x=flat().find(x=>x.s===o);if(!x)return;const r=pn.querySelector(`.or[data-sid="${x.id}"] .ti`);if(r)r.textContent=o.t;const i=pn.querySelector(`input[data-f="t"][data-si="${x.i}"][data-j="${x.j}"]`);if(i)i.value=o.t}
+ else if(t=='sn'||t=='sd'){const f=t=='sn'?'t':'d',i=pn.querySelector(`input[data-f="${f}"][data-si="${el.dataset.ci}"]:not([data-j])`);if(i)i.value=D.sec[+el.dataset.ci][f]||''}
+ else if(t=='ht'||t=='hs'){const f=t=='ht'?'t':'s',i=pn.querySelector(`input[data-f="${f}"]:not([data-si])`);if(i)i.value=D[f]}};
+world.addEventListener('input',e=>{const el=e.target.closest('[data-e]');if(!el)return;const t=el.dataset.e,v=t=='ht'?el.innerText.replace(/\n+$/,''):el.textContent.replace(/\s*\n\s*/g,' ');
+ if(t=='ht')D.t=v;else if(t=='hs')D.s=v;else if(t=='sn'||t=='sd'){const c=D.sec[+el.dataset.ci];if(c)c[t=='sn'?'t':'d']=v}
+ else{const s=SL[el.dataset.id];if(!s)return;if(t=='t')s.t=v;else setCell(s,+el.dataset.ri,+el.dataset.ci,v)}
+ syncPn(el);clearTimeout(DT);DT=setTimeout(draft,500)});
+world.addEventListener('keydown',e=>{const el=e.target.closest&&e.target.closest('[data-e]');if(!el)return;if(e.key=='Enter'&&el.dataset.e!='ht'){e.preventDefault();el.blur()}if(e.key=='Escape')el.blur()});
+world.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('[data-e]')&&!pn.contains(e.relatedTarget)&&ST.tab=='slide')renderEd()});
+const setSel=(id,v)=>{const s=SL[id];if(!s)return;v?SEL.add(s):SEL.delete(s);const r=pn.querySelector(`.or[data-sid="${id}"] .ck`);if(r)r.classList.toggle('on',v);const n=$('#nsel');if(n)n.textContent=SEL.size};
+pn.addEventListener('pointerdown',e=>{const c=e.target.closest('.ckw');if(!c)return;e.preventDefault();const id=c.closest('.or').dataset.sid;DS={v:!(SL[id]&&SEL.has(SL[id]))};setSel(id,DS.v)});
+pn.addEventListener('pointerover',e=>{if(!DS)return;const r=e.target.closest('.or');if(r)setSel(r.dataset.sid,DS.v)});
+addEventListener('pointerup',()=>{DS=null});
+const clrDov=()=>pn.querySelectorAll('.dov').forEach(x=>x.classList.remove('dov'));
+pn.addEventListener('dragstart',e=>{if(DS){e.preventDefault();return}const h=e.target.closest&&e.target.closest('[data-dsec]'),r=e.target.closest&&e.target.closest('.or');if(h)DG={t:'sec',i:+h.dataset.dsec};else if(r)DG={t:'sl',o:SL[r.dataset.sid]};else return;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain','x')});
+pn.addEventListener('dragover',e=>{if(!DG)return;const r=DG.t=='sl'?(e.target.closest('.or')||e.target.closest('.og')):e.target.closest('.og');if(!r)return;e.preventDefault();clrDov();r.classList.add('dov')});
+pn.addEventListener('dragend',()=>{DG=null;clrDov()});
+pn.addEventListener('drop',e=>{if(!DG)return;e.preventDefault();const cur=SL[ST.sel],o=DG.t=='sl'?DG.o:null,rw=e.target.closest('.or'),g=e.target.closest('.og');
+ if(DG.t=='sec'){if(!g||+g.dataset.gi==DG.i){DG=null;return clrDov()}mv(D.sec,DG.i,+g.dataset.gi)}
+ else{const t=rw?SL[rw.dataset.sid]:null;if((!rw&&!g)||t===o){DG=null;return clrDov()}
+  D.sec.forEach(c=>{const k=c.sl.indexOf(o);if(k>=0)c.sl.splice(k,1)});
+  if(t)D.sec.forEach(c=>{const k=c.sl.indexOf(t);if(k>=0){const af=e.clientY>rw.getBoundingClientRect().top+rw.offsetHeight/2;c.sl.splice(k+(af?1:0),0,o)}});else D.sec[+g.dataset.gi].sl.push(o)}
+ DG=null;clrDov();const f=flat().find(x=>x.s===(o||cur));if(f)ST.sel=f.id;build();renderEd();draft();const q=seq.indexOf(ST.sel);if(q>=0)go(q,true)});
 let dr=null;const st=$('#st');
-st.addEventListener('pointerdown',e=>{dr={x:e.clientX,y:e.clientY};moved=false});
+st.addEventListener('pointerdown',e=>{if(e.target.closest('[contenteditable]'))return;dr={x:e.clientX,y:e.clientY};moved=false});
 addEventListener('pointermove',e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;if(Math.abs(dx)+Math.abs(dy)>3){moved=true;px+=dx;py+=dy;dr={x:e.clientX,y:e.clientY};man()}});
 addEventListener('pointerup',()=>{dr=null;setTimeout(()=>moved=false,0)});
 st.addEventListener('wheel',e=>{e.preventDefault();z=Math.min(Math.max(z*Math.exp(-e.deltaY*.0015),.3),5);man()},{passive:false});
-addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const k=e.key;
+addEventListener('keydown',e=>{if(e.target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const k=e.key;
  if(k=='ArrowRight'||k==' '||k=='PageDown'){e.preventDefault();go(idx+1)}else if(k=='ArrowLeft'||k=='PageUp')go(idx-1);
- else if(k=='Home')go(0);else if(k=='Escape')pn.classList.remove('o');else if(k=='o'||k=='O')overview();
+ else if(k=='Home')go(0);else if(k=='Escape')setPn(false);else if(k=='o'||k=='O')overview();
  else if(k=='+'||k=='='){z=Math.min(z*1.3,5);man()}else if(k=='-'){z=Math.max(z/1.3,.3);man()}else if(k=='0'){z=1;px=py=0;man()}
  else if(k=='n'||k=='N')document.body.classList.toggle('notes');else if(k=='l'||k=='L')document.body.classList.toggle('laser');
  else if(k=='f'||k=='F')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()});
