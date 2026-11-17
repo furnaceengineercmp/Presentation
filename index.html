@@ -340,12 +340,15 @@ function lock(msg,form){const l=$('#lk');l.style.display='flex';l.innerHTML=`<di
 function gate(){return new Promise(async res=>{if(!FIREBASE_URL)return res(true);if(PW){const c=await chk(PW);if(c===true)return res(true);if(c===false){PW='';try{localStorage.removeItem('lap-pw');sessionStorage.removeItem('lap-pw')}catch(e){}}}lock('Halaman ini dilindungi. Masukkan kata sandi.',1);
  const tr=async()=>{const p=$('#pw').value;if(!p)return;$('#go').disabled=true;const r=await chk(p);$('#go').disabled=false;if(r===true){PW=p;try{($('#rm').checked?localStorage:sessionStorage).setItem('lap-pw',p)}catch(e){}$('#lk').style.display='none';res(true)}else $('#lk p').textContent=r===null?'Tidak bisa terhubung ke Firebase.':'Kata sandi salah.'};
  $('#go').onclick=tr;$('#pw').onkeydown=e=>{if(e.key=='Enter')tr()};$('#pw').focus()})}
-async function connect(){const U=`${FIREBASE_URL}/lap/${ROOM}`,gj=async p=>{try{return await (await fetch(U+p)).json()}catch(e){return null}};
- const apply=s=>{if(!s)return lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');try{D=JSON.parse(s);norm();build();$('#lk').style.display='none'}catch(e){}};
- const t=await gj('/d.json');if(!t)return lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');apply(t);
- if(FOLLOW){const i0=await gj('/i.json');if(typeof i0=='number'){idx=Math.min(i0,seq.length-1);C=CUR=camFor(seq[idx]);world.style.transform=T(C);show()}}
- const e1=new EventSource(U+'/d.json');e1.addEventListener('put',async()=>{if(e1._f)apply(await gj('/d.json'));e1._f=1});
- const e3=new EventSource(U+'/t.json');e3.addEventListener('put',e=>{try{laserShow(JSON.parse(e.data).data)}catch(x){}});if(FOLLOW){const e2=new EventSource(U+'/i.json');e2.addEventListener('put',e=>{const m=JSON.parse(e.data);if(typeof m.data=='number')go(m.data,true)})}}
+async function connect(){const U=`${FIREBASE_URL}/lap/${ROOM}`;let PI=null,LV=null,LOADED=false;
+ const gone=()=>lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');
+ const apply=async s=>{if(!s)return gone();try{let j=JSON.parse(s);
+  if(j&&j.lite){if(j.v===LV)return;LV=j.v;try{const r=await fetch('data.json?v='+j.v,{cache:'no-store'});j=r.ok?await r.json():null}catch(x){j=null}if(!j||!j.sec)return lock('Data laporan (data.json) belum ada di GitHub. Minta presenter mengunggahnya, lalu menekan Kirim pembaruan.')}
+  D=j;norm();build();$('#lk').style.display='none';LOADED=true;
+  if(FOLLOW&&typeof PI=='number'){idx=Math.min(PI,seq.length-1);C=CUR=camFor(seq[idx]);world.style.transform=T(C);show()}}catch(e){}};
+ const e1=new EventSource(U+'/d.json');e1.addEventListener('put',e=>{try{const m=JSON.parse(e.data);if(m.path=='/')apply(m.data)}catch(x){}});
+ const e3=new EventSource(U+'/t.json');e3.addEventListener('put',e=>{try{laserShow(JSON.parse(e.data).data)}catch(x){}});
+ if(FOLLOW){const e2=new EventSource(U+'/i.json');e2.addEventListener('put',e=>{const m=JSON.parse(e.data);if(typeof m.data=='number'){PI=m.data;if(LOADED)go(m.data,true)}})}}
 /* ===== editor ===== */
 const pn=$('#pn');
 const tt=m=>{const e=$('#tt');e.textContent=m;e.style.display='block';clearTimeout(tt.t);tt.t=setTimeout(()=>e.style.display='none',3800)};
@@ -385,13 +388,13 @@ data(){const secO=secOpts();
  '<div class="card"><h4>Lanjutan</h4><details><summary>Tempel tabel dari Excel</summary><textarea id="pst" rows="5" placeholder="Blok sel di Excel, salin, lalu tempel di sini. Baris pertama = judul kolom."></textarea><button class="wide" data-a="pasted">Pakai data ini</button></details>'+
  `<details ontoggle="if(this.open)jref()"><summary>Editor JSON (draf)</summary><p class="hn">Ubah isi laporan sebagai JSON. Tabel besar diganti penanda __DATA__ dan tetap tersimpan.</p><textarea id="jed" rows="12" spellcheck="false" style="font:12px monospace">${E(jtxt())}</textarea><div class="row"><button data-a="jref">Segarkan</button><button data-a="japp">Terapkan JSON</button></div></details></div>`},
 tampil(){return `<div class="card"><h4>Halaman utama</h4><label>Judul laporan</label><input data-f="t" value="${E(D.t)}"><label>Keterangan</label><input data-f="s" value="${E(D.s)}"></div>`+CH.map(c=>`<div class="card"><h4>${c[0]}</h4><div class="ch" data-k="${c[1]}">${c[2].map(v=>`<button data-v="${v[0]}" class="${O[c[1]]==v[0]?'a':''}">${v[1]}</button>`).join('')}</div></div>`).join('')},
-bagi(){return `<div class="card"><h4>Siaran langsung</h4>${FIREBASE_URL?`<label>Kode room</label><input id="room" value="${E(RP)}"><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button></div>${BC?'<p class="hn live">● Siaran aktif</p>':''}<div class="ex"><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button></div><p class="hn">Ukuran data siaran: ${kb()} KB${kb()>2900?' (melewati batas rules lama 3 juta karakter, pasang rules baru)':''}. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi.</p>`:'<p class="hn">Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</p>'}</div>`+
+bagi(){return `<div class="card"><h4>Siaran langsung</h4>${FIREBASE_URL?`<label>Kode room</label><input id="room" value="${E(RP)}"><label style="display:flex;gap:8px;align-items:flex-start;margin:10px 0"><input type="checkbox" data-a="lite" ${LITE?'checked':''} style="width:auto;margin-top:3px"><span>Mode ringan (hemat kuota): isi slide diambil dari data.json di GitHub, Firebase hanya untuk posisi slide dan laser.</span></label><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button></div>${BC?'<p class="hn live">● Siaran aktif ('+(LITE?'mode ringan':'mode penuh')+')</p><div class="ex"><button data-a="bsend">Kirim pembaruan ke pembaca</button></div><p class="hn">'+(LITE?'Urutan: unduh data.json, unggah ke GitHub (tunggu sekitar 1 menit), lalu tekan tombol ini.':'Mengirim ulang isi slide terbaru ke semua pembaca (memakai kuota sebesar ukuran data).')+'</p>':''}<div class="ex"><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button></div><p class="hn">Ukuran data siaran: ${kb()} KB${kb()>2900?' (melewati batas rules lama 3 juta karakter, pasang rules baru)':''}. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi.</p>`:'<p class="hn">Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</p>'}</div>`+
  (FIREBASE_URL?'<div class="card"><h4>Daftar siaran di Firebase</h4><div id="rl"></div><div class="ex"><button class="g" data-a="rlr">Segarkan daftar</button><button class="g" data-a="rlc">Bersihkan room kosong</button></div></div>':'')+
  '<div class="card"><h4>Simpan dan ekspor</h4><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><p class="hn">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca statis, unggah data.json ke folder yang sama dengan halaman ini.</p></div>'}};
 function renderEd(){const fl=flat();if(!fl.find(x=>x.id==ST.sel))ST.sel=fl[0]?fl[0].id:'';const sc=pn.querySelector('.pb'),y=sc?sc.scrollTop:0;
  pn.innerHTML=`<div class="ph"><div><b>Editor</b><small id="curs"></small></div><button data-a="op" class="xb" title="Tutup">✕</button></div><div class="tabs">${TABS.map(t=>`<button data-tab="${t[0]}" class="${ST.tab==t[0]?'a':''}">${t[1]}</button>`).join('')}</div><div class="pb">${TAB[ST.tab]()}</div>`;
- const nb=pn.querySelector('.pb');if(nb)nb.scrollTop=y;updNums();renderPe();mark();if(ST.tab=='bagi'&&FIREBASE_URL)RL?drawRooms():loadRooms()}
-function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}if(BC){clearTimeout(draft.b);draft.b=setTimeout(()=>fbPut('d',D),1200)}}
+ const nb=pn.querySelector('.pb');if(nb)nb.scrollTop=y;updNums();renderPe();mark();if(ST.tab=='bagi'&&FIREBASE_URL){if(RL)drawRooms();else{const el=$('#rl');if(el)el.innerHTML='<p class="hn">Tekan Segarkan daftar untuk memuat. Ini mengunduh isi semua room, jadi dipakai seperlunya.</p>'}}}
+function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}}
 const sched=()=>{clearTimeout(tm);tm=setTimeout(()=>{build();draft()},300)};
 const onIn=e=>{const el=e.target;
  if(el.dataset.g){const s=D.sec[el.dataset.si].sl[el.dataset.j],ls=String(s.r||'').split('\n'),ri=+el.dataset.ri,ci=+el.dataset.ci,p=(ls[ri]||'').split('|');while(p.length<=ci)p.push('');p[ci]=el.value.replace(/\|/g,'/');ls[ri]=COLS[s.k].length>1?p.join('|'):p[0];s.r=ls.join('\n');return sched()}
@@ -463,6 +466,8 @@ document.addEventListener('click',async e=>{
   else if(k=='fs')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
   else if(k=='op')setPn();else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);else if(k=='ls')document.body.classList.toggle('laser');
   else if(k=='ope')setPe();
+  else if(k=='lite'){LITE=a.checked;try{localStorage.setItem('lap-lite',LITE?'1':'0')}catch(x){}renderEd()}
+  else if(k=='bsend'){if(!BC)return;const ok=await fbSet({d:JSON.stringify(LITE?{lite:1,v:Date.now()}:D)});tt(ok?'Pembaruan dikirim ke pembaca.':'Gagal mengirim. Periksa rules atau ukuran data.')}
   else if(k=='sall'){flat().forEach(x=>SEL.add(x.s));renderEd()}
   else if(k=='snone'){SEL.clear();renderEd()}
   else if(k=='cola'||k=='cole'){D.sec.forEach((_,n)=>COLP[n]=k=='cola');renderEd()}
@@ -471,8 +476,8 @@ document.addEventListener('click',async e=>{
   else if(k=='col'){COLP[i]=!COLP[i];renderEd()}
   else if(k=='rl')copyLink(a.dataset.r,a.dataset.m);
   else if(k=='rlr')loadRooms();
-  else if(k=='rld'){if(!confirm('Hapus room "'+a.dataset.r+'" dari Firebase?'))return;const r=await rmRoom(a.dataset.r);if(a.dataset.r==RP)BC=false;tt(r==2?'Room dihapus.':r==1?'Isi dihapus, node tersisa. Pasang rules terbaru.':'Gagal menghapus.');loadRooms()}
-  else if(k=='rlc'){const em=(RL||[]).filter(r=>!r.has);if(!em.length)return tt('Tidak ada room kosong.');for(const r of em)await rmRoom(r.n);tt('Room kosong dibersihkan.');loadRooms()}
+  else if(k=='rld'){if(!confirm('Hapus room "'+a.dataset.r+'" dari Firebase?'))return;const r=await rmRoom(a.dataset.r);if(a.dataset.r==RP)BC=false;tt(r==2?'Room dihapus.':r==1?'Isi dihapus, node tersisa. Pasang rules terbaru.':'Gagal menghapus.');RL=null;renderEd()}
+  else if(k=='rlc'){const em=(RL||[]).filter(r=>!r.has);if(!em.length)return tt('Tidak ada room kosong.');for(const r of em)await rmRoom(r.n);tt('Room kosong dibersihkan.');RL=null;renderEd()}
   else if(k=='imp')pick('.json,.xlsx,.xls,.csv,.txt,.pptx',imp);
   else if(k=='mkc')mkc();
   else if(k=='pptx')mkPptx();
@@ -481,7 +486,7 @@ document.addEventListener('click',async e=>{
   else if(k=='reset'){try{localStorage.removeItem('lap-draft')}catch(x){}location.reload()}
   else if(k=='jref')jref();
   else if(k=='japp'){try{const j=JSON.parse($('#jed').value);if(!j||!Array.isArray(j.sec))throw new Error('properti "sec" tidak ada');if(j.data==='__DATA__')j.data=D.data;D=j;norm();build();draft();renderEd();tt('JSON diterapkan.')}catch(x){tt('JSON tidak valid: '+x.message)}}
-  else if(k=='bc'){if(BC){BC=false;if(confirm('Hapus juga data siaran dari Firebase?'))await fbDel();renderEd()}else{RP=cleanRoom($('#room').value)||RP;try{localStorage.setItem('lap-room',RP)}catch(x){}const ok=await fbSet({d:JSON.stringify(D),i:idx});if(ok){BC=true;tt('Siaran dimulai. Bagikan link pembaca.')}else{BC=false;const n=JSON.stringify(D).length;tt(n>2900000?'Siaran gagal: data '+Math.round(n/1024)+' KB melewati batas rules (3 juta karakter). Naikkan batas di rules Firebase.':'Siaran gagal: periksa rules dan kata sandi Firebase.')}RL=null;renderEd()}}
+  else if(k=='bc'){if(BC){BC=false;if(confirm('Hapus juga data siaran dari Firebase?'))await fbDel();renderEd()}else{RP=cleanRoom($('#room').value)||RP;try{localStorage.setItem('lap-room',RP)}catch(x){}const ok=await fbSet({d:JSON.stringify(LITE?{lite:1,v:Date.now()}:D),i:idx});if(ok){BC=true;tt('Siaran dimulai. Bagikan link pembaca.')}else{BC=false;const n=JSON.stringify(D).length;tt(n>2900000?'Siaran gagal: data '+Math.round(n/1024)+' KB melewati batas rules (3 juta karakter). Naikkan batas di rules Firebase.':'Siaran gagal: periksa rules dan kata sandi Firebase.')}RL=null;renderEd()}}
   else if(k=='vlink'){RP=cleanRoom($('#room')&&$('#room').value)||RP;copyLink(RP,a.dataset.m)}
   else{const base=baseOf(i);
    if(k=='up'&&j>0){mv(D.sec[i].sl,j,j-1);ST.sel='s'+(base+j-1)}
@@ -535,6 +540,7 @@ pn.addEventListener('drop',e=>{if(!DG)return;e.preventDefault();const cur=SL[ST.
   if(t)D.sec.forEach(c=>{const k=c.sl.indexOf(t);if(k>=0){const af=e.clientY>rw.getBoundingClientRect().top+rw.offsetHeight/2;c.sl.splice(k+(af?1:0),0,o)}});else D.sec[+g.dataset.gi].sl.push(o)}
  DG=null;clrDov();const f=flat().find(x=>x.s===(o||cur));if(f)ST.sel=f.id;build();renderEd();draft();const q=seq.indexOf(ST.sel);if(q>=0)go(q,true)});
 /* ===== panel kiri + laser siaran ===== */
+var LITE=(()=>{try{return localStorage.getItem('lap-lite')!=='0'}catch(e){return true}})();
 function setPe(o){if(VIEW)return;const pe=$('#pe'),v=o==null?!pe.classList.contains('o'):o;pe.classList.toggle('o',v);document.body.classList.toggle('pl',v);ced();renderEd();C=camFor(seq[idx]);man()}
 function renderPe(){const pe=$('#pe');if(!pe)return;const cur=flat().find(x=>x.id==ST.sel),sc=pe.querySelector('.pb'),y=sc?sc.scrollTop:0;pe.innerHTML=`<div class="ph"><div><b>Edit slide</b><small>Slide terpilih</small></div><button data-a="ope" class="xb" title="Tutup">✕</button></div><div class="pb">${cur?editCard(cur):'<p class="hn">Pilih slide di daftar.</p>'}</div>`;const nb=pe.querySelector('.pb');if(nb)nb.scrollTop=y;updNums()}
 $('#pe').addEventListener('input',onIn);
