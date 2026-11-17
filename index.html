@@ -151,7 +151,7 @@ body.laser #lz{display:block}body.laser #st{cursor:none}
 #pn input[type=text],#pn input:not([type]),#pn textarea,#pn select{margin-bottom:6px}
 
 #pn{left:auto;right:0;transform:translateX(105%);box-shadow:-8px 0 30px #0008}
-@media(min-width:701px){body.pe #st{right:390px}body.pe #tp{right:402px}body.pe #nv{left:calc((100% - 390px)/2)}body.pe #hl{display:none}}
+@media(min-width:701px){}
 [data-e][contenteditable]{outline:2px dashed #D3202999;outline-offset:3px;cursor:text;user-select:text;-webkit-user-select:text;min-width:24px}
 [data-e][contenteditable]:focus{outline:2px solid #D32029;background:#fff0a066}
 .mx{display:flex;gap:14px;height:420px}.mx .mt{flex:1;min-width:0;overflow:hidden}.mx .mi{flex:1.6;min-width:0;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center}.mx .mi img{max-width:100%;min-height:0;flex:1;object-fit:contain}
@@ -164,6 +164,57 @@ body.laser #lz{display:block}body.laser #st{cursor:none}
 #pn .or.dov,#pn .og.dov>.oh{outline:2px dashed #FFF000}
 #pn .bk{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}#pn .bk button{padding:6px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}#pn .bk button.dg{background:#D32029;color:#fff}
 #pn .oh button{width:30px}#pn .og>input.sd{font-size:12px;margin:2px 0 4px}
+#pe h3{margin:0 0 14px;color:#FFF000;font-size:18px}
+#pe label{display:block;margin:16px 0 6px;font-size:13px;opacity:.7}
+#pe input,#pe textarea,#pe select{width:100%;background:#222;color:#fff;border:1px solid #444;border-radius:6px;padding:7px;font:14px system-ui;margin-bottom:6px}
+#pe .row{display:flex;gap:4px}#pe .row button{padding:0 10px;margin-bottom:6px;background:#333;color:#FFF000;border-radius:6px}
+#pe .sc{border:1px solid #555;border-radius:10px;padding:10px;margin:12px 0}
+#pe .cd2{border-left:4px solid #D32029;padding-left:8px;margin:10px 0}
+#pe small{opacity:.65;font-size:12px;display:block;margin-bottom:6px}
+#pe .wide,#pe .ex button{width:100%;margin:4px 0;padding:11px;border-radius:8px;background:#FFF000;color:#000;font-weight:700}
+#pe .ex button.g{background:#2a2a2a;color:#fff;font-weight:400}
+#pe details{border:1px solid #444;border-radius:8px;padding:8px;margin:8px 0}
+#pe .sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}#pe .sh b{color:#FFF000;font-size:14px}#pe .sh button{padding:3px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}
+#pe .cd2.cur{background:#ffffff14;border-left-color:#FFF000}
+#pe .ph{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 8px}
+#pe .ph b{font-size:18px;color:#FFF000;display:block}#pe .ph small{opacity:.7;font-size:12px}
+#pe .xb{width:34px;height:34px;border-radius:8px;background:#2a2a2a;color:#fff;font-size:16px}
+#pe .tabs{display:flex;gap:4px;padding:0 14px 8px;border-bottom:1px solid #333}
+#pe .tabs button{flex:1;padding:9px 4px;border-radius:8px;background:#222;color:#ccc;font-size:13px;font-weight:600}
+#pe .tabs button.a{background:#FFF000;color:#000}
+#pe .pb{flex:1;overflow:auto;padding:12px 14px 24px}
+#pe .card{background:#1b1b1b;border:1px solid #2e2e2e;border-radius:12px;padding:12px;margin-bottom:12px}
+#pe .card h4{margin:0 0 8px;font-size:13px;color:#FFF000;letter-spacing:.02em}
+#pe .hn{font-size:12px;opacity:.65;margin:4px 0 8px;line-height:1.4}#pe .live{color:#4ade80;opacity:1}
+#pe .og{margin-bottom:10px}#pe .oh{display:flex;gap:4px;align-items:center}
+#pe .oh input{font-weight:700;margin:0;flex:1}#pe .oh button{width:34px;height:34px;border-radius:6px;background:#2a2a2a;color:#fff}
+#pe .or{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;background:#222;margin:4px 0;border:2px solid transparent}
+#pe .or:hover{background:#2c2c2c}#pe .or.sel{border-color:#FFF000;background:#2c2c2c}
+#pe .sn{min-width:26px;height:26px;border-radius:50%;background:#FFF000;color:#000;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+#pe .or.cur .sn{background:#D32029;color:#fff}
+#pe .ti{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}#pe .or em{font-style:normal;font-size:11px;opacity:.6}
+#pe .oa{display:flex;gap:4px;margin-top:4px}#pe .oa select{margin:0;flex:1}#pe .oa button{padding:0 12px;border-radius:6px;background:#FFF000;color:#000;font-weight:700}
+#pe .eh{display:flex;justify-content:space-between;align-items:center}#pe .eh b{color:#FFF000;font-size:15px}
+#pe .eh button{width:32px;height:32px;margin-left:3px;border-radius:6px;background:#2a2a2a;color:#fff}
+#pe .gr{margin-bottom:6px}#pe .grow{display:flex;gap:4px}#pe .grow input{flex:1;min-width:0;width:auto;margin-bottom:4px}
+#pe .grow button,#pe .gsep button{width:34px;height:34px;border-radius:6px;background:#2a2a2a;color:#fff;flex:none}
+#pe .gsep{display:flex;justify-content:space-between;align-items:center;border-top:2px dashed #666;margin:6px 0;padding-top:4px;font-size:12px;opacity:.8}
+#pe .rr{padding:8px 0;border-bottom:1px solid #2e2e2e}#pe .rr:last-child{border:0}#pe .rr .row{margin-top:4px}
+#pe .rr .row select{margin:0;flex:1}#pe .rr .row button{margin:0;padding:6px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}
+#pe details summary{cursor:pointer;margin:6px 0;font-size:13px}
+#pe input[type=text],#pe input:not([type]),#pe textarea,#pe select{margin-bottom:6px}
+#pe .lw{max-height:38vh;overflow:auto;margin:0 -4px;padding:0 4px}
+#pe .ckw{width:22px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:none;flex:none}
+#pe .ck{width:16px;height:16px;border:2px solid #888;border-radius:4px;display:block}#pe .ck.on{background:#FFF000;border-color:#FFF000;box-shadow:inset 0 0 0 2px #111}
+#pe .dh{cursor:grab;padding:0 4px;color:#aaa;font-size:16px;user-select:none}
+#pe .or.dov,#pe .og.dov>.oh{outline:2px dashed #FFF000}
+#pe .bk{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}#pe .bk button{padding:6px 10px;border-radius:6px;background:#333;color:#FFF000;font-size:12px}#pe .bk button.dg{background:#D32029;color:#fff}
+#pe .oh button{width:30px}#pe .og>input.sd{font-size:12px;margin:2px 0 4px}
+body{--pl:0px;--pr:0px}body.pe{--pr:390px}body.pl{--pl:340px}
+@media(min-width:701px){body.pe #st,body.pl #st{left:var(--pl);right:var(--pr)}body.pe #tp,body.pl #tp{right:calc(12px + var(--pr))}body.pe #nv,body.pl #nv{left:calc(var(--pl) + (100% - var(--pl) - var(--pr))/2)}body.pe #hl,body.pl #hl{left:calc(14px + var(--pl))}}
+#pe{position:fixed;z-index:10;top:0;bottom:0;left:0;width:340px;max-width:86vw;background:#111f;color:#fff;font-family:system-ui,sans-serif;display:flex;flex-direction:column;transform:translateX(-105%);transition:transform .4s cubic-bezier(.2,.8,.2,1);box-shadow:8px 0 30px #0008;user-select:text}#pe.o{transform:none}
+body.view #pe,body.view #tp [data-a=ope]{display:none}
+body.rl #lz{display:block}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -173,9 +224,9 @@ body.laser #lz{display:block}body.laser #st{cursor:none}
 <body data-t="klasik">
 <div id="st"><div id="w"></div></div>
 <div id="hl">Seret untuk geser, scroll untuk zoom. Panah kiri atau kanan untuk pindah slide.</div>
-<div id="tp" class="bx"><button data-a="zo">−</button><button data-a="zi">+</button><button data-a="ov" title="Lihat semua">▦</button><button data-a="fs" title="Layar penuh">⛶</button><button data-a="ls" title="Laser pointer (L)">◎</button><button data-a="op" title="Editor">✎</button></div>
+<div id="tp" class="bx"><button data-a="zo">−</button><button data-a="zi">+</button><button data-a="ov" title="Lihat semua">▦</button><button data-a="fs" title="Layar penuh">⛶</button><button data-a="ls" title="Laser pointer (L)">◎</button><button data-a="ope" title="Edit slide terpilih (panel kiri)" style="font-size:15px">Aa</button><button data-a="op" title="Editor">✎</button></div>
 <div id="nv" class="bx"><button data-a="pv">◀</button><span style="min-width:64px;text-align:center;font-size:14px"></span><button data-a="nx">▶</button><button data-a="hm" title="Panel utama">⌂</button></div>
-<aside id="pn"></aside><div id="tt"></div><div id="lk"></div><div id="pg"></div><div id="nt"></div><div id="lz"></div>
+<aside id="pe"></aside><aside id="pn"></aside><div id="tt"></div><div id="lk"></div><div id="pg"></div><div id="nt"></div><div id="lz"></div>
 <script id="D" type="application/json">{"t": "Laporan Operasional", "s": "Periode November 2026. Nama unit atau departemen.", "o": {"t": "klasik", "m": "terbang", "loop": "on", "f": "sans"}, "sec": [{"t": "Ringkasan", "d": "Gambaran umum periode ini", "sl": [{"k": "bul", "t": "Ringkasan Eksekutif", "r": "Target produksi periode ini tercapai 94 persen.\nDua kendala utama sudah teridentifikasi dan ditangani.\nBiaya operasional turun dibanding bulan lalu.\nRencana perbaikan disiapkan untuk periode berikutnya."}, {"k": "stat", "t": "Angka Kunci", "r": "94|%|Realisasi terhadap target\n12||Kegiatan selesai\n3||Temuan perlu tindak lanjut"}]}, {"t": "Capaian", "d": "Produksi dan target", "sl": [{"k": "bar", "t": "Capaian per Minggu", "r": "Minggu 1|62\nMinggu 2|74\nMinggu 3|58\nMinggu 4|88\nMinggu 5|95\nMinggu 6|81"}, {"k": "prog", "t": "Target dan Realisasi", "r": "Produksi|92\nEfisiensi|78\nKeselamatan kerja|100"}]}, {"t": "Kendala", "d": "Masalah dan penyebabnya", "sl": [{"k": "two", "t": "Kendala dan Penyebab", "r": "Kendala 1|Peralatan sering berhenti mendadak\nKendala 2|Pasokan bahan terlambat\nKendala 3|Data laporan belum seragam\n---\nPenyebab 1|Jadwal perawatan belum rutin\nPenyebab 2|Koordinasi antar pihak kurang\nPenyebab 3|Format pencatatan berbeda"}]}, {"t": "Rencana Aksi", "d": "Langkah dan jadwal", "sl": [{"k": "tl", "t": "Rencana Aksi", "r": "Minggu 1|Perbaiki jadwal perawatan\nMinggu 2|Seragamkan format data\nMinggu 3|Koordinasi dengan pemasok\nMinggu 4|Evaluasi hasil"}]}]}</script>
 <script>
 /* ====== PENGATURAN: isi FIREBASE_URL agar pembaca otomatis mengikuti presenter ====== */
@@ -294,7 +345,7 @@ async function connect(){const U=`${FIREBASE_URL}/lap/${ROOM}`,gj=async p=>{try{
  const t=await gj('/d.json');if(!t)return lock('Siaran tidak ditemukan atau sudah dihapus oleh presenter.');apply(t);
  if(FOLLOW){const i0=await gj('/i.json');if(typeof i0=='number'){idx=Math.min(i0,seq.length-1);C=CUR=camFor(seq[idx]);world.style.transform=T(C);show()}}
  const e1=new EventSource(U+'/d.json');e1.addEventListener('put',async()=>{if(e1._f)apply(await gj('/d.json'));e1._f=1});
- if(FOLLOW){const e2=new EventSource(U+'/i.json');e2.addEventListener('put',e=>{const m=JSON.parse(e.data);if(typeof m.data=='number')go(m.data,true)})}}
+ const e3=new EventSource(U+'/t.json');e3.addEventListener('put',e=>{try{laserShow(JSON.parse(e.data).data)}catch(x){}});if(FOLLOW){const e2=new EventSource(U+'/i.json');e2.addEventListener('put',e=>{const m=JSON.parse(e.data);if(typeof m.data=='number')go(m.data,true)})}}
 /* ===== editor ===== */
 const pn=$('#pn');
 const tt=m=>{const e=$('#tt');e.textContent=m;e.style.display='block';clearTimeout(tt.t);tt.t=setTimeout(()=>e.style.display='none',3800)};
@@ -326,7 +377,7 @@ function editCard(x){const s=x.s,A=A_(x.i,x.j);let b='';
 const mixImgs=(s,x)=>'<label>Gambar</label>'+((s.imgs||[]).map((m,n)=>`<div class="row" style="align-items:center"><img src="${m.src}" style="height:44px;max-width:90px;object-fit:contain;background:#fff;border-radius:4px"><button data-a="mxl" ${A_(x.i,x.j)} data-ii="${n}">${m.lg?'Logo':'Gambar'}</button><button data-a="mxd" ${A_(x.i,x.j)} data-ii="${n}">✕</button></div>`).join('')||'<p class="hn">Tidak ada gambar.</p>')+'<p class="hn">Tombol Logo/Gambar mengubah tampilan: kecil di pojok (logo) atau besar di samping teks.</p>';
 const TAB={
 slide(){const fl=flat(),cur=fl.find(x=>x.id==ST.sel);
- return '<div class="card"><h4>Daftar slide</h4><p class="hn">Klik slide untuk melihat/edit. Seret ⠿ untuk memindah bagian; seret baris slide untuk memindah slide (boleh ke bagian lain). Klik atau seret di kotak kiri untuk memilih banyak slide.</p><div class="bk"><button data-a="sall">Pilih semua</button><button data-a="snone">Batal pilih</button><button data-a="cola">Lipat semua</button><button data-a="cole">Buka semua</button><button class="dg" data-a="sdel">Hapus terpilih (<span id="nsel">'+SEL.size+'</span>)</button></div><div class="lw">'+D.sec.map((c,i)=>`<div class="og" data-gi="${i}"><div class="oh"><span class="dh" draggable="true" data-dsec="${i}" title="Seret untuk memindah bagian">⠿</span><button data-a="col" ${A_(i)} class="cb">${COLP[i]?'▸':'▾'}</button><input data-f="t" ${A_(i)} value="${E(c.t)}" title="Nama bagian"><button data-a="secup" ${A_(i)} title="Naik">↑</button><button data-a="secdn" ${A_(i)} title="Turun">↓</button><button data-a="dsec" ${A_(i)} title="Hapus bagian">🗑</button></div><input class="sd" data-f="d" ${A_(i)} value="${E(c.d||'')}" placeholder="Keterangan singkat bagian">`+(COLP[i]?'':fl.filter(x=>x.i==i).map(x=>`<div class="or${x.id==ST.sel?' sel':''}" draggable="true" data-a="sel" data-sid="${x.id}"><span class="ckw"><i class="ck${SEL.has(x.s)?' on':''}"></i></span><span class="sn snum"></span><span class="ti">${E(x.s.t)}</span><em>${TYN[x.s.k]||''}</em></div>`).join('')+`<div class="oa"><select id="nk${i}">${opts('bul')}</select><button data-a="add" ${A_(i)}>+ Slide</button></div>`)+'</div>').join('')+'</div><button class="wide" data-a="asec">+ Bagian baru</button></div>'+(cur?'<div class="card"><h4>Edit slide terpilih</h4>'+editCard(cur)+'</div>':'')},
+ return '<div class="card"><h4>Daftar slide</h4><p class="hn">Klik slide untuk melihat/edit. Seret ⠿ untuk memindah bagian; seret baris slide untuk memindah slide (boleh ke bagian lain). Klik atau seret di kotak kiri untuk memilih banyak slide.</p><div class="bk"><button data-a="sall">Pilih semua</button><button data-a="snone">Batal pilih</button><button data-a="cola">Lipat semua</button><button data-a="cole">Buka semua</button><button class="dg" data-a="sdel">Hapus terpilih (<span id="nsel">'+SEL.size+'</span>)</button></div><div class="lw">'+D.sec.map((c,i)=>`<div class="og" data-gi="${i}"><div class="oh"><span class="dh" draggable="true" data-dsec="${i}" title="Seret untuk memindah bagian">⠿</span><button data-a="col" ${A_(i)} class="cb">${COLP[i]?'▸':'▾'}</button><input data-f="t" ${A_(i)} value="${E(c.t)}" title="Nama bagian"><button data-a="secup" ${A_(i)} title="Naik">↑</button><button data-a="secdn" ${A_(i)} title="Turun">↓</button><button data-a="dsec" ${A_(i)} title="Hapus bagian">🗑</button></div><input class="sd" data-f="d" ${A_(i)} value="${E(c.d||'')}" placeholder="Keterangan singkat bagian">`+(COLP[i]?'':fl.filter(x=>x.i==i).map(x=>`<div class="or${x.id==ST.sel?' sel':''}" draggable="true" data-a="sel" data-sid="${x.id}"><span class="ckw"><i class="ck${SEL.has(x.s)?' on':''}"></i></span><span class="sn snum"></span><span class="ti">${E(x.s.t)}</span><em>${TYN[x.s.k]||''}</em></div>`).join('')+`<div class="oa"><select id="nk${i}">${opts('bul')}</select><button data-a="add" ${A_(i)}>+ Slide</button></div>`)+'</div>').join('')+'</div><button class="wide" data-a="asec">+ Bagian baru</button></div>'+(cur&&!document.body.classList.contains('pl')?'<div class="card"><h4>Edit slide terpilih</h4>'+editCard(cur)+'</div>':'')},
 data(){const secO=secOpts();
  return `<div class="card"><h4>Impor data</h4><p class="hn">Bisa JSON Chart Studio, Excel, CSV, atau PPTX.</p><div class="ex"><button data-a="imp">Pilih file untuk diimpor</button></div><p class="hn">${D.data?`Data aktif: ${D.data.r.length} baris, ${D.data.h.length} kolom.`:'Belum ada data tabel.'} Ukuran laporan: ${kb()} KB.</p><div class="ex"><button class="g" data-a="delimp">Hapus hasil impor PPTX</button><button class="g" data-a="deldata">Hapus data tabel dan grafik</button></div></div>`+
  `<div class="card"><h4>Grafik</h4>${D.charts.length?D.charts.map(c=>`<div class="rr"><b>${E(c.title)}</b><div class="row"><select id="pl${c.id}">${secO}</select><button data-a="place" data-cid="${c.id}">Taruh</button><button data-a="delc" data-cid="${c.id}">🗑</button></div></div>`).join(''):'<p class="hn">Belum ada grafik. Impor data atau buat baru di bawah.</p>'}`+
@@ -339,17 +390,17 @@ bagi(){return `<div class="card"><h4>Siaran langsung</h4>${FIREBASE_URL?`<label>
  '<div class="card"><h4>Simpan dan ekspor</h4><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><p class="hn">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca statis, unggah data.json ke folder yang sama dengan halaman ini.</p></div>'}};
 function renderEd(){const fl=flat();if(!fl.find(x=>x.id==ST.sel))ST.sel=fl[0]?fl[0].id:'';const sc=pn.querySelector('.pb'),y=sc?sc.scrollTop:0;
  pn.innerHTML=`<div class="ph"><div><b>Editor</b><small id="curs"></small></div><button data-a="op" class="xb" title="Tutup">✕</button></div><div class="tabs">${TABS.map(t=>`<button data-tab="${t[0]}" class="${ST.tab==t[0]?'a':''}">${t[1]}</button>`).join('')}</div><div class="pb">${TAB[ST.tab]()}</div>`;
- const nb=pn.querySelector('.pb');if(nb)nb.scrollTop=y;updNums();mark();if(ST.tab=='bagi'&&FIREBASE_URL)RL?drawRooms():loadRooms()}
+ const nb=pn.querySelector('.pb');if(nb)nb.scrollTop=y;updNums();renderPe();mark();if(ST.tab=='bagi'&&FIREBASE_URL)RL?drawRooms():loadRooms()}
 function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}if(BC){clearTimeout(draft.b);draft.b=setTimeout(()=>fbPut('d',D),1200)}}
 const sched=()=>{clearTimeout(tm);tm=setTimeout(()=>{build();draft()},300)};
-pn.addEventListener('input',e=>{const el=e.target;
+const onIn=e=>{const el=e.target;
  if(el.dataset.g){const s=D.sec[el.dataset.si].sl[el.dataset.j],ls=String(s.r||'').split('\n'),ri=+el.dataset.ri,ci=+el.dataset.ci,p=(ls[ri]||'').split('|');while(p.length<=ci)p.push('');p[ci]=el.value.replace(/\|/g,'/');ls[ri]=COLS[s.k].length>1?p.join('|'):p[0];s.r=ls.join('\n');return sched()}
  const f=el.dataset.f;if(!f)return;const si=el.dataset.si,j=el.dataset.j,o=si==null?D:j==null?D.sec[si]:D.sec[si].sl[j];
  if(/^c[01]$/.test(f)){o.c=o.c||[];o.c[+f[1]]=el.value===''?'':+el.value;o.c=o.c.filter(x=>x!=='')}
  else if(f=='k'){const old=o.k;o.k=el.value;const a=COLS[old],b=COLS[o.k];if(b&&(!o.r||!a||a.length!=b.length))o.r=DEF[o.k];if(o.k=='chart'&&!o.c)o.c=D.charts[0]?[D.charts[0].id]:[]}
  else o[f]=el.value;
  if(f=='t'&&j!=null){const r=pn.querySelector(`.or[data-sid="s${baseOf(+si)+ +j}"] .ti`);if(r)r.textContent=el.value}
- if(f=='k')renderEd();sched()});
+ if(f=='k')renderEd();sched()};pn.addEventListener('input',onIn);
 /* ===== impor ===== */
 const pick=(acc,cb)=>{const f=document.createElement('input');f.type='file';f.accept=acc;f.onchange=()=>f.files[0]&&cb(f.files[0]);f.click()};
 const unitsTxt=u=>(u||[]).map(x=>x.unit).filter(Boolean).join(' atau ');
@@ -383,11 +434,14 @@ async function impPptx(f){if(!window.JSZip)return tt('Library PPTX belum termuat
  if(!out.length)return tt('Tidak ada teks atau gambar yang terbaca.');
  D.sec.push({t:f.name.replace(/\.pptx$/i,'').slice(0,24),d:'Diimpor dari PowerPoint',imp:true,sl:out});build();draft();renderEd();tt('Impor selesai: '+out.length+' slide (teks, gambar, logo tetap satu slide).')}catch(e){tt('Gagal membaca PPTX: '+e.message)}}
 async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termuat, coba lagi sebentar.');
+ const DM={},dim=src=>new Promise(r=>{const im=new Image();im.onload=()=>r([im.width,im.height]);im.onerror=()=>r([1,1]);im.src=src});
+ for(const c of D.sec)for(const z of c.sl)for(const q of [z.src,...(z.imgs||[]).map(m=>m.src)])if(q&&!DM[q])DM[q]=await dim(q);
+ const fit=(q,x,y,bw,bh)=>{const [iw,ih]=DM[q]||[1,1],k=Math.min(bw/iw,bh/ih),w=iw*k,h=ih*k;return{data:q,x:x+(bw-w)/2,y:y+(bh-h)/2,w,h}};
  const p=new PptxGenJS();p.layout='LAYOUT_16x9';const R='D32029',Y='FFF000',K='000000',F='Arial',cl=[R,Y,K];
  const sl=t=>{const s=p.addSlide();[[R,0],[Y,3.333],[K,6.667]].forEach(([c,x])=>s.addShape('rect',{x,y:5.4,w:3.334,h:.225,fill:{color:c},line:{color:c}}));if(t){s.addShape('rect',{x:.6,y:.35,w:.8,h:.08,fill:{color:R},line:{color:R}});s.addText(t,{x:.6,y:.5,w:8.8,h:.8,fontSize:28,bold:true,fontFace:F,color:K})}return s};
  let s=sl();s.addText(D.t,{x:.6,y:1,w:8.8,h:1.4,fontSize:40,bold:true,fontFace:F});s.addText(D.s,{x:.6,y:2.5,w:8.8,h:.6,fontSize:18,fontFace:F});
  if(D.sec.length)s.addText(D.sec.map(x=>({text:x.t,options:{bullet:true,breakLine:true}})),{x:.6,y:3.2,w:8.8,h:2,fontSize:16,fontFace:F});
- D.sec.forEach(c=>c.sl.forEach(z=>{const r=rows(z.r);s=sl(z.t);
+ D.sec.forEach(c=>c.sl.forEach(z=>{const r=rows(z.r);s=sl(z.t);if(z.n)s.addNotes(z.n);
   if(z.k=='bul')s.addText(r.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'});
   else if(z.k=='stat')r.slice(0,3).forEach((a,i)=>{s.addShape('rect',{x:.6+i*3,y:1.7,w:2.7,h:.12,fill:{color:cl[i]},line:{color:cl[i]}});s.addText((a[0]||'')+(a[1]||''),{x:.6+i*3,y:1.9,w:2.7,h:1.2,fontSize:48,bold:true,fontFace:F});s.addText(a[2]||'',{x:.6+i*3,y:3.1,w:2.7,h:.8,fontSize:14,fontFace:F,valign:'top'})});
   else if(z.k=='bar')s.addChart(p.charts.BAR,[{name:'Nilai',labels:r.map(a=>a[0]),values:r.map(a=>parseFloat(a[1])||0)}],{x:.6,y:1.4,w:8.8,h:3.8,chartColors:[R,Y,K],showValue:true,showLegend:false,catAxisLabelFontSize:12,valAxisLabelFontSize:11});
@@ -395,8 +449,8 @@ async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termu
   else if(z.k=='two'){const k=r.findIndex(a=>a[0]=='---'),L=k<0?r:r.slice(0,k),Rr=k<0?[]:r.slice(k+1);[L,Rr].forEach((g,i)=>s.addText(g.slice(0,4).flatMap(a=>[{text:a[0],options:{bold:true,fontSize:18,breakLine:true}},{text:a[1]||'',options:{fontSize:14,breakLine:true}}]),{x:.6+i*4.5,y:1.5,w:4.2,h:3.6,fontFace:F,valign:'top'}))}
   else if(z.k=='orb'){const it=rows(z.r).slice(0,8);s.addText(it.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'});it.forEach(a=>{const d=sl(a[0]);d.addText(String(a[1]||'').split(';').map(t=>({text:t.trim(),options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'})})}
   else if(z.k=='chart'){if(!window.Chart||!D.data)return;const q=(z.c||[]).map(id=>D.charts.find(c=>c.id==id)).filter(Boolean),two=q.length>1,w=two?4.5:9.2,pw=two?900:1840;q.forEach((c,i)=>s.addImage({data:chartImg(c,pw,780),x:.4+i*4.7,y:1.3,w,h:w*780/pw}))}
-  else if(z.k=='mix'){const im=z.imgs||[],bg=im.filter(m=>!m.lg),hh=bg.length>1?1.8:3.7;s.addText(r.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:bg.length?4.2:8.8,h:3.6,fontSize:bg.length?16:20,fontFace:F,valign:'top'});bg.slice(0,2).forEach((m,n)=>s.addImage({data:m.src,x:5,y:1.4+n*1.9,w:4.4,h:hh,sizing:{type:'contain',w:4.4,h:hh}}));im.filter(m=>m.lg).forEach(m=>s.addImage({data:m.src,x:m.x/100*10,y:m.y/100*5.625,w:m.w/100*10,h:m.w/100*5,sizing:{type:'contain',w:m.w/100*10,h:m.w/100*5}}))}
-  else if(z.k=='img'){if(z.src)s.addImage({data:z.src,x:.6,y:1.4,w:8.8,h:3.8,sizing:{type:'contain',w:8.8,h:3.8}})}
+  else if(z.k=='mix'){const im=z.imgs||[],bg=im.filter(m=>!m.lg),hh=bg.length>1?1.8:3.7;s.addText(r.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:bg.length?4.2:8.8,h:3.6,fontSize:bg.length?16:20,fontFace:F,valign:'top'});bg.slice(0,2).forEach((m,n)=>s.addImage(fit(m.src,5,1.4+n*1.9,4.4,hh)));im.filter(m=>m.lg).forEach(m=>s.addImage(fit(m.src,m.x/100*10,m.y/100*5.625,m.w/100*10,m.w/100*5)))}
+  else if(z.k=='img'){if(z.src)s.addImage(fit(z.src,.6,1.4,8.8,3.8))}
   else{const q=r.slice(0,4),w=8.8/(q.length||1);s.addShape('line',{x:.6,y:2.1,w:8.8,h:0,line:{color:K,width:3}});q.forEach((a,i)=>{s.addShape('ellipse',{x:.6+i*w,y:1.95,w:.3,h:.3,fill:{color:cl[i%3]},line:{color:K,width:2}});s.addText(a[0],{x:.6+i*w,y:2.4,w:w-.1,h:.5,fontSize:18,bold:true,fontFace:F});s.addText(a[1]||'',{x:.6+i*w,y:2.9,w:w-.1,h:1.2,fontSize:14,fontFace:F,valign:'top'})})}}));
  tt('Menyiapkan PPTX...');dl('laporan.pptx',await p.write({outputType:'arraybuffer'}),'application/vnd.openxmlformats-officedocument.presentationml.presentation')}
 const mv=(a,i,j)=>{const t=a[i];a.splice(i,1);a.splice(j,0,t)};
@@ -408,6 +462,7 @@ document.addEventListener('click',async e=>{
   if(k=='zi'){z=Math.min(z*1.3,5);man()}else if(k=='zo'){z=Math.max(z/1.3,.3);man()}else if(k=='ov')overview();
   else if(k=='fs')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
   else if(k=='op')setPn();else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);else if(k=='ls')document.body.classList.toggle('laser');
+  else if(k=='ope')setPe();
   else if(k=='sall'){flat().forEach(x=>SEL.add(x.s));renderEd()}
   else if(k=='snone'){SEL.clear();renderEd()}
   else if(k=='cola'||k=='cole'){D.sec.forEach((_,n)=>COLP[n]=k=='cola');renderEd()}
@@ -453,7 +508,7 @@ document.addEventListener('click',async e=>{
  const s=e.target.closest('.s');if(s&&(!s.classList.contains('on')||ov))goId(s.id)});
 /* ===== tambahan: panel kanan, edit langsung, pilih banyak, seret urutan ===== */
 DEF.mix='';
-const ced=()=>{const on=document.body.classList.contains('pe')&&!VIEW;document.querySelectorAll('[data-e]').forEach(el=>{if(!on){el.removeAttribute('contenteditable');return}el.contentEditable='plaintext-only';if(el.contentEditable!='plaintext-only')el.contentEditable='true'})};
+const ced=()=>{const on=(document.body.classList.contains('pe')||document.body.classList.contains('pl'))&&!VIEW;document.querySelectorAll('[data-e]').forEach(el=>{if(!on){el.removeAttribute('contenteditable');return}el.contentEditable='plaintext-only';if(el.contentEditable!='plaintext-only')el.contentEditable='true'})};
 function setPn(o){if(VIEW)return;const v=o==null?!pn.classList.contains('o'):o;pn.classList.toggle('o',v);document.body.classList.toggle('pe',v);ced();C=camFor(seq[idx]);man()}
 function setCell(s,ri,ci,v){const ls=String(s.r||'').split('\n');let k=-1,ix=-1;for(let n=0;n<ls.length;n++)if(ls[n].trim()){k++;if(k==ri){ix=n;break}}if(ix<0)return;v=v.replace(/\|/g,'/');if((COLS[s.k]||[]).length<2)ls[ix]=v||'\u200b';else{const p=ls[ix].split('|');while(p.length<=ci)p.push('');p[ci]=v;ls[ix]=p.join('|')}s.r=ls.join('\n')}
 const syncPn=el=>{const t=el.dataset.e;if(t=='t'){const o=SL[el.dataset.id],x=flat().find(x=>x.s===o);if(!x)return;const r=pn.querySelector(`.or[data-sid="${x.id}"] .ti`);if(r)r.textContent=o.t;const i=pn.querySelector(`input[data-f="t"][data-si="${x.i}"][data-j="${x.j}"]`);if(i)i.value=o.t}
@@ -479,6 +534,15 @@ pn.addEventListener('drop',e=>{if(!DG)return;e.preventDefault();const cur=SL[ST.
   D.sec.forEach(c=>{const k=c.sl.indexOf(o);if(k>=0)c.sl.splice(k,1)});
   if(t)D.sec.forEach(c=>{const k=c.sl.indexOf(t);if(k>=0){const af=e.clientY>rw.getBoundingClientRect().top+rw.offsetHeight/2;c.sl.splice(k+(af?1:0),0,o)}});else D.sec[+g.dataset.gi].sl.push(o)}
  DG=null;clrDov();const f=flat().find(x=>x.s===(o||cur));if(f)ST.sel=f.id;build();renderEd();draft();const q=seq.indexOf(ST.sel);if(q>=0)go(q,true)});
+/* ===== panel kiri + laser siaran ===== */
+function setPe(o){if(VIEW)return;const pe=$('#pe'),v=o==null?!pe.classList.contains('o'):o;pe.classList.toggle('o',v);document.body.classList.toggle('pl',v);ced();renderEd();C=camFor(seq[idx]);man()}
+function renderPe(){const pe=$('#pe');if(!pe)return;const cur=flat().find(x=>x.id==ST.sel),sc=pe.querySelector('.pb'),y=sc?sc.scrollTop:0;pe.innerHTML=`<div class="ph"><div><b>Edit slide</b><small>Slide terpilih</small></div><button data-a="ope" class="xb" title="Tutup">✕</button></div><div class="pb">${cur?editCard(cur):'<p class="hn">Pilih slide di daftar.</p>'}</div>`;const nb=pe.querySelector('.pb');if(nb)nb.scrollTop=y;updNums()}
+$('#pe').addEventListener('input',onIn);
+const fbLaser=v=>FIREBASE_URL&&RP?fetch(`${FIREBASE_URL}/lap/${RP}.json`,{method:'PATCH',body:JSON.stringify({k:PW,t:v})}).catch(()=>{}):0;
+let LT=0,LO=false;
+addEventListener('pointermove',e=>{if(!BC||!document.body.classList.contains('laser'))return;const n=Date.now();if(n-LT<90)return;LT=n;const el=$('#'+seq[idx]);if(!el)return;const r=el.getBoundingClientRect();fbLaser(((e.clientX-r.left)/r.width).toFixed(4)+'|'+((e.clientY-r.top)/r.height).toFixed(4)+'|1|'+idx)});
+new MutationObserver(()=>{const on=document.body.classList.contains('laser');if(on!==LO){LO=on;if(!on&&BC)fbLaser('0|0|0|0')}}).observe(document.body,{attributes:true,attributeFilter:['class']});
+function laserShow(v){const b=document.body;if(typeof v!='string')return;const p=v.split('|'),el=$('#'+seq[+p[3]]);if(p[2]!='1'||!el||el.id!=seq[idx]){b.classList.remove('rl');return}const r=el.getBoundingClientRect();$('#lz').style.transform=`translate(${r.left+ +p[0]*r.width}px,${r.top+ +p[1]*r.height}px)`;b.classList.add('rl')}
 let dr=null;const st=$('#st');
 st.addEventListener('pointerdown',e=>{if(e.target.closest('[contenteditable]'))return;dr={x:e.clientX,y:e.clientY};moved=false});
 addEventListener('pointermove',e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;if(Math.abs(dx)+Math.abs(dy)>3){moved=true;px+=dx;py+=dy;dr={x:e.clientX,y:e.clientY};man()}});
@@ -486,7 +550,7 @@ addEventListener('pointerup',()=>{dr=null;setTimeout(()=>moved=false,0)});
 st.addEventListener('wheel',e=>{e.preventDefault();z=Math.min(Math.max(z*Math.exp(-e.deltaY*.0015),.3),5);man()},{passive:false});
 addEventListener('keydown',e=>{if(e.target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const k=e.key;
  if(k=='ArrowRight'||k==' '||k=='PageDown'){e.preventDefault();go(idx+1)}else if(k=='ArrowLeft'||k=='PageUp')go(idx-1);
- else if(k=='Home')go(0);else if(k=='Escape')setPn(false);else if(k=='o'||k=='O')overview();
+ else if(k=='Home')go(0);else if(k=='Escape'){setPn(false);setPe(false)}else if(k=='o'||k=='O')overview();
  else if(k=='+'||k=='='){z=Math.min(z*1.3,5);man()}else if(k=='-'){z=Math.max(z/1.3,.3);man()}else if(k=='0'){z=1;px=py=0;man()}
  else if(k=='n'||k=='N')document.body.classList.toggle('notes');else if(k=='l'||k=='L')document.body.classList.toggle('laser');
  else if(k=='f'||k=='F')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()});
