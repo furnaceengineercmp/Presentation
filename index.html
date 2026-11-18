@@ -1,12 +1,26 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><title>Template Laporan Interaktif</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=Fraunces:wght@600;900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=Fraunces:wght@600;900&family=Space+Grotesk:wght@400;700&family=Poppins:wght@400;700;900&family=Montserrat:wght@400;700;900&family=Playfair+Display:wght@600;900&family=Roboto+Slab:wght@400;700;900&family=Nunito:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fff;--fg:#000;--ac:#D32029;--ac2:#FFF000;--pg:#e4e4e4;--f:'Archivo',system-ui,sans-serif;color-scheme:light}
 [data-t=gelap]{--bg:#000;--fg:#fff;--ac:#FFF000;--ac2:#D32029;--pg:#151515}
 [data-t=kuning]{--bg:#FFF000;--fg:#000;--ac:#D32029;--ac2:#000;--pg:#cfc600}
 [data-t=merah]{--bg:#D32029;--fg:#fff;--ac:#FFF000;--ac2:#000;--pg:#7d0f15}
+[data-t=forest]{--bg:#0f2a1d;--fg:#eaf5e4;--ac:#7ed957;--ac2:#f2c14e;--pg:#08170f}
+[data-t=ocean]{--bg:#06223b;--fg:#e6f3ff;--ac:#2ec4ff;--ac2:#ffd166;--pg:#031422}
+[data-t=sunset]{--bg:#2b1236;--fg:#fff1e6;--ac:#ff7a45;--ac2:#ffc857;--pg:#170a1d}
+[data-t=mono]{--bg:#f2f2f2;--fg:#111;--ac:#444;--ac2:#999;--pg:#d6d6d6}
+[data-t=slate]{--bg:#1e293b;--fg:#f1f5f9;--ac:#38bdf8;--ac2:#fbbf24;--pg:#0f172a}
+[data-t=lavender]{--bg:#f1ebff;--fg:#1d1233;--ac:#7c4dff;--ac2:#ff6fb5;--pg:#ddd3f5}
+[data-t=sand]{--bg:#f6efe3;--fg:#3a2a1a;--ac:#c2410c;--ac2:#0f766e;--pg:#e6dcc9}
+[data-t=forest] .s::after,[data-t=ocean] .s::after,[data-t=sunset] .s::after,[data-t=mono] .s::after,[data-t=slate] .s::after,[data-t=lavender] .s::after,[data-t=sand] .s::after{background:linear-gradient(90deg,var(--ac) 33.34%,var(--ac2) 33.34% 66.67%,var(--fg) 66.67%)}
+[data-f=poppins]{--f:'Poppins',system-ui,sans-serif}
+[data-f=montserrat]{--f:'Montserrat',system-ui,sans-serif}
+[data-f=playfair]{--f:'Playfair Display',Georgia,serif}
+[data-f=slab]{--f:'Roboto Slab',Georgia,serif}
+[data-f=nunito]{--f:'Nunito',system-ui,sans-serif}
+[data-f=mono]{--f:'JetBrains Mono',ui-monospace,monospace}
 [data-f=serif]{--f:'Fraunces',Georgia,serif}
 [data-f=teknis]{--f:'Space Grotesk',system-ui,sans-serif}
 *{box-sizing:border-box}
@@ -116,7 +130,7 @@ body.view #tp [data-a=op],body.view #pn,body.view #hl{display:none}
 #pg{position:fixed;left:0;top:0;height:4px;width:0;z-index:12;background:linear-gradient(90deg,#D32029,#FFF000);transition:width .6s}
 #nt{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9;max-width:300px;background:#000d;color:#fff;padding:10px 14px;border-radius:10px;font:14px/1.4 system-ui,sans-serif;display:none;white-space:pre-wrap}
 body.notes #nt{display:block}body.view #nt{display:none!important}
-#lz{position:fixed;left:-10px;top:-10px;width:20px;height:20px;border-radius:50%;background:#D32029;box-shadow:0 0 18px 8px #D3202988;pointer-events:none;z-index:30;display:none}
+#lz{position:fixed;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:#D32029;box-shadow:0 0 10px 4px #D3202988;pointer-events:none;z-index:30;display:none}
 body.laser #lz{display:block}body.laser #st{cursor:none}
 @media print{#pg,#lz,#nt,#lk{display:none!important}}
 
@@ -215,6 +229,22 @@ body{--pl:0px;--pr:0px}body.pe{--pr:390px}body.pl{--pl:340px}
 #pe{position:fixed;z-index:10;top:0;bottom:0;left:0;width:340px;max-width:86vw;background:#111f;color:#fff;font-family:system-ui,sans-serif;display:flex;flex-direction:column;transform:translateX(-105%);transition:transform .4s cubic-bezier(.2,.8,.2,1);box-shadow:8px 0 30px #0008;user-select:text}#pe.o{transform:none}
 body.view #pe,body.view #tp [data-a=ope]{display:none}
 body.rl #lz{display:block}
+
+body.out #tp,body.out #nv,body.out #hl,body.view #tp [data-a=out],body.view #tp [data-a=cln],body.view #tp [data-a=pen],body.view #pp{display:none}
+body.out{cursor:none}body.out #st{pointer-events:none}
+body.clean #tp,body.clean #nv,body.clean #hl,body.clean #pn,body.clean #pe{display:none!important}
+body.clean #st{left:0!important;right:0!important}body.clean{cursor:none}
+body.clean [data-e][contenteditable]{outline:none!important;background:none!important}
+#npp{display:none}.npg{display:none}
+@media print{.npg{display:block;position:relative;width:960px;height:540px;box-sizing:border-box;padding:48px 64px;break-after:page;font:22px/1.5 Arial,sans-serif;background:#fff;color:#000;overflow:hidden}.npg small{color:#D32029;font-weight:700}.npg h3{margin:4px 0 14px;font-size:30px}.npg p{margin:0}[data-e][contenteditable]{outline:none!important;background:none!important}#pe,#pn,#tp,#nv,#lz{display:none!important}}
+
+#dc{position:fixed;left:0;top:0;z-index:7;pointer-events:none}
+body.pen #dc{pointer-events:auto;cursor:crosshair;touch-action:none}
+#pp{display:none;bottom:calc(80px + env(safe-area-inset-bottom,0px));left:calc(var(--pl) + (100% - var(--pl) - var(--pr))/2);transform:translateX(-50%)}
+body.pen #pp{display:flex}
+#pp button{min-width:30px;height:30px;border-radius:15px;border:2px solid #fff3;background:#222;color:#FFF000;font-size:13px;cursor:pointer}
+#pp button.on{border-color:#FFF000}
+.hf{position:absolute;left:40px;right:40px;display:flex;align-items:center;gap:10px;font:700 13px var(--f);color:var(--fg);opacity:.85;pointer-events:none;z-index:3}.hf.hd{top:12px}.hf.ft{bottom:26px}.hf img{max-height:30px;max-width:170px;object-fit:contain}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -224,7 +254,7 @@ body.rl #lz{display:block}
 <body data-t="klasik">
 <div id="st"><div id="w"></div></div>
 <div id="hl">Seret untuk geser, scroll untuk zoom. Panah kiri atau kanan untuk pindah slide.</div>
-<div id="tp" class="bx"><button data-a="zo">−</button><button data-a="zi">+</button><button data-a="ov" title="Lihat semua">▦</button><button data-a="fs" title="Layar penuh">⛶</button><button data-a="ls" title="Laser pointer (L)">◎</button><button data-a="ope" title="Edit slide terpilih (panel kiri)" style="font-size:15px">Aa</button><button data-a="op" title="Editor">✎</button></div>
+<div id="tp" class="bx"><button data-a="zo">−</button><button data-a="zi">+</button><button data-a="ov" title="Lihat semua">▦</button><button data-a="fs" title="Layar penuh">⛶</button><button data-a="ls" title="Laser pointer (L)">◎</button><button data-a="out" title="Tayangkan di layar kedua (HDMI mode extend)" style="font-size:15px">TV</button><button data-a="cln" title="Tampil bersih / mode duplicate (H)" style="font-size:15px">◧</button><button data-a="pen" title="Coretan presenter (P)" style="font-size:15px">✐</button><button data-a="ope" title="Edit slide terpilih (panel kiri)" style="font-size:15px">Aa</button><button data-a="op" title="Editor">✎</button></div>
 <div id="nv" class="bx"><button data-a="pv">◀</button><span style="min-width:64px;text-align:center;font-size:14px"></span><button data-a="nx">▶</button><button data-a="hm" title="Panel utama">⌂</button></div>
 <aside id="pe"></aside><aside id="pn"></aside><div id="tt"></div><div id="lk"></div><div id="pg"></div><div id="nt"></div><div id="lz"></div>
 <script id="D" type="application/json">{"t": "Laporan Operasional", "s": "Periode November 2026. Nama unit atau departemen.", "o": {"t": "klasik", "m": "terbang", "loop": "on", "f": "sans"}, "sec": [{"t": "Ringkasan", "d": "Gambaran umum periode ini", "sl": [{"k": "bul", "t": "Ringkasan Eksekutif", "r": "Target produksi periode ini tercapai 94 persen.\nDua kendala utama sudah teridentifikasi dan ditangani.\nBiaya operasional turun dibanding bulan lalu.\nRencana perbaikan disiapkan untuk periode berikutnya."}, {"k": "stat", "t": "Angka Kunci", "r": "94|%|Realisasi terhadap target\n12||Kegiatan selesai\n3||Temuan perlu tindak lanjut"}]}, {"t": "Capaian", "d": "Produksi dan target", "sl": [{"k": "bar", "t": "Capaian per Minggu", "r": "Minggu 1|62\nMinggu 2|74\nMinggu 3|58\nMinggu 4|88\nMinggu 5|95\nMinggu 6|81"}, {"k": "prog", "t": "Target dan Realisasi", "r": "Produksi|92\nEfisiensi|78\nKeselamatan kerja|100"}]}, {"t": "Kendala", "d": "Masalah dan penyebabnya", "sl": [{"k": "two", "t": "Kendala dan Penyebab", "r": "Kendala 1|Peralatan sering berhenti mendadak\nKendala 2|Pasokan bahan terlambat\nKendala 3|Data laporan belum seragam\n---\nPenyebab 1|Jadwal perawatan belum rutin\nPenyebab 2|Koordinasi antar pihak kurang\nPenyebab 3|Format pencatatan berbeda"}]}, {"t": "Rencana Aksi", "d": "Langkah dan jadwal", "sl": [{"k": "tl", "t": "Rencana Aksi", "r": "Minggu 1|Perbaiki jadwal perawatan\nMinggu 2|Seragamkan format data\nMinggu 3|Koordinasi dengan pemasok\nMinggu 4|Evaluasi hasil"}]}]}</script>
@@ -233,12 +263,12 @@ body.rl #lz{display:block}
 const FIREBASE_URL='https://presentation-2c884-default-rtdb.asia-southeast1.firebasedatabase.app';/* contoh: 'https://nama-proyek-default-rtdb.asia-southeast1.firebasedatabase.app' */
 /* ================================================================================== */
 const $=s=>document.querySelector(s),vw=()=>{const e=document.querySelector('#st');return e&&e.clientWidth||innerWidth},vh=()=>innerHeight;
-const QS=new URLSearchParams(location.search),ROOM=QS.get('room')||'',LIVE=!!(ROOM&&FIREBASE_URL),FREE=QS.get('free')=='1',FOLLOW=LIVE&&!FREE,VIEW=location.hash=='#view'||LIVE;
-if(VIEW)document.body.classList.add('view');
+const QS=new URLSearchParams(location.search),ROOM=QS.get('room')||'',LIVE=!!(ROOM&&FIREBASE_URL),FREE=QS.get('free')=='1',FOLLOW=LIVE&&!FREE,OUT=location.hash=='#out',VIEW=location.hash=='#view'||OUT||LIVE;
+if(VIEW)document.body.classList.add('view');if(OUT)document.body.classList.add('out');
 let PW='';try{PW=sessionStorage.getItem('lap-pw')||localStorage.getItem('lap-pw')||''}catch(e){}
 let D=JSON.parse($('#D').textContent),O,BC=false,RP=localStorage.getItem('lap-room')||Math.random().toString(36).slice(2,8);
 const DO={t:'klasik',m:'terbang',loop:'on',f:'sans'};
-function norm(){D.o=Object.assign({},DO,D.o);O=D.o;D.charts=D.charts||[];D.data=D.data||null;D.sec=(D.sec||[]).map(c=>({...c,sl:c.sl||[]}))}
+function norm(){D.o=Object.assign({},DO,D.o);O=D.o;D.charts=D.charts||[];D.data=D.data||null;D.hf=Object.assign({ha:'l',fa:'c',skip:1},D.hf||{});D.sec=(D.sec||[]).map(c=>({...c,sl:c.sl||[]}))}
 const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rows=t=>String(t||'').split('\n').filter(l=>l.trim()).map(l=>l.split('|').map(x=>x.trim()));
 const rv=(tag,cls,h,d,a)=>`<${tag} class="rv ${cls}" style="--d:${d}"${a||''}>${h}</${tag}>`;
@@ -285,7 +315,7 @@ function build(){world.querySelectorAll('canvas').forEach(cv=>{try{cv._ch&&cv._c
  NT={};SL={};let n=0;S=D.sec.map((c,ci)=>{const ids=[],sq=[];c.sl.forEach(s=>{const id='s'+n++;ids.push(id);SL[id]=s;if(s.n)NT[id]=s.n;sq.push(id);if(s.k=='orb'){const dd=orbItems(s).map((_,j)=>id+'_'+j);ids.push(...dd);dd.forEach(d=>{sq.push(d);if(O.loop=='on')sq.push(id)})}});return{c,ids,sq,ci}}).filter(s=>s.ids.length);
  world.innerHTML='';const add=(id,h,cl)=>{const e=document.createElement('div');e.className='s '+(cl||'');e.id=id;e.innerHTML=h;world.appendChild(e)};
  add('hub',`<div class="hub"><div>${rv('h1','',E(D.t).replace(/\n/g,'<br>'),0,' data-e="ht"')}${rv('p','',E(D.s),1,' data-e="hs"')}</div><div class="mn">${S.map((s,i)=>`<div class="rv mb" style="--d:${i+2}" data-go="${s.ids[0]}" data-sec="${i}"><span><b data-e="sn" data-ci="${s.ci}">${E(s.c.t)}</b><small data-e="sd" data-ci="${s.ci}">${E(s.c.d)}</small></span><em></em></div>`).join('')}</div></div>`);
- let k=0;D.sec.forEach(c=>c.sl.forEach(s=>{const id='s'+k++;add(id,body(s,id),s.k=='chart'||s.k=='img'||(s.k=='mix'&&(s.imgs||[]).some(x=>!x.lg))?'cs':'');if(s.k=='orb')orbItems(s).forEach((a,j)=>add(id+'_'+j,orbDetail(a,j),''))}));
+ let k=0;const tot=D.sec.reduce((a,c)=>a+c.sl.length,0);D.sec.forEach(c=>c.sl.forEach(s=>{const id='s'+k++;add(id,body(s,id)+hfHtml(s,k==tot),s.k=='chart'||s.k=='img'||(s.k=='mix'&&(s.imgs||[]).some(x=>!x.lg))?'cs':'');if(s.k=='orb')orbItems(s).forEach((a,j)=>add(id+'_'+j,orbDetail(a,j),''))}));
  seq=['hub'];S.forEach(s=>{seq.push(...s.sq);if(O.loop=='on')seq.push('hub')});updNums();
  const N=Math.max(S.length,2),R=Math.max(1900,1300/Math.sin(Math.PI/N));P.hub={x:0,y:0,r:0};
  S.forEach((s,i)=>{const a=(-90+i*360/S.length)*Math.PI/180;s.ids.forEach((id,j)=>{const d=R+j*1150;P[id]={x:d*Math.cos(a),y:d*Math.sin(a),r:O.m=='putar'?[-9,8,-11,10][i%4]+j*4:0}})});
@@ -360,7 +390,7 @@ const A_=(i,j)=>`data-si="${i}"${j==null?'':` data-j="${j}"`}`;
 const opts=(v)=>TY.map(t=>`<option value="${t[0]}"${t[0]==v?' selected':''}>${t[1]}</option>`).join('');
 const chopt=sel=>'<option value="">(tidak ada)</option>'+D.charts.map(c=>`<option value="${c.id}"${c.id==sel?' selected':''}>${E(c.title)}</option>`).join('');
 const colopt=(sel,none)=>(none?'<option value="">(tidak ada)</option>':'')+(D.data?D.data.h.map((h,i)=>`<option value="${i}"${sel==i?' selected':''}>${E(h)}</option>`).join(''):'');
-const CH=[['Warna','t',[['klasik','Klasik putih'],['gelap','Hitam'],['kuning','Kuning'],['merah','Merah']]],['Gaya transisi','m',[['terbang','Terbang halus'],['putar','Zoom + putar'],['pusaran','Pusaran penuh'],['geser','Geser lurus'],['meluncur','Meluncur cepat'],['pudar','Pudar'],['acak','Acak']]],['Setelah satu bagian selesai','loop',[['on','Kembali ke panel utama'],['off','Lanjut berurutan']]],['Huruf','f',[['sans','Tegas'],['serif','Serif'],['teknis','Teknis']]]];
+const CH=[['Warna','t',[['klasik','Klasik putih'],['gelap','Hitam'],['kuning','Kuning'],['merah','Merah'],['forest','Forest'],['ocean','Deep ocean'],['sunset','Sunset'],['mono','Monokrom'],['slate','Slate'],['lavender','Lavender'],['sand','Sand']]],['Gaya transisi','m',[['terbang','Terbang halus'],['putar','Zoom + putar'],['pusaran','Pusaran penuh'],['geser','Geser lurus'],['meluncur','Meluncur cepat'],['pudar','Pudar'],['acak','Acak']]],['Setelah satu bagian selesai','loop',[['on','Kembali ke panel utama'],['off','Lanjut berurutan']]],['Huruf','f',[['sans','Tegas'],['serif','Serif'],['teknis','Teknis'],['poppins','Poppins'],['montserrat','Montserrat'],['playfair','Playfair'],['slab','Roboto Slab'],['nunito','Nunito'],['mono','Mono']]]];
 const TYN={bul:'Poin',stat:'Angka',bar:'Batang',prog:'Progress',two:'2 kolom',tl:'Timeline',chart:'Grafik',img:'Gambar',mix:'Campuran',orb:'Lingkaran'};
 const COLS={bul:['Poin'],stat:['Angka','Satuan','Keterangan'],bar:['Label','Nilai'],prog:['Label','Persen'],two:['Judul','Isi'],tl:['Judul','Isi'],orb:['Lingkaran','Isi detail (pisah dengan ;)'],mix:['Poin']};
 const HINT2={stat:'Maksimal 3 angka.',bar:'Nilai berupa angka.',prog:'Persen 0 sampai 100, maksimal 4 baris.',two:'Pakai Pemisah kolom untuk membagi kiri dan kanan.',tl:'Maksimal 4 langkah.',orb:'Tiap lingkaran otomatis punya slide detail. Pisahkan poin dengan titik koma.',bul:'Satu poin per baris.',mix:'Teks di kiri, gambar di kanan. Logo kecil otomatis di pojok.'};
@@ -387,14 +417,14 @@ data(){const secO=secOpts();
  (D.data?`<details><summary>Buat grafik baru dari data</summary><input id="cbT" placeholder="Judul grafik"><label>Sumbu X</label><select id="cbX">${colopt(0)}</select><label>Label tambahan di bawah X</label><select id="cbX2">${colopt('',1)}</select><label>Kolom sumbu kiri (tahan Ctrl untuk banyak)</label><select id="cbL" multiple size="5">${colopt()}</select><label>Kolom sumbu kanan</label><select id="cbR" multiple size="4">${colopt()}</select><label>Tipe</label><select id="cbTy"><option value="line">Garis</option><option value="bar">Batang</option></select><label>Tampilkan N data terakhir (kosong = semua)</label><input id="cbN" value="30"><button class="wide" data-a="mkc">Buat grafik</button></details>`:'')+'</div>'+
  '<div class="card"><h4>Lanjutan</h4><details><summary>Tempel tabel dari Excel</summary><textarea id="pst" rows="5" placeholder="Blok sel di Excel, salin, lalu tempel di sini. Baris pertama = judul kolom."></textarea><button class="wide" data-a="pasted">Pakai data ini</button></details>'+
  `<details ontoggle="if(this.open)jref()"><summary>Editor JSON (draf)</summary><p class="hn">Ubah isi laporan sebagai JSON. Tabel besar diganti penanda __DATA__ dan tetap tersimpan.</p><textarea id="jed" rows="12" spellcheck="false" style="font:12px monospace">${E(jtxt())}</textarea><div class="row"><button data-a="jref">Segarkan</button><button data-a="japp">Terapkan JSON</button></div></details></div>`},
-tampil(){return `<div class="card"><h4>Halaman utama</h4><label>Judul laporan</label><input data-f="t" value="${E(D.t)}"><label>Keterangan</label><input data-f="s" value="${E(D.s)}"></div>`+CH.map(c=>`<div class="card"><h4>${c[0]}</h4><div class="ch" data-k="${c[1]}">${c[2].map(v=>`<button data-v="${v[0]}" class="${O[c[1]]==v[0]?'a':''}">${v[1]}</button>`).join('')}</div></div>`).join('')},
+tampil(){return `<div class="card"><h4>Halaman utama</h4><label>Judul laporan</label><input data-f="t" value="${E(D.t)}"><label>Keterangan</label><input data-f="s" value="${E(D.s)}"></div>`+CH.map(c=>`<div class="card"><h4>${c[0]}</h4><div class="ch" data-k="${c[1]}">${c[2].map(v=>`<button data-v="${v[0]}" class="${O[c[1]]==v[0]?'a':''}">${v[1]}</button>`).join('')}</div></div>`).join('')+'<div class="card"><h4>Header & footer</h4>'+hfCard()+'</div>'},
 bagi(){return `<div class="card"><h4>Siaran langsung</h4>${FIREBASE_URL?`<label>Kode room</label><input id="room" value="${E(RP)}"><label style="display:flex;gap:8px;align-items:flex-start;margin:10px 0"><input type="checkbox" data-a="lite" ${LITE?'checked':''} style="width:auto;margin-top:3px"><span>Mode ringan (hemat kuota): isi slide diambil dari data.json di GitHub, Firebase hanya untuk posisi slide dan laser.</span></label><div class="ex"><button data-a="bc">${BC?'Hentikan siaran':'Mulai siaran'}</button></div>${BC?'<p class="hn live">● Siaran aktif ('+(LITE?'mode ringan':'mode penuh')+')</p><div class="ex"><button data-a="bsend">Kirim pembaruan ke pembaca</button></div><p class="hn">'+(LITE?'Urutan: unduh data.json, unggah ke GitHub (tunggu sekitar 1 menit), lalu tekan tombol ini.':'Mengirim ulang isi slide terbaru ke semua pembaca (memakai kuota sebesar ukuran data).')+'</p>':''}<div class="ex"><button class="g" data-a="vlink" data-m="follow">Salin link: ikuti presenter</button><button class="g" data-a="vlink" data-m="free">Salin link: pembaca bebas</button></div><p class="hn">Ukuran data siaran: ${kb()} KB${kb()>2900?' (melewati batas rules lama 3 juta karakter, pasang rules baru)':''}. Link ikuti presenter mengunci slide pembaca. Link bebas hanya membagikan isi.</p>`:'<p class="hn">Isi konstanta FIREBASE_URL di bagian atas kode agar siaran aktif.</p>'}</div>`+
  (FIREBASE_URL?'<div class="card"><h4>Daftar siaran di Firebase</h4><div id="rl"></div><div class="ex"><button class="g" data-a="rlr">Segarkan daftar</button><button class="g" data-a="rlc">Bersihkan room kosong</button></div></div>':'')+
- '<div class="card"><h4>Unggah data.json ke GitHub</h4>'+ghCard()+'</div>'+'<div class="card"><h4>Simpan dan ekspor</h4><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><p class="hn">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca statis, unggah data.json ke folder yang sama dengan halaman ini.</p></div>'}};
+ '<div class="card"><h4>Tayang di layar HDMI / proyektor</h4><p class="hn"><b>Mode extend:</b> klik Layar kedua. Jendela tayangan terbuka di layar HDMI (izinkan akses layar bila ditanya), klik sekali di jendela itu untuk layar penuh. Editor tetap di laptop, dan perubahan langsung tampil di layar HDMI.<br><b>Mode duplicate:</b> layar sama persis, jadi klik Tampil bersih (atau tekan H) agar panel dan tombol hilang. Esc atau H untuk kembali.</p><div class="ex"><button data-a="out">Layar kedua (extend)</button><button data-a="cln">Tampil bersih (duplicate)</button></div></div>'+'<div class="card"><h4>Unggah data.json ke GitHub</h4>'+ghCard()+'</div>'+'<div class="card"><h4>Simpan dan ekspor</h4><div class="ex"><button data-a="json">Unduh data.json (untuk GitHub)</button><button class="g" data-a="pptx">Unduh PPTX</button><button class="g" data-a="pdf">Cetak atau simpan PDF</button><button class="g" data-a="reset">Hapus draf di browser ini</button></div><p class="hn">Perubahan tersimpan otomatis sebagai draf di browser ini. Untuk pembaca statis, unggah data.json ke folder yang sama dengan halaman ini.</p></div>'}};
 function renderEd(){const fl=flat();if(!fl.find(x=>x.id==ST.sel))ST.sel=fl[0]?fl[0].id:'';const sc=pn.querySelector('.pb'),y=sc?sc.scrollTop:0;
  pn.innerHTML=`<div class="ph"><div><b>Editor</b><small id="curs"></small></div><button data-a="op" class="xb" title="Tutup">✕</button></div><div class="tabs">${TABS.map(t=>`<button data-tab="${t[0]}" class="${ST.tab==t[0]?'a':''}">${t[1]}</button>`).join('')}</div><div class="pb">${TAB[ST.tab]()}</div>`;
  const nb=pn.querySelector('.pb');if(nb)nb.scrollTop=y;updNums();renderPe();mark();if(ST.tab=='bagi'&&FIREBASE_URL){if(RL)drawRooms();else{const el=$('#rl');if(el)el.innerHTML='<p class="hn">Tekan Segarkan daftar untuk memuat. Ini mengunduh isi semua room, jadi dipakai seperlunya.</p>'}}}
-function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}}
+function draft(){try{localStorage.setItem('lap-draft',JSON.stringify(D))}catch(e){tt('Draf terlalu besar untuk disimpan di browser. Unduh data.json.')}clearTimeout(draft.o);draft.o=setTimeout(outSendD,400)}
 const sched=()=>{clearTimeout(tm);tm=setTimeout(()=>{build();draft()},300)};
 const onIn=e=>{const el=e.target;
  if(el.dataset.g){const s=D.sec[el.dataset.si].sl[el.dataset.j],ls=String(s.r||'').split('\n'),ri=+el.dataset.ri,ci=+el.dataset.ci,p=(ls[ri]||'').split('|');while(p.length<=ci)p.push('');p[ci]=el.value.replace(/\|/g,'/');ls[ri]=COLS[s.k].length>1?p.join('|'):p[0];s.r=ls.join('\n');return sched()}
@@ -439,12 +469,15 @@ async function impPptx(f){if(!window.JSZip)return tt('Library PPTX belum termuat
 async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termuat, coba lagi sebentar.');
  const DM={},dim=src=>new Promise(r=>{const im=new Image();im.onload=()=>r([im.width,im.height]);im.onerror=()=>r([1,1]);im.src=src});
  for(const c of D.sec)for(const z of c.sl)for(const q of [z.src,...(z.imgs||[]).map(m=>m.src)])if(q&&!DM[q])DM[q]=await dim(q);
+ for(const q of [D.hf.hi,D.hf.fi])if(q&&!DM[q])DM[q]=await dim(q);
  const fit=(q,x,y,bw,bh)=>{const [iw,ih]=DM[q]||[1,1],k=Math.min(bw/iw,bh/ih),w=iw*k,h=ih*k;return{data:q,x:x+(bw-w)/2,y:y+(bh-h)/2,w,h}};
  const p=new PptxGenJS();p.layout='LAYOUT_16x9';const R='D32029',Y='FFF000',K='000000',F='Arial',cl=[R,Y,K];
  const sl=t=>{const s=p.addSlide();[[R,0],[Y,3.333],[K,6.667]].forEach(([c,x])=>s.addShape('rect',{x,y:5.4,w:3.334,h:.225,fill:{color:c},line:{color:c}}));if(t){s.addShape('rect',{x:.6,y:.35,w:.8,h:.08,fill:{color:R},line:{color:R}});s.addText(t,{x:.6,y:.5,w:8.8,h:.8,fontSize:28,bold:true,fontFace:F,color:K})}return s};
  let s=sl();s.addText(D.t,{x:.6,y:1,w:8.8,h:1.4,fontSize:40,bold:true,fontFace:F});s.addText(D.s,{x:.6,y:2.5,w:8.8,h:.6,fontSize:18,fontFace:F});
  if(D.sec.length)s.addText(D.sec.map(x=>({text:x.t,options:{bullet:true,breakLine:true}})),{x:.6,y:3.2,w:8.8,h:2,fontSize:16,fontFace:F});
- D.sec.forEach(c=>c.sl.forEach(z=>{const r=rows(z.r);s=sl(z.t);if(z.n)s.addNotes(z.n);
+ let zi=0;const tot=flat().length;
+ const hfP=(s,z,last)=>{const h=D.hf;if(!hfShow(z,last))return;[['h',.08],['f',5.05]].forEach(([p,y])=>{const al={l:'left',c:'center',r:'right'}[h[p+'a']]||'left',i=h[p+'i'],t=h[p+'t'];if(i)s.addImage(fit(i,t?.4:(al=='left'?.4:al=='center'?4.4:8.4),y,1.2,.3));if(t)s.addText(t,{x:i?1.7:.4,y,w:i?7.9:9.2,h:.3,fontSize:10,fontFace:F,color:'555555',align:al})})};
+ D.sec.forEach(c=>c.sl.forEach(z=>{const r=rows(z.r);s=sl(z.t);if(z.n)s.addNotes(z.n);hfP(s,z,++zi==tot);
   if(z.k=='bul')s.addText(r.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:8.8,h:3.6,fontSize:20,fontFace:F,valign:'top'});
   else if(z.k=='stat')r.slice(0,3).forEach((a,i)=>{s.addShape('rect',{x:.6+i*3,y:1.7,w:2.7,h:.12,fill:{color:cl[i]},line:{color:cl[i]}});s.addText((a[0]||'')+(a[1]||''),{x:.6+i*3,y:1.9,w:2.7,h:1.2,fontSize:48,bold:true,fontFace:F});s.addText(a[2]||'',{x:.6+i*3,y:3.1,w:2.7,h:.8,fontSize:14,fontFace:F,valign:'top'})});
   else if(z.k=='bar')s.addChart(p.charts.BAR,[{name:'Nilai',labels:r.map(a=>a[0]),values:r.map(a=>parseFloat(a[1])||0)}],{x:.6,y:1.4,w:8.8,h:3.8,chartColors:[R,Y,K],showValue:true,showLegend:false,catAxisLabelFontSize:12,valAxisLabelFontSize:11});
@@ -455,17 +488,26 @@ async function mkPptx(){if(!window.PptxGenJS)return tt('Library PPTX belum termu
   else if(z.k=='mix'){const im=z.imgs||[],bg=im.filter(m=>!m.lg),hh=bg.length>1?1.8:3.7;s.addText(r.map(a=>({text:a[0],options:{bullet:true,breakLine:true}})),{x:.6,y:1.5,w:bg.length?4.2:8.8,h:3.6,fontSize:bg.length?16:20,fontFace:F,valign:'top'});bg.slice(0,2).forEach((m,n)=>s.addImage(fit(m.src,5,1.4+n*1.9,4.4,hh)));im.filter(m=>m.lg).forEach(m=>s.addImage(fit(m.src,m.x/100*10,m.y/100*5.625,m.w/100*10,m.w/100*5)))}
   else if(z.k=='img'){if(z.src)s.addImage(fit(z.src,.6,1.4,8.8,3.8))}
   else{const q=r.slice(0,4),w=8.8/(q.length||1);s.addShape('line',{x:.6,y:2.1,w:8.8,h:0,line:{color:K,width:3}});q.forEach((a,i)=>{s.addShape('ellipse',{x:.6+i*w,y:1.95,w:.3,h:.3,fill:{color:cl[i%3]},line:{color:K,width:2}});s.addText(a[0],{x:.6+i*w,y:2.4,w:w-.1,h:.5,fontSize:18,bold:true,fontFace:F});s.addText(a[1]||'',{x:.6+i*w,y:2.9,w:w-.1,h:1.2,fontSize:14,fontFace:F,valign:'top'})})}}));
- tt('Menyiapkan PPTX...');dl('laporan.pptx',await p.write({outputType:'arraybuffer'}),'application/vnd.openxmlformats-officedocument.presentationml.presentation')}
+ tt('Menyiapkan PPTX...');const buf=await p.write({outputType:'arraybuffer'});dl('laporan.pptx',buf,'application/vnd.openxmlformats-officedocument.presentationml.presentation');let nn=flat().filter(x=>x.s.n).length;try{if(window.JSZip){const zz=await JSZip.loadAsync(buf);nn=Object.keys(zz.files).filter(f=>/notesSlides\/notesSlide\d+\.xml$/.test(f)).length}}catch(x){}setTimeout(()=>tt('PPTX diunduh. Catatan pembicara tertanam: '+nn+' slide (lihat di PowerPoint: View > Notes).'),1200)}
 const mv=(a,i,j)=>{const t=a[i];a.splice(i,1);a.splice(j,0,t)};
 document.addEventListener('click',async e=>{
  const tb=e.target.closest('[data-tab]');if(tb){ST.tab=tb.dataset.tab;return renderEd()}
- const ch=e.target.closest('.ch button');if(ch){const k=ch.parentNode.dataset.k;O[k]=ch.dataset.v;build();draft();return renderEd()}
+ const ch=e.target.closest('.ch button');if(ch){const pk=ch.parentNode.dataset.hfa;if(pk)D.hf[pk+'a']=ch.dataset.v;else{const k=ch.parentNode.dataset.k;O[k]=ch.dataset.v}build();draft();return renderEd()}
  if(e.target.closest('.ckw'))return;const a=e.target.closest('[data-a]');
  if(a){const k=a.dataset.a,i=+a.dataset.si,j=+a.dataset.j;
   if(k=='zi'){z=Math.min(z*1.3,5);man()}else if(k=='zo'){z=Math.max(z/1.3,.3);man()}else if(k=='ov')overview();
   else if(k=='fs')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
   else if(k=='op')setPn();else if(k=='pv')go(idx-1);else if(k=='nx')go(idx+1);else if(k=='hm')go(0);else if(k=='ls')document.body.classList.toggle('laser');
   else if(k=='ope')setPe();
+  else if(k=='out')openOut();
+  else if(k=='cln')toggleClean();
+  else if(k=='pen')togglePen();
+  else if(k=='pc'){PEN.c=a.dataset.v;pcMark()}
+  else if(k=='pw'){PEN.w=+a.dataset.v;pcMark()}
+  else if(k=='pu'){(SK[idx]||[]).pop();dSend(true)}
+  else if(k=='px'){SK[idx]=[];dSend(true)}
+  else if(k=='hfx'){D.hf[a.dataset.w+'i']='';build();draft();renderEd()}
+  else if(k=='hfp'){const w=a.dataset.w;pick('image/*',f=>{const fr=new FileReader();fr.onload=async()=>{const u=await shrink(fr.result.split(',')[1],f.name,true);if(u){D.hf[w+'i']=u;build();draft();renderEd()}else tt('Gambar tidak bisa dibaca.')};fr.readAsDataURL(f)})}
   else if(k=='ghup')ghUp();
   else if(k=='lite'){LITE=a.checked;try{localStorage.setItem('lap-lite',LITE?'1':'0')}catch(x){}renderEd()}
   else if(k=='bsend'){if(!BC)return;const ok=await fbSet({d:JSON.stringify(LITE?{lite:1,v:Date.now()}:D)});tt(ok?'Pembaruan dikirim ke pembaca.':'Gagal mengirim. Periksa rules atau ukuran data.')}
@@ -483,7 +525,7 @@ document.addEventListener('click',async e=>{
   else if(k=='mkc')mkc();
   else if(k=='pptx')mkPptx();
   else if(k=='json')dl('data.json',JSON.stringify(D),'application/json');
-  else if(k=='pdf'){document.querySelectorAll('.s').forEach(el=>drawEl(el,false));setTimeout(()=>window.print(),500)}
+  else if(k=='pdf'){document.querySelectorAll('.s').forEach(el=>drawEl(el,false));const nc=pdfNotesInject();if(!nc)tt('Tidak ada catatan pembicara di slide mana pun, jadi PDF tanpa halaman catatan.');else tt(nc+' halaman catatan disertakan setelah slide masing-masing.');addEventListener('afterprint',()=>document.querySelectorAll('.npg').forEach(x=>x.remove()),{once:true});setTimeout(()=>window.print(),700)}
   else if(k=='reset'){try{localStorage.removeItem('lap-draft')}catch(x){}location.reload()}
   else if(k=='jref')jref();
   else if(k=='japp'){try{const j=JSON.parse($('#jed').value);if(!j||!Array.isArray(j.sec))throw new Error('properti "sec" tidak ada');if(j.data==='__DATA__')j.data=D.data;D=j;norm();build();draft();renderEd();tt('JSON diterapkan.')}catch(x){tt('JSON tidak valid: '+x.message)}}
@@ -514,7 +556,7 @@ document.addEventListener('click',async e=>{
  const s=e.target.closest('.s');if(s&&(!s.classList.contains('on')||ov))goId(s.id)});
 /* ===== tambahan: panel kanan, edit langsung, pilih banyak, seret urutan ===== */
 DEF.mix='';
-const ced=()=>{const on=(document.body.classList.contains('pe')||document.body.classList.contains('pl'))&&!VIEW;document.querySelectorAll('[data-e]').forEach(el=>{if(!on){el.removeAttribute('contenteditable');return}el.contentEditable='plaintext-only';if(el.contentEditable!='plaintext-only')el.contentEditable='true'})};
+const ced=()=>{const on=(document.body.classList.contains('pe')||document.body.classList.contains('pl'))&&!VIEW&&!document.body.classList.contains('clean');document.querySelectorAll('[data-e]').forEach(el=>{if(!on){el.removeAttribute('contenteditable');return}el.contentEditable='plaintext-only';if(el.contentEditable!='plaintext-only')el.contentEditable='true'})};
 function setPn(o){if(VIEW)return;const v=o==null?!pn.classList.contains('o'):o;pn.classList.toggle('o',v);document.body.classList.toggle('pe',v);ced();C=camFor(seq[idx]);man()}
 function setCell(s,ri,ci,v){const ls=String(s.r||'').split('\n');let k=-1,ix=-1;for(let n=0;n<ls.length;n++)if(ls[n].trim()){k++;if(k==ri){ix=n;break}}if(ix<0)return;v=v.replace(/\|/g,'/');if((COLS[s.k]||[]).length<2)ls[ix]=v||'\u200b';else{const p=ls[ix].split('|');while(p.length<=ci)p.push('');p[ci]=v;ls[ix]=p.join('|')}s.r=ls.join('\n')}
 const syncPn=el=>{const t=el.dataset.e;if(t=='t'){const o=SL[el.dataset.id],x=flat().find(x=>x.s===o);if(!x)return;const r=pn.querySelector(`.or[data-sid="${x.id}"] .ti`);if(r)r.textContent=o.t;const i=pn.querySelector(`input[data-f="t"][data-si="${x.i}"][data-j="${x.j}"]`);if(i)i.value=o.t}
@@ -545,11 +587,11 @@ var LITE=(()=>{try{return localStorage.getItem('lap-lite')!=='0'}catch(e){return
 function setPe(o){if(VIEW)return;const pe=$('#pe'),v=o==null?!pe.classList.contains('o'):o;pe.classList.toggle('o',v);document.body.classList.toggle('pl',v);ced();renderEd();C=camFor(seq[idx]);man()}
 function renderPe(){const pe=$('#pe');if(!pe)return;const cur=flat().find(x=>x.id==ST.sel),sc=pe.querySelector('.pb'),y=sc?sc.scrollTop:0;pe.innerHTML=`<div class="ph"><div><b>Edit slide</b><small>Slide terpilih</small></div><button data-a="ope" class="xb" title="Tutup">✕</button></div><div class="pb">${cur?editCard(cur):'<p class="hn">Pilih slide di daftar.</p>'}</div>`;const nb=pe.querySelector('.pb');if(nb)nb.scrollTop=y;updNums()}
 $('#pe').addEventListener('input',onIn);
-const fbLaser=v=>FIREBASE_URL&&RP?fetch(`${FIREBASE_URL}/lap/${RP}.json`,{method:'PATCH',body:JSON.stringify({k:PW,t:v})}).catch(()=>{}):0;
+const fbLaser=v=>{outPost({t:'l',v});return BC&&FIREBASE_URL&&RP?fetch(`${FIREBASE_URL}/lap/${RP}.json`,{method:'PATCH',body:JSON.stringify({k:PW,t:v})}).catch(()=>{}):0};
 let LT=0,LO=false;
-addEventListener('pointermove',e=>{if(!BC||!document.body.classList.contains('laser'))return;const n=Date.now();if(n-LT<90)return;LT=n;const el=$('#'+seq[idx]);if(!el)return;const r=el.getBoundingClientRect();fbLaser(((e.clientX-r.left)/r.width).toFixed(4)+'|'+((e.clientY-r.top)/r.height).toFixed(4)+'|1|'+idx)});
-new MutationObserver(()=>{const on=document.body.classList.contains('laser');if(on!==LO){LO=on;if(!on&&BC)fbLaser('0|0|0|0')}}).observe(document.body,{attributes:true,attributeFilter:['class']});
-function laserShow(v){const b=document.body;if(typeof v!='string')return;const p=v.split('|'),el=$('#'+seq[+p[3]]);if(p[2]!='1'||!el||el.id!=seq[idx]){b.classList.remove('rl');return}const r=el.getBoundingClientRect();$('#lz').style.transform=`translate(${r.left+ +p[0]*r.width}px,${r.top+ +p[1]*r.height}px)`;b.classList.add('rl')}
+addEventListener('pointermove',e=>{if(!(BC||OUTON)||!document.body.classList.contains('laser'))return;const n=Date.now();if(n-LT<(BC?90:20))return;LT=n;const el=$('#'+seq[idx]);if(!el)return;const r=el.getBoundingClientRect();fbLaser(((e.clientX-r.left)/r.width).toFixed(4)+'|'+((e.clientY-r.top)/r.height).toFixed(4)+'|1|'+idx)});
+new MutationObserver(()=>{const on=document.body.classList.contains('laser');if(on!==LO){LO=on;if(!on)fbLaser('0|0|0|0')}}).observe(document.body,{attributes:true,attributeFilter:['class']});
+function laserShow(v){const b=document.body;if(typeof v!='string')return;if(v[0]=='{'){try{const o=JSON.parse(v);DRW={i:o.i,s:o.s||[]}}catch(x){}return}const p=v.split('|'),el=$('#'+seq[+p[3]]);if(p[2]!='1'||!el||el.id!=seq[idx]){b.classList.remove('rl');return}const r=el.getBoundingClientRect();$('#lz').style.transform=`translate(${r.left+ +p[0]*r.width}px,${r.top+ +p[1]*r.height}px)`;b.classList.add('rl')}
 /* ===== unggah data.json ke GitHub ===== */
 var GH=(()=>{try{return JSON.parse(localStorage.getItem('lap-gh'))||{}}catch(e){return {}}})();
 (()=>{const h=location.hostname.split('.')[0],seg=location.pathname.split('/').filter(x=>x&&!/\.html?$/.test(x))[0];GH.o=GH.o||h;GH.r=GH.r||seg||h+'.github.io';GH.b=GH.b||'main';GH.p=GH.p||'data.json'})();
@@ -567,6 +609,42 @@ async function ghUp(){if(!GH.t||!GH.o||!GH.r)return tt('Isi owner, repository, d
   st('Terunggah. Menunggu GitHub Pages menayangkan (maksimal sekitar 2,5 menit)...');
   for(let n=0;n<30;n++){await new Promise(x=>setTimeout(x,5000));try{const q=await fetch(fn+'?c='+Date.now(),{cache:'no-store'});if(q.ok&&(await q.text())===body){if(BC){const ok=await fbSet({d:JSON.stringify(LITE?{lite:1,v:Date.now()}:D)});return st('Sudah tayang'+(ok?' dan pembaruan dikirim ke pembaca.':', tetapi gagal mengirim pembaruan ke pembaca.'))}return st('Sudah tayang di GitHub Pages.')}}catch(x){}}
   st('Terunggah, tapi belum terlihat tayang. Tekan Kirim pembaruan beberapa saat lagi.')}catch(e){st('Gagal terhubung ke GitHub.')}}
+/* ===== layar kedua (HDMI), tampil bersih, catatan PDF ===== */
+var OUTON=false,OI=null,OW=null;
+const OC=typeof BroadcastChannel!='undefined'?new BroadcastChannel('lap-out'):{postMessage(){}};
+const outPost=m=>{if(OUTON)OC.postMessage(m)};
+function outSendD(){if(OUTON)OC.postMessage({t:'d',d:JSON.stringify(D)})}
+function postI(){outPost({t:'i',i:idx})}
+{const _go=go;go=function(i,f){_go(i,f);postI();if(!VIEW&&SK[idx]&&SK[idx].length)dSend(true)}}
+OC.onmessage=ev=>{const m=ev.data||{};
+ if(OUT){if(m.t=='d'){try{D=JSON.parse(m.d);norm();build();if(typeof OI=='number')go(OI,true)}catch(x){}}else if(m.t=='i'){OI=m.i;go(m.i,true)}else if(m.t=='l')laserShow(m.v)}
+ else{if(m.t=='hello'){OUTON=true;outSendD();postI()}else if(m.t=='bye')OUTON=false}};
+function bootOut(){norm();build();OC.postMessage({t:'hello'});addEventListener('pagehide',()=>OC.postMessage({t:'bye'}));document.addEventListener('click',()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})});tt('Klik sekali di layar ini untuk layar penuh.')}
+async function openOut(){if(VIEW)return;const url=location.href.split('#')[0]+'#out';let f='width=1280,height=720';
+ try{if(window.getScreenDetails){const d=await getScreenDetails(),me=d.currentScreen,o=d.screens.find(x=>x!==me);if(!o)return tt('Hanya 1 layar terdeteksi (mode duplicate atau HDMI belum terpasang). Pakai Tampil bersih.');f=`left=${o.availLeft},top=${o.availTop},width=${o.availWidth},height=${o.availHeight}`}}catch(e){}
+ OW=window.open(url,'lapout',f);if(!OW)return tt('Popup diblokir browser. Izinkan popup untuk situs ini.');tt('Jendela tayangan dibuka. Klik sekali di dalamnya untuk layar penuh.')}
+function toggleClean(){if(VIEW)return;document.body.classList.toggle('clean');ced();C=camFor(seq[idx]);man()}
+function pdfNotesInject(){let c=0;document.querySelectorAll('.npg').forEach(x=>x.remove());Object.keys(NT).forEach(id=>{const el=$('#'+id),sl=SL[id];if(!el||!sl||!sl.n)return;const d=document.createElement('div');d.className='npg';d.innerHTML=`<small>Catatan pembicara</small><h3>${E(sl.t)}</h3><p>${E(sl.n).replace(/\n/g,'<br>')}</p>`;el.after(d);c++});return c}
+function pdfNotes(){return flat().map((x,n)=>x.s.n?`<div class="npg"><small>Slide ${n+1}</small><h3>${E(x.s.t)}</h3><p>${E(x.s.n).replace(/\n/g,'<br>')}</p></div>`:'').join('')}
+/* ===== header/footer + coretan ===== */
+const hfShow=(sl,last)=>{const h=D.hf||{};return !((h.skip&&last)||/terima kasih|thank you|thanks/i.test(sl.t||''))&&!!(h.ht||h.hi||h.ft||h.fi)};
+const hfHtml=(sl,last)=>{if(!hfShow(sl,last))return '';const h=D.hf,b=p=>{const t=h[p+'t'],i=h[p+'i'];if(!t&&!i)return '';const al=h[p+'a'];return `<div class="hf ${p=='h'?'hd':'ft'}" style="justify-content:${al=='c'?'center':al=='r'?'flex-end':'flex-start'}">${i?`<img src="${i}" alt="">`:''}${t?`<span>${E(t)}</span>`:''}</div>`};return b('h')+b('f')};
+function hfCard(){const h=D.hf,row=(p,l)=>`<label>${l}</label><input data-hf="${p}t" value="${E(h[p+'t']||'')}" placeholder="Teks (boleh kosong)"><div class="row">${h[p+'i']?`<img src="${h[p+'i']}" style="height:34px;max-width:110px;object-fit:contain;background:#fff;border-radius:4px"><button data-a="hfx" data-w="${p}">Hapus logo</button>`:''}<button data-a="hfp" data-w="${p}">${h[p+'i']?'Ganti':'Pilih'} logo/gambar</button></div><div class="ch" data-hfa="${p}">${[['l','Kiri'],['c','Tengah'],['r','Kanan']].map(v=>`<button data-v="${v[0]}" class="${h[p+'a']==v[0]?'a':''}">${v[1]}</button>`).join('')}</div>`;
+ return row('h','Header (atas)')+row('f','Footer (bawah)')+`<label style="display:flex;gap:8px;margin-top:8px;align-items:flex-start"><input type="checkbox" data-hfk="skip" ${h.skip?'checked':''} style="width:auto;margin-top:3px"><span>Lewati slide terakhir. Slide judul (halaman utama) dan slide berjudul "Terima kasih" atau "Thank you" selalu dilewati.</span></label>`}
+pn.addEventListener('input',e=>{const d=e.target.dataset||{};if(d.hf){D.hf[d.hf]=e.target.value;sched()}else if(d.hfk){D.hf.skip=e.target.checked?1:0;sched()}});
+var SK={},DRW=null,PEN={c:'#D32029',w:4},drawing=null,dKey='',DSt=0;
+const DC=document.createElement('canvas');DC.id='dc';document.body.appendChild(DC);
+const PP=document.createElement('div');PP.id='pp';PP.className='bx';PP.innerHTML=['#D32029','#FFD600','#1E88E5','#111111','#FFFFFF'].map(c=>`<button data-a="pc" data-v="${c}" style="background:${c};width:26px;padding:0"></button>`).join('')+[[2,'•'],[4,'●'],[8,'⬤']].map(w=>`<button data-a="pw" data-v="${w[0]}">${w[1]}</button>`).join('')+'<button data-a="pu" title="Urungkan">↶</button><button data-a="px" title="Hapus semua coretan di slide ini">Hapus</button><button data-a="pen" title="Tutup">✕</button>';document.body.appendChild(PP);
+function pcMark(){PP.querySelectorAll('[data-a=pc]').forEach(b=>b.classList.toggle('on',b.dataset.v==PEN.c));PP.querySelectorAll('[data-a=pw]').forEach(b=>b.classList.toggle('on',+b.dataset.v==PEN.w))}pcMark();
+function togglePen(){if(VIEW)return;document.body.classList.toggle('pen')}
+const strokesNow=()=>VIEW?(DRW&&DRW.i==idx?DRW.s:[]):(SK[idx]||[]);
+function dRedraw(){const el=$('#'+seq[idx]),ss=strokesNow(),r=el?el.getBoundingClientRect():null,last=ss.length?ss[ss.length-1]:null,key=r?[r.left|0,r.top|0,r.width|0,innerWidth,innerHeight,ss.length,last?last.p.length:0,idx].join():'x';if(key===dKey)return;dKey=key;const dpr=devicePixelRatio||1;if(DC.width!=innerWidth*dpr||DC.height!=innerHeight*dpr){DC.width=innerWidth*dpr;DC.height=innerHeight*dpr;DC.style.width=innerWidth+'px';DC.style.height=innerHeight+'px'}const g=DC.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,innerWidth,innerHeight);if(!r||!ss.length)return;const sc=r.width/960;g.lineCap=g.lineJoin='round';ss.forEach(t=>{g.strokeStyle=t.c;g.lineWidth=Math.max(1.5,t.w*sc);g.beginPath();t.p.forEach((q,i)=>{const x=r.left+q[0]/1000*r.width,y=r.top+q[1]/1000*r.height;i?g.lineTo(x,y):g.moveTo(x,y)});if(t.p.length==1)g.lineTo(r.left+t.p[0][0]/1000*r.width+.1,r.top+t.p[0][1]/1000*r.height);g.stroke()})}
+(function lp(){dRedraw();requestAnimationFrame(lp)})();
+function dSend(now){const n=Date.now();if(!now&&n-DSt<130)return;DSt=n;fbLaser(JSON.stringify({i:idx,s:SK[idx]||[]}))}
+const dpt=(e,r)=>[Math.max(0,Math.min(1000,Math.round((e.clientX-r.left)/r.width*1000))),Math.max(0,Math.min(1000,Math.round((e.clientY-r.top)/r.height*1000)))];
+DC.addEventListener('pointerdown',e=>{if(!document.body.classList.contains('pen'))return;const el=$('#'+seq[idx]);if(!el)return;drawing={c:PEN.c,w:PEN.w,p:[dpt(e,el.getBoundingClientRect())]};(SK[idx]=SK[idx]||[]).push(drawing);DC.setPointerCapture(e.pointerId);dSend()});
+DC.addEventListener('pointermove',e=>{if(!drawing)return;const el=$('#'+seq[idx]);if(!el)return;const q=dpt(e,el.getBoundingClientRect()),l=drawing.p[drawing.p.length-1];if(Math.abs(q[0]-l[0])+Math.abs(q[1]-l[1])<3)return;drawing.p.push(q);dSend()});
+DC.addEventListener('pointerup',()=>{if(drawing){drawing=null;dSend(true)}});
 let dr=null;const st=$('#st');
 st.addEventListener('pointerdown',e=>{if(e.target.closest('[contenteditable]'))return;dr={x:e.clientX,y:e.clientY};moved=false});
 addEventListener('pointermove',e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;if(Math.abs(dx)+Math.abs(dy)>3){moved=true;px+=dx;py+=dy;dr={x:e.clientX,y:e.clientY};man()}});
@@ -574,7 +652,7 @@ addEventListener('pointerup',()=>{dr=null;setTimeout(()=>moved=false,0)});
 st.addEventListener('wheel',e=>{e.preventDefault();z=Math.min(Math.max(z*Math.exp(-e.deltaY*.0015),.3),5);man()},{passive:false});
 addEventListener('keydown',e=>{if(e.target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const k=e.key;
  if(k=='ArrowRight'||k==' '||k=='PageDown'){e.preventDefault();go(idx+1)}else if(k=='ArrowLeft'||k=='PageUp')go(idx-1);
- else if(k=='Home')go(0);else if(k=='Escape'){setPn(false);setPe(false)}else if(k=='o'||k=='O')overview();
+ else if(k=='Home')go(0);else if(k=='Escape'){if(document.body.classList.contains('clean'))toggleClean();setPn(false);setPe(false)}else if(k=='o'||k=='O')overview();else if(k=='h'||k=='H')toggleClean();else if(k=='p'||k=='P')togglePen();
  else if(k=='+'||k=='='){z=Math.min(z*1.3,5);man()}else if(k=='-'){z=Math.max(z/1.3,.3);man()}else if(k=='0'){z=1;px=py=0;man()}
  else if(k=='n'||k=='N')document.body.classList.toggle('notes');else if(k=='l'||k=='L')document.body.classList.toggle('laser');
  else if(k=='f'||k=='F')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()});
@@ -584,6 +662,7 @@ addEventListener('beforeprint',()=>document.querySelectorAll('.s').forEach(el=>d
 (async function boot(){
  if(window.Chart&&window.ChartDataLabels)Chart.register(ChartDataLabels);
  if(LIVE){lock('Memuat siaran...');return connect()}
+ if(OUT)return bootOut();
  await gate();
  try{const r=await fetch('data.json',{cache:'no-store'});if(r.ok){const j=await r.json();if(j.sec)D=j}}catch(e){}
  if(!VIEW){try{const d=JSON.parse(localStorage.getItem('lap-draft'));if(d&&d.sec)D=d}catch(e){}}
